@@ -22,5 +22,9 @@ def kontak():
 def pesanan():
     return render_template('pesanan.html')
 
+@app.route('/keranjang')
+def keranjang():
+    return render_template('keranjang.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
