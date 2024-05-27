@@ -2,19 +2,52 @@
 {% include 'ad_navbar.html' %}
 {% include 'ad_sidebar.html' %}
 
-<!-- 404 Start -->
-<!-- <div class="container-fluid pt-4 px-4">
-                <div class="row vh-100 bg-light rounded align-items-center justify-content-center mx-0">
-                    <div class="col-md-6 text-center p-4">
-                        <i class="bi bi-exclamation-triangle display-1 text-primary"></i>
-                        <h1 class="display-1 fw-bold">404</h1>
-                        <h1 class="mb-4">Page Not Found</h1>
-                        <p class="mb-4">We’re sorry, the page you have looked for does not exist in our website!
-                            Maybe go to our home page or try to use a search?</p>
-                        <a class="btn btn-primary rounded-pill py-3 px-5" href="">Go Back To Home</a>
-                    </div>
+<div class="container-fluid pt-4 px-4">
+    <h6 class="mb-4">PENGATURAN PENGGUNA</h6>
+    <div class="row g-4">
+
+        <div class="col-sm-3">
+            <form class="d-flex">
+                <div class="input-group">
+                    <input class="form-control form-control-sm" type="search" placeholder="Search" aria-label="Search">
                 </div>
-            </div> -->
-<!-- 404 End -->
+            </form>
+        </div>
+       
+        <div class="col-12">
+            <div class="bg-light rounded h-100 p-4">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Nama Pengguna</th>
+                                <th scope="col">Tanggal Gabung</th>
+                                <th scope="col">Nomor HP</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Peran</th>
+                                <th scope="col" class="text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Lorem Ipsum</td>
+                                <td>27/05/2024</td>
+                                <td>087654321976</td>
+                                <td>lorem@gmail.com</td>
+                                <td>Pelanggan</td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-danger rounded-pill m-2">Blokir</button>
+                                    <button type="button" class="btn btn-info rounded-pill m-2">Detail</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% include 'ad_footer.html' %}

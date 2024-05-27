@@ -29,7 +29,7 @@ def adlproduk():
 
 @app.route('/adpembayaran')
 def adpembayaran():
-    return render_template('ad_lproduk.html')
+    return render_template('ad_pembayaran.html')
 
 @app.route('/adpengiriman')
 def adlpengiriman():
