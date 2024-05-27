@@ -1,6 +1,5 @@
-{% include 'ad_header.html' %}
-{% include 'ad_navbar.html' %}
-{% include 'ad_sidebar.html' %}
+{% include 'ad_header.html' %} {% include 'ad_navbar.html' %} {% include
+'ad_sidebar.html' %}
 
 <!-- Sale & Revenue Start -->
 <div class="container-fluid pt-4 px-4">
@@ -11,7 +10,7 @@
       >
         <i class="fa fa-chart-line fa-3x text-danger"></i>
         <div class="ms-3">
-          <p class="mb-2">Today Sale</p>
+          <p class="mb-2">Produk</p>
           <h6 class="mb-0">$1234</h6>
         </div>
       </div>
@@ -22,7 +21,7 @@
       >
         <i class="fa fa-chart-bar fa-3x text-danger"></i>
         <div class="ms-3">
-          <p class="mb-2">Total Sale</p>
+          <p class="mb-2">Pengguna</p>
           <h6 class="mb-0">$1234</h6>
         </div>
       </div>
@@ -33,7 +32,7 @@
       >
         <i class="fa fa-chart-area fa-3x text-danger"></i>
         <div class="ms-3">
-          <p class="mb-2">Today Revenue</p>
+          <p class="mb-2">Todal Penjualan</p>
           <h6 class="mb-0">$1234</h6>
         </div>
       </div>
@@ -44,7 +43,7 @@
       >
         <i class="fa fa-chart-pie fa-3x text-danger"></i>
         <div class="ms-3">
-          <p class="mb-2">Total Revenue</p>
+          <p class="mb-2">Pesanan Selesai</p>
           <h6 class="mb-0">$1234</h6>
         </div>
       </div>
@@ -59,183 +58,433 @@
     <div class="col-sm-12 col-xl-6">
       <div class="bg-light text-center rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
-          <h6 class="mb-0">Worldwide Sales</h6>
-          <a href="">Show All</a>
+          <h6 class="mb-0">TOP PRODUK</h6>
         </div>
-        <canvas id="worldwide-sales"></canvas>
+        <div class="card mb-3 bg-dark text-white rounded-card">
+          <div class="row g-0">
+            <div
+              class="col-md-4 d-flex align-items-center justify-content-center"
+            >
+              <img
+                src="../static/ad_assets/img/testimonial-2.jpg"
+                class="img-fluid rounded-start"
+                alt="..."
+              />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body text-start">
+                <p class="card-title text-md-start text-center">Lorem Ipsum</p>
+                <p class="card-text text-md-start text-center">Terjual : 50</p>
+                <p class="card-text text-md-start text-center">
+                  <small><i>Last updated 3 mins ago</i></small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-3 bg-dark text-white rounded-card">
+          <div class="row g-0">
+            <div
+              class="col-md-4 d-flex align-items-center justify-content-center"
+            >
+              <img
+                src="../static/ad_assets/img/testimonial-2.jpg"
+                class="img-fluid rounded-start"
+                alt="..."
+              />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body text-start">
+                <p class="card-title text-md-start text-center">Lorem Ipsum</p>
+                <p class="card-text text-md-start text-center">Terjual : 50</p>
+                <p class="card-text text-md-start text-center">
+                  <small><i>Last updated 3 mins ago</i></small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card mb-3 bg-dark text-white rounded-card">
+          <div class="row g-0">
+            <div
+              class="col-md-4 d-flex align-items-center justify-content-center"
+            >
+              <img
+                src="../static/ad_assets/img/testimonial-2.jpg"
+                class="img-fluid rounded-start"
+                alt="..."
+              />
+            </div>
+            <div class="col-md-8">
+              <div class="card-body text-start">
+                <p class="card-title text-md-start text-center">Lorem Ipsum</p>
+                <p class="card-text text-md-start text-center">Terjual : 50</p>
+                <p class="card-text text-md-start text-center">
+                  <small><i>Last updated 3 mins ago</i></small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
     <div class="col-sm-12 col-xl-6">
       <div class="bg-light text-center rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
-          <h6 class="mb-0">Salse & Revenue</h6>
-          <a href="">Show All</a>
+          <h6 class="mb-0">STATUS PESANAN</h6>
         </div>
-        <canvas id="salse-revenue"></canvas>
+
+        <div class="card mb-3 bg-danger text-white rounded-card">
+          <div class="row g-0">
+            <div class="col-md-8 d-flex align-items-center">
+              <div class="card-body">
+                <p class="card-title text-md-start text-center">Lorem Ipsum</p>
+                <p class="card-text text-md-start text-center">
+                  <small><i>27/05/2024 10:46</i></small>
+                </p>
+              </div>
+            </div>
+            <div
+              class="col-md-4 d-flex align-items-center justify-content-end justify-content-center"
+            >
+              <a class="btn btn-warning btn-sm me-2">Pending</a>
+              <div style="border-left: 1px solid white; height: 24px"></div>
+              <!-- Tombol Lihat -->
+              <a
+                href="#"
+                class="btn btn-sm btn-light rounded-pill ms-md-2 ms-0 mt-md-0 mt-2"
+                style="margin-right: 5px"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                >Lihat</a
+              >
+              <!-- Modal -->
+              <div
+                class="modal fade"
+                id="exampleModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content" style="color: black;">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">
+                        Modal title
+                      </h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <!-- Isi Modal -->
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi modi tempore odio? Facilis ducimus quis neque illum voluptatibus, quia ipsam reprehenderit dolorum laborum ipsa sequi consectetur autem quae perspiciatis harum!
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Tutup
+                      </button>
+                      <button type="button" class="btn btn-danger">
+                        Simpan
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-3 bg-danger text-white rounded-card">
+          <div class="row g-0">
+            <div class="col-md-8 d-flex align-items-center">
+              <div class="card-body">
+                <p class="card-title text-md-start text-center">Lorem Ipsum</p>
+                <p class="card-text text-md-start text-center">
+                  <small><i>27/05/2024 10:46</i></small>
+                </p>
+              </div>
+            </div>
+            <div
+              class="col-md-4 d-flex align-items-center justify-content-end justify-content-center"
+            >
+              <a class="btn btn-secondary btn-sm me-2">Process</a>
+              <div style="border-left: 1px solid white; height: 24px"></div>
+              <!-- Tombol Lihat -->
+              <a
+                href="#"
+                class="btn btn-sm btn-light rounded-pill ms-md-2 ms-0 mt-md-0 mt-2"
+                style="margin-right: 5px"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                >Lihat</a
+              >
+              <!-- Modal -->
+              <div
+                class="modal fade"
+                id="exampleModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content" style="color: black;">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">
+                        Modal title
+                      </h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <!-- Isi Modal -->
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi modi tempore odio? Facilis ducimus quis neque illum voluptatibus, quia ipsam reprehenderit dolorum laborum ipsa sequi consectetur autem quae perspiciatis harum!
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Tutup
+                      </button>
+                      <button type="button" class="btn btn-danger">
+                        Simpan
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-3 bg-danger text-white rounded-card">
+          <div class="row g-0">
+            <div class="col-md-8 d-flex align-items-center">
+              <div class="card-body">
+                <p class="card-title text-md-start text-center">Lorem Ipsum</p>
+                <p class="card-text text-md-start text-center">
+                  <small><i>27/05/2024 10:46</i></small>
+                </p>
+              </div>
+            </div>
+            <div
+              class="col-md-4 d-flex align-items-center justify-content-end justify-content-center"
+            >
+              <a class="btn btn-info btn-sm me-2">Shipped</a>
+              <div style="border-left: 1px solid white; height: 24px"></div>
+              <!-- Tombol Lihat -->
+              <a
+                href="#"
+                class="btn btn-sm btn-light rounded-pill ms-md-2 ms-0 mt-md-0 mt-2"
+                style="margin-right: 5px"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                >Lihat</a
+              >
+              <!-- Modal -->
+              <div
+                class="modal fade"
+                id="exampleModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content" style="color: black;">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">
+                        Modal title
+                      </h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <!-- Isi Modal -->
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi modi tempore odio? Facilis ducimus quis neque illum voluptatibus, quia ipsam reprehenderit dolorum laborum ipsa sequi consectetur autem quae perspiciatis harum!
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Tutup
+                      </button>
+                      <button type="button" class="btn btn-danger">
+                        Simpan
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-3 bg-danger text-white rounded-card">
+          <div class="row g-0">
+            <div class="col-md-8 d-flex align-items-center">
+              <div class="card-body">
+                <p class="card-title text-md-start text-center">Lorem Ipsum</p>
+                <p class="card-text text-md-start text-center">
+                  <small><i>27/05/2024 10:46</i></small>
+                </p>
+              </div>
+            </div>
+            <div
+              class="col-md-4 d-flex align-items-center justify-content-end justify-content-center"
+            >
+              <a class="btn btn-success btn-sm me-2">Completed</a>
+              <div style="border-left: 1px solid white; height: 24px"></div>
+              <!-- Tombol Lihat -->
+              <a
+                href="#"
+                class="btn btn-sm btn-light rounded-pill ms-md-2 ms-0 mt-md-0 mt-2"
+                style="margin-right: 5px"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                >Lihat</a
+              >
+              <!-- Modal -->
+              <div
+                class="modal fade"
+                id="exampleModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content" style="color: black;">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">
+                        Modal title
+                      </h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <!-- Isi Modal -->
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi modi tempore odio? Facilis ducimus quis neque illum voluptatibus, quia ipsam reprehenderit dolorum laborum ipsa sequi consectetur autem quae perspiciatis harum!
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Tutup
+                      </button>
+                      <button type="button" class="btn btn-danger">
+                        Simpan
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mb-3 bg-danger text-white rounded-card">
+          <div class="row g-0">
+            <div class="col-md-8 d-flex align-items-center">
+              <div class="card-body">
+                <p class="card-title text-md-start text-center">Lorem Ipsum</p>
+                <p class="card-text text-md-start text-center">
+                  <small><i>27/05/2024 10:46</i></small>
+                </p>
+              </div>
+            </div>
+            <div
+              class="col-md-4 d-flex align-items-center justify-content-end justify-content-center"
+            >
+              <a class="btn btn-dark btn-sm me-2">Canceled</a>
+              <div style="border-left: 1px solid white; height: 24px"></div>
+              <!-- Tombol Lihat -->
+              <a
+                href="#"
+                class="btn btn-sm btn-light rounded-pill ms-md-2 ms-0 mt-md-0 mt-2"
+                style="margin-right: 5px"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                >Lihat</a
+              >
+
+              <!-- Modal -->
+              <div
+                class="modal fade"
+                id="exampleModal"
+                tabindex="-1"
+                aria-labelledby="exampleModalLabel"
+                aria-hidden="true"
+              >
+                <div class="modal-dialog">
+                  <div class="modal-content" style="color: black;">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">
+                        Modal title
+                      </h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <!-- Isi Modal -->
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi modi tempore odio? Facilis ducimus quis neque illum voluptatibus, quia ipsam reprehenderit dolorum laborum ipsa sequi consectetur autem quae perspiciatis harum!
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal"
+                      >
+                        Tutup
+                      </button>
+                      <button type="button" class="btn btn-danger">
+                        Simpan
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 </div>
 <!-- Sales Chart End -->
 
-<!-- Recent Sales Start -->
-<div class="container-fluid pt-4 px-4">
-  <div class="bg-light text-center rounded p-4">
-    <div class="d-flex align-items-center justify-content-between mb-4">
-      <h6 class="mb-0">Recent Salse</h6>
-      <a href="">Show All</a>
-    </div>
-    <div class="table-responsive">
-      <table
-        class="table text-start align-middle table-bordered table-hover mb-0"
-      >
-        <thead>
-          <tr class="text-dark">
-            <th scope="col">
-              <input class="form-check-input" type="checkbox" />
-            </th>
-            <th scope="col">Date</th>
-            <th scope="col">Invoice</th>
-            <th scope="col">Customer</th>
-            <th scope="col">Amount</th>
-            <th scope="col">Status</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><input class="form-check-input" type="checkbox" /></td>
-            <td>01 Jan 2045</td>
-            <td>INV-0123</td>
-            <td>Jhon Doe</td>
-            <td>$123</td>
-            <td>Paid</td>
-            <td>
-              <a class="btn btn-sm btn-primary" href="">Detail</a>
-            </td>
-          </tr>
-          <tr>
-            <td><input class="form-check-input" type="checkbox" /></td>
-            <td>01 Jan 2045</td>
-            <td>INV-0123</td>
-            <td>Jhon Doe</td>
-            <td>$123</td>
-            <td>Paid</td>
-            <td>
-              <a class="btn btn-sm btn-primary" href="">Detail</a>
-            </td>
-          </tr>
-          <tr>
-            <td><input class="form-check-input" type="checkbox" /></td>
-            <td>01 Jan 2045</td>
-            <td>INV-0123</td>
-            <td>Jhon Doe</td>
-            <td>$123</td>
-            <td>Paid</td>
-            <td>
-              <a class="btn btn-sm btn-primary" href="">Detail</a>
-            </td>
-          </tr>
-          <tr>
-            <td><input class="form-check-input" type="checkbox" /></td>
-            <td>01 Jan 2045</td>
-            <td>INV-0123</td>
-            <td>Jhon Doe</td>
-            <td>$123</td>
-            <td>Paid</td>
-            <td>
-              <a class="btn btn-sm btn-primary" href="">Detail</a>
-            </td>
-          </tr>
-          <tr>
-            <td><input class="form-check-input" type="checkbox" /></td>
-            <td>01 Jan 2045</td>
-            <td>INV-0123</td>
-            <td>Jhon Doe</td>
-            <td>$123</td>
-            <td>Paid</td>
-            <td>
-              <a class="btn btn-sm btn-primary" href="">Detail</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-<!-- Recent Sales End -->
-
 <!-- Widgets Start -->
 <div class="container-fluid pt-4 px-4">
   <div class="row g-4">
-    <div class="col-sm-12 col-md-6 col-xl-4">
-      <div class="h-100 bg-light rounded p-4">
-        <div class="d-flex align-items-center justify-content-between mb-2">
-          <h6 class="mb-0">Messages</h6>
-          <a href="">Show All</a>
-        </div>
-        <div class="d-flex align-items-center border-bottom py-3">
-          <img
-            class="rounded-circle flex-shrink-0"
-            src="../static/img/user.jpg"
-            alt=""
-            style="width: 40px; height: 40px"
-          />
-          <div class="w-100 ms-3">
-            <div class="d-flex w-100 justify-content-between">
-              <h6 class="mb-0">Jhon Doe</h6>
-              <small>15 minutes ago</small>
-            </div>
-            <span>Short message goes here...</span>
-          </div>
-        </div>
-        <div class="d-flex align-items-center border-bottom py-3">
-          <img
-            class="rounded-circle flex-shrink-0"
-            src="../static/img/user.jpg"
-            alt=""
-            style="width: 40px; height: 40px"
-          />
-          <div class="w-100 ms-3">
-            <div class="d-flex w-100 justify-content-between">
-              <h6 class="mb-0">Jhon Doe</h6>
-              <small>15 minutes ago</small>
-            </div>
-            <span>Short message goes here...</span>
-          </div>
-        </div>
-        <div class="d-flex align-items-center border-bottom py-3">
-          <img
-            class="rounded-circle flex-shrink-0"
-            src="../static/img/user.jpg"
-            alt=""
-            style="width: 40px; height: 40px"
-          />
-          <div class="w-100 ms-3">
-            <div class="d-flex w-100 justify-content-between">
-              <h6 class="mb-0">Jhon Doe</h6>
-              <small>15 minutes ago</small>
-            </div>
-            <span>Short message goes here...</span>
-          </div>
-        </div>
-        <div class="d-flex align-items-center pt-3">
-          <img
-            class="rounded-circle flex-shrink-0"
-            src="../static/img/user.jpg"
-            alt=""
-            style="width: 40px; height: 40px"
-          />
-          <div class="w-100 ms-3">
-            <div class="d-flex w-100 justify-content-between">
-              <h6 class="mb-0">Jhon Doe</h6>
-              <small>15 minutes ago</small>
-            </div>
-            <span>Short message goes here...</span>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="col-sm-12 col-md-6 col-xl-4">
       <div class="h-100 bg-light rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
