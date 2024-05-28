@@ -47,12 +47,43 @@
                                 <td>123456789</td>
                                 <td class="text-center">
                                     <button type="button" class="btn btn-danger rounded-pill m-2">Hapus</button>
-                                    <button type="button" class="btn btn-primary rounded-pill m-2">Edit</button>
+                                    <button type="button" class="btn btn-primary rounded-pill m-2"
+                                        data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</button>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">EDIT</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="bankName" class="form-label">Nama Bank</label>
+                    <input type="text" class="form-control" id="bankName">
+                </div>
+                <div class="mb-3">
+                    <label for="accountOwner" class="form-label">Nama Pemilik Rekening</label>
+                    <input type="text" class="form-control" id="accountOwner">
+                </div>
+                <div class="mb-3">
+                    <label for="accountNumber" class="form-label">Nomor Rekening</label>
+                    <input type="text" class="form-control" id="accountNumber">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary rounded-pill m-2" data-bs-dismiss="modal">Tutup</button>
+                <button type="button" class="btn btn-primary rounded-pill m-2">Simpan</button>
             </div>
         </div>
     </div>

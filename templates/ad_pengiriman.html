@@ -41,7 +41,8 @@
                             <input type="email" class="form-control" id="exampleInputEmail1">
                         </div>
                         <div class="col">
-                            <label for="exampleInputEmail1" class="form-label">Estimasi Kota Luar Provinsi (EKLP)</label>
+                            <label for="exampleInputEmail1" class="form-label">Estimasi Kota Luar Provinsi
+                                (EKLP)</label>
                             <input type="email" class="form-control" id="exampleInputEmail1">
                         </div>
                     </div>
@@ -142,7 +143,8 @@
 
                                 <td class="text-center">
                                     <button type="button" class="btn btn-danger rounded-pill m-2">Hapus</button>
-                                    <button type="button" class="btn btn-primary rounded-pill m-2">Edit</button>
+                                    <button type="button" class="btn btn-primary rounded-pill m-2"
+                                        data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -154,5 +156,127 @@
     </div>
 </div>
 
+<!-- Modal Edit Jasa Kirim -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">EDIT</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="exampleInputEmail1" class="form-label">Jasa Kirim</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="exampleInputEmail1" class="form-label">Tarif Dalam Kota (TDK)</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1">
+                        </div>
+                        <div class="col">
+                            <label for="exampleInputEmail1" class="form-label">Estimasi Dalam Kota (EDK)</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="exampleInputEmail1" class="form-label">Tarif Luar Kota (TLK)</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1">
+                        </div>
+                        <div class="col">
+                            <label for="exampleInputEmail1" class="form-label">Estimasi Luar Kota (ELK)</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="exampleInputEmail1" class="form-label">Tarif Kota Luar Provinsi (TKLP)</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1">
+                        </div>
+                        <div class="col">
+                            <label for="exampleInputEmail1" class="form-label">Estimasi Kota Luar Provinsi
+                                (EKLP)</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="exampleInputEmail1" class="form-label">Tarif Luar Pulau (TLP)</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1">
+                        </div>
+                        <div class="col">
+                            <label for="exampleInputEmail1" class="form-label">Estimasi Luar Pulau (ELP)</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1">
+                        </div>
+                    </div>
+                </form>
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Zona Tarif</th>
+                            <th scope="col">Nama Kota/Kab</th>
+                            <th scope="col" class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>TDK</td>
+                            <td>Kabupaten Jember</td>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-danger rounded-pill m-2">Hapus</button>
+                                <button type="button" class="btn btn-primary rounded-pill m-2" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal2">Edit</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary rounded-pill m-2" data-bs-dismiss="modal">Tutup</button>
+                <button type="button" class="btn btn-primary rounded-pill m-2">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Edit Kota/Kab -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">EDIT</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Pilih Zona Tarif</label>
+                        <select class="form-select mb-3" aria-label="Default select example">
+                            <option selected=""></option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Nama Kota/Kab</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary rounded-pill m-2" data-bs-dismiss="modal">Tutup</button>
+                <button type="button" class="btn btn-primary rounded-pill m-2">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% include 'ad_footer.html' %}
