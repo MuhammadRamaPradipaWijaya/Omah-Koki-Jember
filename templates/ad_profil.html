@@ -2,7 +2,36 @@
 {% include 'ad_navbar.html' %}
 {% include 'ad_sidebar.html' %}
 
+<div class="profile-container">
+    <h2 class="text-center">Profil Diri</h2>
+    <div class="profile-pic mx-auto"></div>
+    <div class="profile-info">
+        <div class="info-group">
+            <p><strong>Nama:</strong> Lorem Ipsum</p>
+            <p><strong>Tanggal Lahir:</strong> Lorem Ipsum</p>
+            <p><strong>Jenis Kelamin:</strong> Lorem Ipsum</p>
+        </div>
+        <div class="info-group">
+            <p><strong>Email:</strong> Lorem Ipsum</p>
+            <p><strong>No HP:</strong> Lorem Ipsum</p>
+            <p><strong>Kata Sandi:</strong> <span id="password">**********</span> <span class="lihat-sandi" onclick="togglePassword()">Lihat</span></p>
+        </div>
+    </div>
+    <div class="edit-button">
+        <button>Edit Profil</button>
+    </div>
+</div>
 
+<script>
+    function togglePassword() {
+        var passwordSpan = document.getElementById('password');
+        if (passwordSpan.textContent === '**********') {
+            passwordSpan.textContent = 'password123'; // Ganti dengan kata sandi asli
+        } else {
+            passwordSpan.textContent = '**********';
+        }
+    }
+</script>
 
 
 {% include 'ad_footer.html' %}
