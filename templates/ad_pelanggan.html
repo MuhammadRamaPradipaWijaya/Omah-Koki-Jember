@@ -59,8 +59,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="detail-pelanggan">
-                    <div class="profile-pic"></div>
+                <div class="detail-pelanggan d-flex">
+                    <div class="profile-pic me-3">
+                        <img src="./static/ad_assets/img/user.jpg" alt="..." style="width: 100px; height: auto;">
+                    </div>
                     <div class="info">
                         <p><strong>Nama:</strong> <span id="modal-nama"></span></p>
                         <p><strong>Email:</strong> <span id="modal-email"></span></p>
@@ -68,52 +70,29 @@
                         <p><strong>No HP:</strong> <span id="modal-hp"></span></p>
                         <p><strong>Jenis Kelamin:</strong> <span id="modal-kelamin"></span></p>
                     </div>
-                    <button class="whatsapp-button">Whatsapp</button>
                 </div>
+                <button class="btn btn-success rounded-pill m-2">Whatsapp</button>
                 <hr>
                 <div class="masukan-pelanggan">
                     <p>Masukan Pelanggan:</p>
-                    <div class="message">
-                        <p id="modal-masukan"></p>
+                    <div class="card">
+                        <div class="card-body">
+                            <i class="fa fa-commenting-o"></i>
+                            <div class="row">
+                                <div class="col">
+                                    <p id="modal-masukan">Hello World</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary rounded-pill m-2" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    const exampleModal = document.getElementById('exampleModal');
-    exampleModal.addEventListener('show.bs.modal', event => {
-        const button = event.relatedTarget;
-        const nama = button.getAttribute('data-nama');
-        const email = button.getAttribute('data-email');
-        const tanggal = button.getAttribute('data-tanggal');
-        const hp = button.getAttribute('data-hp');
-        const kelamin = button.getAttribute('data-kelamin');
-        const masukan = button.getAttribute('data-masukan');
-
-        const modalNama = exampleModal.querySelector('#modal-nama');
-        const modalEmail = exampleModal.querySelector('#modal-email');
-        const modalTanggal = exampleModal.querySelector('#modal-tanggal');
-        const modalHp = exampleModal.querySelector('#modal-hp');
-        const modalKelamin = exampleModal.querySelector('#modal-kelamin');
-        const modalMasukan = exampleModal.querySelector('#modal-masukan');
-
-        modalNama.textContent = nama;
-        modalEmail.textContent = email;
-        modalTanggal.textContent = tanggal;
-        modalHp.textContent = hp;
-        modalKelamin.textContent = kelamin;
-        modalMasukan.textContent = masukan;
-    });
-</script>
-
-
 
 
 {% include 'ad_footer.html' %}
