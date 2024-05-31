@@ -2,25 +2,50 @@
 {% include 'ad_navbar.html' %}
 {% include 'ad_sidebar.html' %}
 
-<div class="profile-container">
-    <h2 class="text-center">Profil Diri</h2>
-    <div class="profile-pic mx-auto"></div>
-    <div class="profile-info">
-        <div class="info-group">
-            <p><strong>Nama:</strong> Lorem Ipsum</p>
-            <p><strong>Tanggal Lahir:</strong> Lorem Ipsum</p>
-            <p><strong>Jenis Kelamin:</strong> Lorem Ipsum</p>
+<div class="container-fluid pt-4 px-4">
+    <h6 class="mb-4">PELANGGAN</h6>
+    <div class="row h-100 align-items-center justify-content-center">
+        <div class="col-12 col-sm-8 col-md-8 col-xl-10">
+            <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
+
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="width: 30%; vertical-align: top;"><br><br>
+                            <img src="./static/ad_assets/img/user.jpg" alt="..." style="width: 100%; height: auto;">
+                        </td>
+                        <td style="width: 5%;"></td>
+                        <td style="vertical-align: top;">
+                            <div class="profile-container"> 
+                                <h5 class="text-right">Profil Diri</h5><br>
+                                <div class="profile-info">
+                                    <div class="info-group">
+                                        <p><strong>Nama:</strong> Lorem Ipsum</p>
+                                        <p><strong>Tanggal Lahir:</strong> Lorem Ipsum</p>
+                                        <p><strong>Jenis Kelamin:</strong> Lorem Ipsum</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <p><strong>Email:</strong> Lorem Ipsum</p>
+                                        <p><strong>No HP:</strong> Lorem Ipsum</p>
+                                        <p><strong>Kata Sandi:</strong> <span id="password">**********</span> <span class="lihat-sandi" onclick="togglePassword()">Lihat</span></p>
+                                    </div>
+                                </div>
+                                <div class="edit-button">
+                                    <button type="button" class="btn btn-primary rounded-pill m-2" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal">Edit Profil</button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
         </div>
-        <div class="info-group">
-            <p><strong>Email:</strong> Lorem Ipsum</p>
-            <p><strong>No HP:</strong> Lorem Ipsum</p>
-            <p><strong>Kata Sandi:</strong> <span id="password">**********</span> <span class="lihat-sandi" onclick="togglePassword()">Lihat</span></p>
-        </div>
-    </div>
-    <div class="edit-button">
-        <button>Edit Profil</button>
     </div>
 </div>
+
+
+
+
 
 <script>
     function togglePassword() {
