@@ -2,6 +2,72 @@
 {% include 'ad_navbar.html' %}
 {% include 'ad_sidebar.html' %}
 
+<div class="container-fluid pt-4 px-4">
+    <h6 class="mb-4">PRODUK</h6>
+    <div class="row g-4">
+
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <select style="max-width: 15%;" class="form-select form-select-sm me-2 flex-grow-1" aria-label=".form-select-sm example">
+                            <option selected>Pilih Kategori</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                        <button type="button" class="btn btn-danger btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#ModalTambahProduk">Tambah Produk</button>
+                    </div>
+                </div>
+            </div>
+        </div>                       
+        <div class="col-12">
+            <div class="bg-light rounded h-100 p-4">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Gambar</th>
+                                <th scope="col">Nama Produk</th>
+                                <th scope="col">Stock</th>
+                                <th scope="col">Harga</th>
+                                <th scope="col">Deskripsi</th>
+                                <th scope="col">Informasi</th>
+                                <th scope="col" class="text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>
+                                    <img src="../static/ad_assets/img/testimonial-1.jpg" alt="">
+                                </td>
+                                <td>Lorem Ipsum</td>
+                                <td>50</td>
+                                <td>Rp. 5000</td>
+                                <td>Lorem ipsum dolor sit amet consectetur adipisicing elit.</td>
+                                <td>
+                                    <ul>
+                                        <li>Kondisi : Baik</li>
+                                        <li>Berat : 2 kg</li>
+                                        <li>Kategori : Lorem Ipsum</li>
+                                        <li>Panjang : 15 cm</li>
+                                    </ul>
+                                </td>
+                                <td >
+                                    <button type="button" class="btn btn-info rounded-pill m-2" data-bs-toggle="modal" data-bs-target="#ModalDetail">Detail</button>
+                                    <button type="button" class="btn btn-danger rounded-pill m-2" data-bs-toggle="modal" data-bs-target="#ModalEdit">Edit</button>
+                                    <button type="button" class="btn btn-dark rounded-pill m-2">Hapus</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 {% include 'ad_footer.html'%}
