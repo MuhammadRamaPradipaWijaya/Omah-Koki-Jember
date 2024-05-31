@@ -86,9 +86,9 @@ def adlogin():
     return render_template('ad_login.html')
 
 @app.route('/adregister')
-def adlogin():
+def adregister():
     return render_template('ad_register.html')
 
 
 if __name__ == '__main__':
-    app.run(port=5000,debug=True)
+    app.run('0.0.0.0',port=5000,debug=True)
