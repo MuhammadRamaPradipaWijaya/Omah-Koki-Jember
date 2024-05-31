@@ -71,86 +71,12 @@
     </div>
 </div>
 
+<!-- modal tambah produk -->
 <div class="modal fade" id="ModalTambahProduk" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">TAMBAH PRODUK</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="d-flex align-items-center mb-3">
-                            <p class="mb-0 w-25"><strong>Nama Produk</strong></p>
-                            <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder="" aria-label=".form-control-sm example">
-                        </div>
-                        <div class="d-flex align-items-center mb-3">
-                            <p class="mb-0 w-25"><strong>Stock</strong></p>
-                            <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder="" aria-label=".form-control-sm example">
-                        </div>
-                        <div class="d-flex align-items-center mb-3">
-                            <p class="mb-0 w-25"><strong>Harga</strong></p>
-                            <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder="" aria-label=".form-control-sm example">
-                        </div>
-                        <div class="d-flex align-items-center mb-3">
-                            <p class="mb-0 w-25"><strong>Gambar</strong></p>
-                            <input class="form-control form-control-sm flex-grow-1 ms-3" id="formFileSm" type="file">
-                        </div>
-                        <div class="d-flex align-items-center mb-3">
-                            <p class="mb-0 w-25"><strong>Deskripsi</strong></p>
-                            <textarea class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder="" aria-label=".form-control-sm example" style="height: 100px;"></textarea>
-                        </div>
-                    </div>
-
-                    <div class="col-md-1">
-                        <div class="vertical-line"></div>      
-                    </div>
-
-                    <div class="col-md-5">
-                        <div class="d-flex align-items-center mb-3">
-                            <p class="mb-0 w-25"><strong>Informasi</strong></p>
-                        </div>
-                        <div class="d-flex align-items-center mb-3">
-                            <p class="mb-0 w-25"><strong>Kondisi</strong></p>
-                            <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder="" aria-label=".form-control-sm example">
-                        </div>
-                        <div class="d-flex align-items-center mb-3">
-                            <p class="mb-0 w-25"><strong>Berat</strong></p>
-                            <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder="" aria-label=".form-control-sm example">
-                        </div>
-                        <div class="d-flex align-items-center mb-3">
-                            <p class="mb-0 w-25"><strong>Kategori</strong></p>
-                            <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder="" aria-label=".form-control-sm example">
-                        </div>
-                        <div class="d-flex align-items-center mb-3">
-                            <p class="mb-0 w-25"><strong>Panjang</strong></p>
-                            <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder="" aria-label=".form-control-sm example">
-                        </div>
-                        <div class="d-flex align-items-center mb-3">
-                            <p class="mb-0 w-25"><strong>Lebar</strong></p>
-                            <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder="" aria-label=".form-control-sm example">
-                        </div>
-                        <div class="d-flex align-items-center mb-3">
-                            <p class="mb-0 w-25"><strong>Tinggi</strong></p>
-                            <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder="" aria-label=".form-control-sm example">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm rounded-pill m-2" data-bs-dismiss="modal">Tambah Produk</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- modal edit produk  -->
-<div class="modal fade" id="ModalEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit Produk</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -177,6 +103,7 @@
                             <p><strong>Deskripsi</strong> </p>
                             <textarea class="form-control form-control-sm ms-3" type="text" placeholder="" aria-label=".form-control-sm example" style="height: 100px;"></textarea>
                         </div>
+    
                     </div>
 
                     <div class="col-md-1">
@@ -217,14 +144,11 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm rounded-pill m-2" data-bs-dismiss="modal">Simpan Produk</button>
+                <button type="button" class="btn btn-danger btn-sm rounded-pill m-2" data-bs-dismiss="modal">Tambah Produk</button>
             </div>
         </div>
     </div>
 </div>
-
-
-
 
 
 {% include 'ad_footer.html'%}
