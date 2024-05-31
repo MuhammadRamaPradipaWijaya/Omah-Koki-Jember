@@ -71,6 +71,7 @@
     </div>
 </div>
 
+<!-- modal tambah produk -->
 <div class="modal fade" id="ModalTambahProduk" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -121,7 +122,12 @@
                         </div>
                         <div class="d-flex align-items-center mb-3">
                             <p class="mb-0 w-25"><strong>Kategori</strong></p>
-                            <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder="" aria-label=".form-control-sm example">
+                            <select class="form-select form-select-sm w-100 ms-3" aria-label=".form-select-sm example">
+                                <option selected>Pilih Kategori</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
                         </div>
                         <div class="d-flex align-items-center mb-3">
                             <p class="mb-0 w-25"><strong>Panjang</strong></p>
@@ -140,6 +146,162 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger btn-sm rounded-pill m-2" data-bs-dismiss="modal">Tambah Produk</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal edit produk  -->
+<div class="modal fade" id="ModalEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">EDIT PRODUK</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Nama Produk</strong></p>
+                            <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder="" aria-label=".form-control-sm example">
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Stock</strong></p>
+                            <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder="" aria-label=".form-control-sm example">
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Harga</strong></p>
+                            <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder="" aria-label=".form-control-sm example">
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Gambar</strong></p>
+                            <input class="form-control form-control-sm flex-grow-1 ms-3" id="formFileSm" type="file">
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Deskripsi</strong></p>
+                            <textarea class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder="" aria-label=".form-control-sm example" style="height: 100px;"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-md-1">
+                        <div class="vertical-line"></div>      
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Informasi</strong></p>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Kondisi</strong></p>
+                            <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder="" aria-label=".form-control-sm example">
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Berat</strong></p>
+                            <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder="" aria-label=".form-control-sm example">
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Kategori</strong></p>
+                            <select class="form-select form-select-sm w-100 ms-3" aria-label=".form-select-sm example">
+                                <option selected>Pilih Kategori</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Panjang</strong></p>
+                            <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder="" aria-label=".form-control-sm example">
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Lebar</strong></p>
+                            <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder="" aria-label=".form-control-sm example">
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Tinggi</strong></p>
+                            <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder="" aria-label=".form-control-sm example">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm rounded-pill m-2" data-bs-dismiss="modal">Simpan Produk</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal detail produk  -->
+<div class="modal fade" id="ModalDetail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">DETAIL PRODUK</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Gambar</strong></p>
+                            <img src="../static/ad_assets/img/testimonial-1.jpg" alt="">
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Nama Produk</strong></p>
+                            <p>Lorem Ipsum</p>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Stock</strong></p>
+                            <p>50</p>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Harga</strong></p>
+                            <p>5000 rupiah</p>
+                        </div>
+                        
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Deskripsi</strong></p>
+                            <p class="flex-grow-1 ms-3" >Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-1">
+                        <div class="vertical-line"></div>      
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Informasi</strong></p>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Kondisi</strong></p>
+                            <p>Baru</p>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Berat</strong></p>
+                            <p>100 gram</p>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Kategori</strong></p>
+                            <p>Kategori pilihan</p>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Panjang</strong></p>
+                            <p>10 cm</p>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Lebar</strong></p>
+                            <p>7 cm</p>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <p class="mb-0 w-25"><strong>Tinggi</strong></p>
+                            <p>5 cm</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm rounded-pill m-2" data-bs-toggle="modal" data-bs-target="#ModalEdit">Edit Produk</button>
             </div>
         </div>
     </div>
