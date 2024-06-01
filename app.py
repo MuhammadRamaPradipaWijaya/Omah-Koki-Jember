@@ -55,6 +55,10 @@ def home():
 def produk():
     return render_template('produk.html')
 
+@app.route('/detailproduk')
+def detailproduk():
+    return render_template('detail_produk.html')
+
 @app.route('/tentang')
 def tentang():
     return render_template('tentang.html')
@@ -70,6 +74,14 @@ def pesanan():
 @app.route('/keranjang')
 def keranjang():
     return render_template('keranjang.html')
+
+@app.route('/checkout')
+def checkout():
+    return render_template('checkout.html')
+
+@app.route('/profil')
+def profil():
+    return render_template('profil.html')
 # BAGIAN USER #
 
 
