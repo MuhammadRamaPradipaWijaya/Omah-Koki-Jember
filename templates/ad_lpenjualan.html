@@ -1,5 +1,201 @@
-  {% include 'ad_header.html' %}
-  {% include 'ad_navbar.html' %}
-  {% include 'ad_sidebar.html' %}
+{% include 'ad_header.html' %}
+{% include 'ad_navbar.html' %}
+{% include 'ad_sidebar.html' %}
 
-  {% include 'ad_footer.html' %}
+<div class="bg-light rounded h-100 p-4">
+  <h6 class="mb-4">Laporan Penjualan</h6>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="row">
+        <label for="fromInput" class="col-form-label col-2">Dari</label>  
+        <div class="col-10">
+          <input type="date" class="form-control" id="fromInput">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="row">
+        <label for="toInput" class="col-form-label col-2">Ke</label>  
+        <div class="col-10">
+          <input type="date" class="form-control" id="toInput">
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <button class="btn btn-primary">Filter</button>
+    </div>
+  </div>
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>No. Pesanan</th>
+        <th>Tanggal Pesanan</th>
+        <th>Nama Pelanggan</th>
+        <th>Total Pesanan</th>
+        <th>Total Penjualan</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>01928301923</td>
+        <td>20/05/2024</td>
+        <td>John Doe</td>
+        <td>4</td>
+        <td>Rp. 930000</td>
+        <td>
+          <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Detail</button>
+        </td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>01928301923</td>
+        <td>20/05/2024</td>
+        <td>John Doe</td>
+        <td>4</td>
+        <td>Rp. 930000</td>
+        <td>
+          <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Detail</button>
+        </td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>01928301923</td>
+        <td>20/05/2024</td>
+        <td>John Doe</td>
+        <td>4</td>
+        <td>Rp. 930000</td>
+        <td>
+          <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Detail</button>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th colspan="5" class="text-end">Total Penjualan</th>
+        <td>Rp. 999000000</td>
+        <td>
+          <button class="btn btn-success btn-sm" onclick="window.open('/adlpenjualan/cetak', '_blank')">Cetak</button>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Laporan Penjualan</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-lg-6">
+              <table class="table">
+                  <tr>
+                      <td class="col-3">Nama</td>
+                      <td>:</td>
+                      <td>John Doe</td>
+                  </tr>
+                  <tr>
+                      <td class="col-3">Email</td>
+                      <td>:</td>
+                      <td>lorem@gmail.com</td>
+                  </tr>
+                  <tr>
+                      <td class="col-3">No. HP</td>
+                      <td>:</td>
+                      <td>019823019823</td>
+                  </tr>
+                  <tr>
+                      <td class="col-3">Alamat</td>
+                      <td>:</td>
+                      <td>Pajjaiyang</td>
+                  </tr>
+                  <tr>
+                      <td class="col-3">No. Psn</td>
+                      <td>:</td>
+                      <td>102398109842</td>
+                  </tr>
+                  <tr>
+                      <td class="col-3">M. Kirim</td>
+                      <td>:</td>
+                      <td>102398109842</td>
+                  </tr>
+                  <tr>
+                      <td class="col-3">M. Bayar</td>
+                      <td>:</td>
+                      <td>Lorem ipsum dolor sit amet</td>
+                  </tr>
+              </table>
+          </div>
+          <div class="col-lg-6">
+              <h5>Daftar produk</h5>
+              <ul>
+                  <li>
+                      <h6>Lorem Ipsum</h6>
+                      <table>
+                          <tr>
+                              <td>Harga</td>
+                              <td>:</td>
+                              <td>Rp. 5000</td>
+                          </tr>
+                          <tr>
+                              <td>Jumlah</td>
+                              <td>:</td>
+                              <td>99</td>
+                          </tr>
+                      </table>
+                  </li>
+                  <li>
+                      <h6>Lorem Ipsum</h6>
+                      <table>
+                          <tr>
+                              <td>Harga</td>
+                              <td>:</td>
+                              <td>Rp. 4000</td>
+                          </tr>
+                          <tr>
+                              <td>Jumlah</td>
+                              <td>:</td>
+                              <td>99</td>
+                          </tr>
+                      </table>
+                  </li>
+                  <li>
+                      <h6>Lorem Ipsum</h6>
+                      <table>
+                          <tr>
+                              <td>Harga</td>
+                              <td>:</td>
+                              <td>Rp. 9700</td>
+                          </tr>
+                          <tr>
+                              <td>Jumlah</td>
+                              <td>:</td>
+                              <td>99</td>
+                          </tr>
+                      </table>
+                  </li>
+              </ul>
+              <p>Total Penjualan : Rp. 80000</p>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include 'ad_footer.html' %}

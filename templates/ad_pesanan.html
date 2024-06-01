@@ -2,7 +2,149 @@
 {% include 'ad_navbar.html' %}
 {% include 'ad_sidebar.html' %}
 
+<div class="bg-light rounded h-100 p-4">
+  <h6 class="mb-4">Data Pesanan</h6>
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">No. Pesanan</th>
+          <th scope="col">Nama Pelanggan</th>
+          <th scope="col">Tanggal</th>
+          <th scope="col">Status</th>
+          <th scope="col">Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>10293810283</td>
+          <td>John Doe</td>
+          <td>20/05/2024</td>
+          <td>Pending</td>
+          <td>
+                <button class="btn btn-danger btn-sm">Batal</button>
+                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Detail</button>
+                <button class="btn btn-success btn-sm">Lunas</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-
-
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Detail Pesanan</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-4">
+                <table class="table">
+                    <tr>
+                        <td class="col-3">Nama</td>
+                        <td>:</td>
+                        <td>John Doe</td>
+                    </tr>
+                    <tr>
+                        <td class="col-3">Email</td>
+                        <td>:</td>
+                        <td>lorem@gmail.com</td>
+                    </tr>
+                    <tr>
+                        <td class="col-3">No. HP</td>
+                        <td>:</td>
+                        <td>019823019823</td>
+                    </tr>
+                    <tr>
+                        <td class="col-3">Alamat</td>
+                        <td>:</td>
+                        <td>Pajjaiyang</td>
+                    </tr>
+                    <tr>
+                        <td class="col-3">No. Psn</td>
+                        <td>:</td>
+                        <td>102398109842</td>
+                    </tr>
+                    <tr>
+                        <td class="col-3">M. Kirim</td>
+                        <td>:</td>
+                        <td>102398109842</td>
+                    </tr>
+                    <tr>
+                        <td class="col-3">M. Bayar</td>
+                        <td>:</td>
+                        <td>Lorem ipsum dolor sit amet</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-4">
+                <h5>Daftar produk</h5>
+                <ul>
+                    <li>
+                        <h6>Lorem Ipsum</h6>
+                        <table>
+                            <tr>
+                                <td>Harga</td>
+                                <td>:</td>
+                                <td>Rp. 5000</td>
+                            </tr>
+                            <tr>
+                                <td>Jumlah</td>
+                                <td>:</td>
+                                <td>99</td>
+                            </tr>
+                        </table>
+                    </li>
+                    <li>
+                        <h6>Lorem Ipsum</h6>
+                        <table>
+                            <tr>
+                                <td>Harga</td>
+                                <td>:</td>
+                                <td>Rp. 4000</td>
+                            </tr>
+                            <tr>
+                                <td>Jumlah</td>
+                                <td>:</td>
+                                <td>99</td>
+                            </tr>
+                        </table>
+                    </li>
+                    <li>
+                        <h6>Lorem Ipsum</h6>
+                        <table>
+                            <tr>
+                                <td>Harga</td>
+                                <td>:</td>
+                                <td>Rp. 9700</td>
+                            </tr>
+                            <tr>
+                                <td>Jumlah</td>
+                                <td>:</td>
+                                <td>99</td>
+                            </tr>
+                        </table>
+                    </li>
+                </ul>
+                <p>Total Penjualan : Rp. 80000</p>
+            </div>
+            <div class="col-lg-4">
+                <h5>Status Pesanan</h5>
+                <div class="alert alert-warning py-2">Pending</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 {% include 'ad_footer.html' %}
