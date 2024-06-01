@@ -43,7 +43,7 @@ def cetakLaporanProduk():
 
 @app.route('/adpembayaran')
 def adpembayaran():
-    return render_template('ad_lproduk.html')
+    return render_template('ad_pembayaran.html')
 
 @app.route('/adpengiriman')
 def adlpengiriman():
@@ -69,6 +69,10 @@ def home():
 def produk():
     return render_template('produk.html')
 
+@app.route('/detailproduk')
+def detailproduk():
+    return render_template('detail_produk.html')
+
 @app.route('/tentang')
 def tentang():
     return render_template('tentang.html')
@@ -85,12 +89,32 @@ def pesanan():
 def keranjang():
     return render_template('keranjang.html')
 
+@app.route('/checkout')
+def checkout():
+    return render_template('checkout.html')
+
 @app.route('/profil')
 def profil():
     return render_template('profil.html')
 # BAGIAN USER #
 
 
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/register')
+def register():
+    return render_template('register.html')
+
+@app.route('/adlogin')
+def adlogin():
+    return render_template('ad_login.html')
+
+@app.route('/adregister')
+def adregister():
+    return render_template('ad_register.html')
+
 
 if __name__ == '__main__':
-    app.run(port=5000,debug=True)
+    app.run('0.0.0.0',port=5000,debug=True)

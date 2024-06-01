@@ -1,4 +1,5 @@
 {% include 'header.html' %}
+{% include 'navbar.html' %}
 
 <br><br><br><br><br>
 <section>
@@ -13,7 +14,8 @@
                     <br>
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                            <li
+                                class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                                 <div>
                                     <strong>SubTotal</strong>
                                 </div>
@@ -22,72 +24,104 @@
                         </ul>
                     </div>
                 </div>
-                <a class="btn btn-primary btn-block" href="#">Checkout</a>
+                <a class="btn btn-outline-danger btn-block" href="#">Checkout</a>
                 <br><br>
             </div>
 
             <!-- Produk -->
             <div class="col-xl-7 col-md-8">
                 <h2 class="h6 d-flex flex-wrap justify-content-between align-items-center px-4 py-3 bg-secondary">
-                    <span>Produk</span><a class="font-size-sm" href="#">< Kembali Belanja</a>
+                    <span>Produk</span><a class="font-size-sm" href="/produk">
+                        < Kembali Belanja</a>
                 </h2>
 
                 <!-- Item Produk-->
-                <div class="d-sm-flex justify-content-between my-4 pb-4 border-bottom">
-                    <div class="media d-block d-sm-flex text-center text-sm-left">
-                        <a class="cart-item-thumb mx-auto mr-sm-4" href="#"><img src="https://www.bootdey.com/image/240x240/FF0000/000000" alt="Product"></a>
-                        <div class="media-body pt-3">
-                            <h3 class="product-card-title font-weight-semibold border-0 pb-0"><a href="#">Ikan Koki</a></h3>
-                            <div class="font-size-lg text-primary pt-2">Rp.15.000</div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="d-sm-flex justify-content-between">
+                            <div class="media d-block d-sm-flex text-center text-sm-left">
+                                <a class="cart-item-thumb mx-auto mr-sm-4" href="#"><img
+                                        src="https://www.bootdey.com/image/240x240/FF0000/000000" alt="Product"></a>
+                                <div class="media-body pt-3">
+                                    <h3 class="product-card-title font-weight-semibold border-0 pb-0"><a href="#">Ikan
+                                            Koki</a></h3>
+                                    <div class="font-size-lg pt-2">Rp.15.000</div>
+                                </div>
+                            </div>
+                            <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left"
+                                style="max-width: 10rem;">
+                                <div class="form-group mb-2">
+                                    <label for="quantity1">Jumlah</label>
+                                    <input class="form-control form-control-sm" type="number" id="quantity1" value="1">
+                                </div>
+                                <br>
+                                <button class="btn btn-outline-danger btn-sm btn-block mb-2" type="button">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    Hapus
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left" style="max-width: 10rem;">
-                        <div class="form-group mb-2">
-                            <label for="quantity1">Jumlah</label>
-                            <input class="form-control form-control-sm" type="number" id="quantity1" value="1">
-                        </div>
-                        <br>
-                        <button class="btn btn-outline-danger btn-sm btn-block mb-2 fa fa-trash-o" type="button"> Hapus</button>
                     </div>
                 </div>
 
-                <div class="d-sm-flex justify-content-between my-4 pb-4 border-bottom">
-                    <div class="media d-block d-sm-flex text-center text-sm-left">
-                        <a class="cart-item-thumb mx-auto mr-sm-4" href="#"><img src="https://www.bootdey.com/image/240x240/FF0000/000000" alt="Product"></a>
-                        <div class="media-body pt-3">
-                            <h3 class="product-card-title font-weight-semibold border-0 pb-0"><a href="#">Ikan Koki</a></h3>
-                            <div class="font-size-lg text-primary pt-2">Rp.15.000</div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="d-sm-flex justify-content-between">
+                            <div class="media d-block d-sm-flex text-center text-sm-left">
+                                <a class="cart-item-thumb mx-auto mr-sm-4" href="#"><img
+                                        src="https://www.bootdey.com/image/240x240/FF0000/000000" alt="Product"></a>
+                                <div class="media-body pt-3">
+                                    <h3 class="product-card-title font-weight-semibold border-0 pb-0"><a href="#">Ikan
+                                            Koki</a></h3>
+                                    <div class="font-size-lg pt-2">Rp.15.000</div>
+                                </div>
+                            </div>
+                            <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left"
+                                style="max-width: 10rem;">
+                                <div class="form-group mb-2">
+                                    <label for="quantity1">Jumlah</label>
+                                    <input class="form-control form-control-sm" type="number" id="quantity1" value="1">
+                                </div>
+                                <br>
+                                <button class="btn btn-outline-danger btn-sm btn-block mb-2" type="button">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    Hapus
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left" style="max-width: 10rem;">
-                        <div class="form-group mb-2">
-                            <label for="quantity1">Jumlah</label>
-                            <input class="form-control form-control-sm" type="number" id="quantity1" value="1">
-                        </div>
-                        <br>
-                        <button class="btn btn-outline-danger btn-sm btn-block mb-2 fa fa-trash-o" type="button"> Hapus</button>
                     </div>
                 </div>
 
-                <div class="d-sm-flex justify-content-between my-4 pb-4 border-bottom">
-                    <div class="media d-block d-sm-flex text-center text-sm-left">
-                        <a class="cart-item-thumb mx-auto mr-sm-4" href="#"><img src="https://www.bootdey.com/image/240x240/FF0000/000000" alt="Product"></a>
-                        <div class="media-body pt-3">
-                            <h3 class="product-card-title font-weight-semibold border-0 pb-0"><a href="#">Ikan Koki</a></h3>
-                            <div class="font-size-lg text-primary pt-2">Rp.15.000</div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="d-sm-flex justify-content-between">
+                            <div class="media d-block d-sm-flex text-center text-sm-left">
+                                <a class="cart-item-thumb mx-auto mr-sm-4" href="#"><img
+                                        src="https://www.bootdey.com/image/240x240/FF0000/000000" alt="Product"></a>
+                                <div class="media-body pt-3">
+                                    <h3 class="product-card-title font-weight-semibold border-0 pb-0"><a href="#">Ikan
+                                            Koki</a></h3>
+                                    <div class="font-size-lg pt-2">Rp.15.000</div>
+                                </div>
+                            </div>
+                            <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left"
+                                style="max-width: 10rem;">
+                                <div class="form-group mb-2">
+                                    <label for="quantity1">Jumlah</label>
+                                    <input class="form-control form-control-sm" type="number" id="quantity1" value="1">
+                                </div>
+                                <br>
+                                <button class="btn btn-outline-danger btn-sm btn-block mb-2" type="button">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    Hapus
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left" style="max-width: 10rem;">
-                        <div class="form-group mb-2">
-                            <label for="quantity1">Jumlah</label>
-                            <input class="form-control form-control-sm" type="number" id="quantity1" value="1">
-                        </div>
-                        <br>
-                        <button class="btn btn-outline-danger btn-sm btn-block mb-2 fa fa-trash-o" type="button"> Hapus</button>
                     </div>
                 </div>
 
             </div>
+
         </div>
     </div>
 </section>
@@ -95,6 +129,11 @@
 {% include 'Footer.html' %}
 
 <style>
+    .product-card-title,
+    .font-size-lg {
+        margin-left: 20px;
+    }
+
     .cart-item-thumb {
         display: block;
         width: 10rem;
@@ -103,7 +142,7 @@
     .cart-item-thumb>img {
         display: block;
         width: 100%;
-        border-radius: 15px; 
+        border-radius: 15px;
     }
 
     .product-card-title>a {

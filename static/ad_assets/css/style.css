@@ -275,3 +275,13 @@
     background: var(--dark);
     border-color: var(--primary);
 }
+
+.rounded-card {
+    border-radius: 15px;
+}
+
+.vertical-line {
+    border-left: 1px solid #dc3545;
+    height: 100%;
+}
+

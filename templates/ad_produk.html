@@ -1,7 +1,634 @@
-{% include 'ad_header.html' %}
-{% include 'ad_navbar.html' %}
-{% include 'ad_sidebar.html' %}
+{% include 'ad_header.html' %} {% include 'ad_navbar.html' %} {% include
+'ad_sidebar.html' %}
 
+<div class="container-fluid pt-4 px-4">
+  <h6 class="mb-4">PRODUK</h6>
+  <div class="row g-4">
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="d-flex justify-content-between align-items-center">
+            <select
+              style="max-width: 15%"
+              class="form-select form-select-sm me-2 flex-grow-1"
+              aria-label=".form-select-sm example"
+            >
+              <option selected>Pilih Kategori</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+            <button
+              type="button"
+              class="btn btn-danger btn-sm rounded-pill"
+              data-bs-toggle="modal"
+              data-bs-target="#ModalTambahProduk"
+            >
+              Tambah Produk
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-sm-12 col-md-6 col-xl-4 mb-3" style="max-width: 22rem;">
+          <div class="h-100 bg-light rounded p-4 mx-auto" style="padding: 0;">
+            <div class="card" style="width: 100%;">
+              <img
+                src="../static/ad_assets/img/testimonial-2.jpg"
+                class="card-img-top d-block mx-auto"
+                alt="..." style="width: 100%; height: 180px;"
+              />
+              <div class="card-body">
+                <h5 class="card-title">Nama Produk</h5>
+                <div class="d-flex justify-content-between">
+                  <p>50 pcs</p>
+                  <p>Rp. 5.000</p>
+                </div>
+                <p class="text-truncate">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta
+                  dolore ipsam possimus illo labore, officiis id magni ratione? Et
+                  ea officia perferendis veniam rerum nesciunt assumenda tenetur
+                  repellat mollitia. Accusamus!
+                </p>
+                <div class="text-center">
+                  <button
+                    type="button"
+                    class="btn btn-square btn-primary m-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#ModalDetail"
+                  >
+                    <i class="fa fa-info"></i>
+                  </button>
+                  <button type="button" class="btn btn-square btn-danger m-2">
+                    <i
+                      class="fa fa-edit"
+                      data-bs-toggle="modal"
+                      data-bs-target="#ModalEdit"
+                    ></i>
+                  </button>
+                  <button type="button" class="btn btn-square btn-dark m-2">
+                    <i
+                      class="fa fa-trash-o"
+                      data-bs-toggle="modal"
+                      data-bs-target="#ModalDelete"
+                    ></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="col-sm-12 col-md-6 col-xl-4 mb-3" style="max-width: 22rem;">
+          <div class="h-100 bg-light rounded p-4 mx-auto" style="padding: 0;">
+            <div class="card" style="width: 100%;">
+              <img
+                src="../static/ad_assets/img/testimonial-2.jpg"
+                class="card-img-top d-block mx-auto"
+                alt="..." style="width: 100%; height: 180px;"
+              />
+              <div class="card-body">
+                <h5 class="card-title">Nama Produk</h5>
+                <div class="d-flex justify-content-between">
+                  <p>50 pcs</p>
+                  <p>Rp. 5.000</p>
+                </div>
+                <p class="text-truncate">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta
+                  dolore ipsam possimus illo labore, officiis id magni ratione? Et
+                  ea officia perferendis veniam rerum nesciunt assumenda tenetur
+                  repellat mollitia. Accusamus!
+                </p>
+                <div class="text-center">
+                  <button
+                    type="button"
+                    class="btn btn-square btn-primary m-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#ModalDetail"
+                  >
+                    <i class="fa fa-info"></i>
+                  </button>
+                  <button type="button" class="btn btn-square btn-danger m-2">
+                    <i
+                      class="fa fa-edit"
+                      data-bs-toggle="modal"
+                      data-bs-target="#ModalEdit"
+                    ></i>
+                  </button>
+                  <button type="button" class="btn btn-square btn-dark m-2">
+                    <i
+                      class="fa fa-trash-o"
+                      data-bs-toggle="modal"
+                      data-bs-target="#ModalDelete"
+                    ></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="col-sm-12 col-md-6 col-xl-4 mb-3" style="max-width: 22rem;">
+          <div class="h-100 bg-light rounded p-4 mx-auto" style="padding: 0;">
+            <div class="card" style="width: 100%;">
+              <img
+                src="../static/ad_assets/img/testimonial-2.jpg"
+                class="card-img-top d-block mx-auto"
+                alt="..." style="width: 100%; height: 180px;"
+              />
+              <div class="card-body">
+                <h5 class="card-title">Nama Produk</h5>
+                <div class="d-flex justify-content-between">
+                  <p>50 pcs</p>
+                  <p>Rp. 5.000</p>
+                </div>
+                <p class="text-truncate">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta
+                  dolore ipsam possimus illo labore, officiis id magni ratione? Et
+                  ea officia perferendis veniam rerum nesciunt assumenda tenetur
+                  repellat mollitia. Accusamus!
+                </p>
+                <div class="text-center">
+                  <button
+                    type="button"
+                    class="btn btn-square btn-primary m-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#ModalDetail"
+                  >
+                    <i class="fa fa-info"></i>
+                  </button>
+                  <button type="button" class="btn btn-square btn-danger m-2">
+                    <i
+                      class="fa fa-edit"
+                      data-bs-toggle="modal"
+                      data-bs-target="#ModalEdit"
+                    ></i>
+                  </button>
+                  <button type="button" class="btn btn-square btn-dark m-2">
+                    <i
+                      class="fa fa-trash-o"
+                      data-bs-toggle="modal"
+                      data-bs-target="#ModalDelete"
+                    ></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
+        <div class="col-sm-12 col-md-6 col-xl-4 mb-3" style="max-width: 22rem;">
+          <div class="h-100 bg-light rounded p-4 mx-auto" style="padding: 0;">
+            <div class="card" style="width: 100%;">
+              <img
+                src="../static/ad_assets/img/testimonial-2.jpg"
+                class="card-img-top d-block mx-auto"
+                alt="..." style="width: 100%; height: 180px;"
+              />
+              <div class="card-body">
+                <h5 class="card-title">Nama Produk</h5>
+                <div class="d-flex justify-content-between">
+                  <p>50 pcs</p>
+                  <p>Rp. 5.000</p>
+                </div>
+                <p class="text-truncate">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta
+                  dolore ipsam possimus illo labore, officiis id magni ratione? Et
+                  ea officia perferendis veniam rerum nesciunt assumenda tenetur
+                  repellat mollitia. Accusamus!
+                </p>
+                <div class="text-center">
+                  <button
+                    type="button"
+                    class="btn btn-square btn-primary m-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#ModalDetail"
+                  >
+                    <i class="fa fa-info"></i>
+                  </button>
+                  <button type="button" class="btn btn-square btn-danger m-2">
+                    <i
+                      class="fa fa-edit"
+                      data-bs-toggle="modal"
+                      data-bs-target="#ModalEdit"
+                    ></i>
+                  </button>
+                  <button type="button" class="btn btn-square btn-dark m-2">
+                    <i
+                      class="fa fa-trash-o"
+                      data-bs-toggle="modal"
+                      data-bs-target="#ModalDelete"
+                    ></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>  
+    
+  </div>
+</div>
+
+<!-- modal tambah produk -->
+<div
+  class="modal fade"
+  id="ModalTambahProduk"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">TAMBAH PRODUK</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Nama Produk</strong></p>
+              <input
+                class="form-control form-control-sm flex-grow-1 ms-3"
+                type="text"
+                placeholder=""
+                aria-label=".form-control-sm example"
+              />
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Stock</strong></p>
+              <input
+                class="form-control form-control-sm flex-grow-1 ms-3"
+                type="text"
+                placeholder=""
+                aria-label=".form-control-sm example"
+              />
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Harga</strong></p>
+              <input
+                class="form-control form-control-sm flex-grow-1 ms-3"
+                type="text"
+                placeholder=""
+                aria-label=".form-control-sm example"
+              />
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Gambar</strong></p>
+              <input
+                class="form-control form-control-sm flex-grow-1 ms-3"
+                id="formFileSm"
+                type="file"
+              />
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Deskripsi</strong></p>
+              <textarea
+                class="form-control form-control-sm flex-grow-1 ms-3"
+                type="text"
+                placeholder=""
+                aria-label=".form-control-sm example"
+                style="height: 100px"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="col-md-1">
+            <div class="vertical-line"></div>
+          </div>
+
+          <div class="col-md-5">
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Informasi</strong></p>
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Kondisi</strong></p>
+              <input
+                class="form-control form-control-sm flex-grow-1 ms-3"
+                type="text"
+                placeholder=""
+                aria-label=".form-control-sm example"
+              />
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Berat</strong></p>
+              <input
+                class="form-control form-control-sm flex-grow-1 ms-3"
+                type="text"
+                placeholder=""
+                aria-label=".form-control-sm example"
+              />
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Kategori</strong></p>
+              <select
+                class="form-select form-select-sm w-100 ms-3"
+                aria-label=".form-select-sm example"
+              >
+                <option selected>Pilih Kategori</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Panjang</strong></p>
+              <input
+                class="form-control form-control-sm flex-grow-1 ms-3"
+                type="text"
+                placeholder=""
+                aria-label=".form-control-sm example"
+              />
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Lebar</strong></p>
+              <input
+                class="form-control form-control-sm flex-grow-1 ms-3"
+                type="text"
+                placeholder=""
+                aria-label=".form-control-sm example"
+              />
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Tinggi</strong></p>
+              <input
+                class="form-control form-control-sm flex-grow-1 ms-3"
+                type="text"
+                placeholder=""
+                aria-label=".form-control-sm example"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-danger btn-sm rounded-pill m-2"
+          data-bs-dismiss="modal"
+        >
+          Tambah Produk
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal detail produk  -->
+<div
+  class="modal fade"
+  id="ModalDetail"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">DETAIL PRODUK</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Gambar</strong></p>
+              <img src="../static/ad_assets/img/testimonial-1.jpg" alt="" />
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Nama Produk</strong></p>
+              <p>Lorem Ipsum</p>
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Stock</strong></p>
+              <p>50</p>
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Harga</strong></p>
+              <p>5000 rupiah</p>
+            </div>
+
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Deskripsi</strong></p>
+              <p class="flex-grow-1 ms-3">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-1">
+            <div class="vertical-line"></div>
+          </div>
+
+          <div class="col-md-5">
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Informasi</strong></p>
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Kondisi</strong></p>
+              <p>Baru</p>
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Berat</strong></p>
+              <p>100 gram</p>
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Kategori</strong></p>
+              <p>Kategori pilihan</p>
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Panjang</strong></p>
+              <p>10 cm</p>
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Lebar</strong></p>
+              <p>7 cm</p>
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Tinggi</strong></p>
+              <p>5 cm</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-danger btn-sm rounded-pill m-2"
+          data-bs-toggle="modal"
+          data-bs-target="#ModalEdit"
+        >
+          Edit Produk
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal edit produk  -->
+<div
+  class="modal fade"
+  id="ModalEdit"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">EDIT PRODUK</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Nama Produk</strong></p>
+              <input
+                class="form-control form-control-sm flex-grow-1 ms-3"
+                type="text"
+                placeholder=""
+                aria-label=".form-control-sm example"
+              />
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Stock</strong></p>
+              <input
+                class="form-control form-control-sm flex-grow-1 ms-3"
+                type="text"
+                placeholder=""
+                aria-label=".form-control-sm example"
+              />
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Harga</strong></p>
+              <input
+                class="form-control form-control-sm flex-grow-1 ms-3"
+                type="text"
+                placeholder=""
+                aria-label=".form-control-sm example"
+              />
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Gambar</strong></p>
+              <input
+                class="form-control form-control-sm flex-grow-1 ms-3"
+                id="formFileSm"
+                type="file"
+              />
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Deskripsi</strong></p>
+              <textarea
+                class="form-control form-control-sm flex-grow-1 ms-3"
+                type="text"
+                placeholder=""
+                aria-label=".form-control-sm example"
+                style="height: 100px"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="col-md-1">
+            <div class="vertical-line"></div>
+          </div>
+
+          <div class="col-md-5">
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Informasi</strong></p>
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Kondisi</strong></p>
+              <input
+                class="form-control form-control-sm flex-grow-1 ms-3"
+                type="text"
+                placeholder=""
+                aria-label=".form-control-sm example"
+              />
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Berat</strong></p>
+              <input
+                class="form-control form-control-sm flex-grow-1 ms-3"
+                type="text"
+                placeholder=""
+                aria-label=".form-control-sm example"
+              />
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Kategori</strong></p>
+              <select
+                class="form-select form-select-sm w-100 ms-3"
+                aria-label=".form-select-sm example"
+              >
+                <option selected>Pilih Kategori</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Panjang</strong></p>
+              <input
+                class="form-control form-control-sm flex-grow-1 ms-3"
+                type="text"
+                placeholder=""
+                aria-label=".form-control-sm example"
+              />
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Lebar</strong></p>
+              <input
+                class="form-control form-control-sm flex-grow-1 ms-3"
+                type="text"
+                placeholder=""
+                aria-label=".form-control-sm example"
+              />
+            </div>
+            <div class="d-flex align-items-center mb-3">
+              <p class="mb-0 w-25"><strong>Tinggi</strong></p>
+              <input
+                class="form-control form-control-sm flex-grow-1 ms-3"
+                type="text"
+                placeholder=""
+                aria-label=".form-control-sm example"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-danger btn-sm rounded-pill m-2"
+          data-bs-dismiss="modal"
+        >
+          Simpan Produk
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
 {% include 'ad_footer.html'%}
