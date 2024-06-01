@@ -7,9 +7,15 @@ app = Flask(__name__)
 def dashboard():
     return render_template('ad_index.html')
 
-@app.route('/adpesanan')
+@app.route('/adpesanan', methods=['GET', 'POST'])
 def adpesanan():
     return render_template('ad_pesanan.html')
+
+@app.route('/order/confirmation')
+def order_confirmation():
+    name = request.args.get('name')
+    item = request.args.get('item')
+    return f'Terima kasih, {name}! Pesanan Anda untuk {item} telah diterima.'
 
 @app.route('/adproduk')
 def adproduk():
@@ -23,9 +29,17 @@ def adpelanggan():
 def adlpenjualan():
     return render_template('ad_lpenjualan.html')
 
+@app.route('/adlpenjualan/cetak')
+def cetakLaporanPenjualan():
+    return render_template('cetak_laporan_penjualan.html')
+
 @app.route('/adlproduk')
 def adlproduk():
     return render_template('ad_lproduk.html')
+
+@app.route('/adlproduk/cetak')
+def cetakLaporanProduk():
+    return render_template('cetak_laporan_produk.html')
 
 @app.route('/adpembayaran')
 def adpembayaran():
@@ -70,6 +84,10 @@ def pesanan():
 @app.route('/keranjang')
 def keranjang():
     return render_template('keranjang.html')
+
+@app.route('/profil')
+def profil():
+    return render_template('profil.html')
 # BAGIAN USER #
 
 
