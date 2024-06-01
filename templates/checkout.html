@@ -1,6 +1,82 @@
 {% include 'header.html' %}
 {% include 'navbar.html' %}
 
+<br><br><br>
+
+<div class="container-fluid pt-4 px-4">
+    <h6 class="mb-6"><strong>CHECKOUT</strong></h6>
+    <div class="row g-4">
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light rounded p-4">
+                <h6 class="mb-0">Informasi Pribadi</h6>
+                <p class="mb-0"><strong>Nama Pengguna</strong></p>
+                <p class="mb-0"><strong>lorem@gmail.com</strong></p>
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <p class="mb-0"><strong>0888899991222</strong></p>
+                    <button type="button" class="btn btn-sm btn-danger rounded-pill m-2">Ubah</button>
+                </div>
+                <strong><hr style="border: none; height:5px; background-color: #f33f3f;"></strong>
+                <form>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Jalan</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp">
+                        </div>  
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">RT/RW</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp">
+                        </div>  
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Kelurahan/Desa</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Kecamatan</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Kota/Kabupaten</label>
+                        <select class="form-select mb-3" aria-label="Default select example">
+                            <option selected>Pilih</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div> 
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Provinsi</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp">
+                        </div>  
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Kode Pos</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp">
+                        </div>  
+                    </div>               
+                </form>
+                
+
+
+            </div>
+        </div>
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-light text-center rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Salse & Revenue</h6>
+                    <a href="">Show All</a>
+                </div>
+                <canvas id="salse-revenue"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 {% include 'Footer.html' %}
