@@ -1,13 +1,73 @@
 {% include 'header.html' %}
 {% include 'navbar.html' %}
 
-<br><br><br><br>
+<br><br><br><br><br>
 <section>
-    
+    <div class="container">
+        <h6 class="mb-6"><strong>DETAIL PRODUK</strong></h6><br>
+        <div class="row">
+            <div class="col-md-5 offset-md-2">
+                <div class="pro-img-details">
+                    <img src="https://www.bootdey.com/image/550x380/FFB6C1/000000" alt=""
+                        style="max-width: 100%; height: auto;">
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="product-details">
+                    <div>
+                        <h4 style="margin-bottom: 15px;">Nama Produk</h4>
+                        <h5 style="margin-bottom: 15px;">Rp.5000</h5>
+                        <h6 style="margin-bottom: 15px;">Stok: 50</h6>
+                    </div>
+                    <div class="form-group mb-2" style="width: 120px;">
+                        <label for="quantity1">Jumlah</label>
+                        <input class="form-control form-control-sm" type="number" id="quantity1" value="1">
+                    </div>
+                    <button type="button" class="btn btn-outline-primary mt-3">Tambah Ke Keranjang</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 offset-md-2" style="width: 70%;">
+                <hr>
+                <div class="product-description">
+                    <h6>Informasi Produk</h6>
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#nav-deskripsi" data-toggle="tab" role="tab"
+                                aria-selected="true">Deskripsi</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#nav-informasi" data-toggle="tab" role="tab"
+                                aria-selected="false">Informasi</a>
+                        </li>
+                    </ul>
+                    <br>
+                    <div class="tab-content" id="nav-tabContent" style="width: 60%;">
+                        <div class="tab-pane fade show active" id="nav-deskripsi" role="tabpanel"
+                            aria-labelledby="nav-deskripsi-tab">
+                            <a>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae porro quos fugiat
+                                obcaecati deleniti! Odit natus voluptatum repudiandae, rem sed ab placeat vel nostrum
+                                omnis ipsa consectetur. Ad, quod debitis!</a>
+                        </div>
+
+                        <div class="tab-pane fade" id="nav-informasi" role="tabpanel"
+                            aria-labelledby="nav-informasi-tab">
+                            <ul>
+                                <li>Kondisi : Baru</li>
+                                <li>Berat : 1000.00 gram</li>
+                                <li>Kategori : Pakan Ikan</li>
+                                <li>Panjang : 0.50 cm</li>
+                                <li>Lebar : 0.50 cm</li>
+                                <li>Tinggi : 0.50 cm</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 </section>
 
 {% include 'Footer.html' %}
-
-<style>
-
-</style>
