@@ -1,7 +1,7 @@
 {% include 'header.html' %}
 {% include 'navbar.html' %}
 
-<div class="container" style="padding-top: 200px;">
+<div class="container" style="padding-top: 150px;">
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -40,13 +40,16 @@
                             </div>
                             
                             <div class="mb-3">
-                                <h5>Alamat</h5>
-                                <p>Jl. Pajjaiyang</p>
+                                <h5>Kata Sandi</h5>
+                                <p>***********</p>
                             </div>
                         </div>
                     </div>
 
-                    <button class="btn btn-success">Edit Profil</button>
+                    <div class="edit-button">
+                        <button type="button" class="btn btn-success m-2" data-bs-toggle="modal"
+                        data-bs-target="#profil">Edit Profil</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -55,3 +58,51 @@
 
 
 {% include 'footer.html' %}
+
+<header>
+    <!-- Modal -->
+<div class="modal fade" id="profil" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">EDIT</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Profil</label>
+                    <input class="form-control" type="file" id="formFile">
+                </div>
+                <div class="mb-3">
+                    <label for="bankName" class="form-label">Nama</label>
+                    <input type="text" class="form-control" id="bankName">
+                </div>
+                <div class="mb-3">
+                    <label for="birthDate" class="form-label">Tanggal Lahir</label>
+                    <input type="date" class="form-control" id="birthDate">
+                </div>
+                <div class="mb-3">
+                    <label for="gender" class="form-label">Jenis Kelamin</label>
+                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
+                        <option value="1">Laki-laki</option>
+                        <option value="2">Perempuan</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="phoneNumber" class="form-label">No HP</label>
+                    <input type="text" class="form-control" id="phoneNumber">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Kata Sandi</label>
+                    <input type="password" class="form-control" id="password">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary rounded-pill m-2"
+                    data-bs-dismiss="modal">Tutup</button>
+                <button type="button" class="btn btn-primary rounded-pill m-2">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+</header>
