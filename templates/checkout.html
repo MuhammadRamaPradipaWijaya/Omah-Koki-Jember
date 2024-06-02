@@ -127,13 +127,7 @@
               <strong>
                 <hr style="border: none; height: 5px; background-color: black" />
               </strong>
-              <select class="form-select mb-3 mx-auto" aria-label="Default select example"
-                style="max-width: 250px; background-color: #dc3545; color:white;">
-                <option selected>Pilih Metode Pembayaran</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
+              <button type="button" class="btn btn-danger rounded-pill m-2" data-bs-toggle="modal" data-bs-target="#ModalMetodePembayaran">Pilih Metode Pembayaran</button>
             </div>
           </div>
         </div>
@@ -141,5 +135,57 @@
     </div>
   </div>
 </div>
+
+<!-- modal metode pembayaran  -->
+<div class="modal fade" id="ModalMetodePembayaran" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Pilih Pembayaran</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <a href="/pesanan" class="card">
+          <div class="bg-light rounded p-4">
+            <div class="card w-80">
+              <div class="card-body">
+                <p class="card-title"><strong>Transfer Bank BNI No. Rekening : 12345678</strong></p>
+                <p class="card-text">AN : Omah Koki Jember</p>
+                <p class="card-text">Lakukan transfer sesuai dengan nominal yang tertera. <br>
+                Ketika melakukan transfer diharapkan menambahkan kode pesanan pada nota transfer</p>
+              </div>
+            </div>
+            <br>
+            <div class="card w-80">
+              <div class="card-body">
+                <p class="card-title"><strong>Transfer Bank BRI No. Rekening : 34567891</strong></p>
+                <p class="card-text">AN : Omah Koki Jember</p>
+                <p class="card-text">Lakukan transfer sesuai dengan nominal yang tertera. <br>
+                Ketika melakukan transfer diharapkan menambahkan kode pesanan pada nota transfer</p>
+              </div>
+            </div>
+            <br>
+            <div class="card w-80">
+              <div class="card-body">
+                <p class="card-title"><strong>Transfer Bank BCA No. Rekening : 45678912</strong></p>
+                <p class="card-text">AN : Omah Koki Jember</p>
+                <p class="card-text">Lakukan transfer sesuai dengan nominal yang tertera. <br>
+                Ketika melakukan transfer diharapkan menambahkan kode pesanan pada nota transfer</p>
+              </div>
+            </div>
+            <br>
+            <div class="card w-80">
+              <div class="card-body">
+                <p class="card-title"><strong>Transfer Bank Mandiri No. Rekening : 45678912</strong></p>
+                <p class="card-text">AN : Omah Koki Jember</p>
+                <p class="card-text">Lakukan transfer sesuai dengan nominal yang tertera. <br>
+                Ketika melakukan transfer diharapkan menambahkan kode pesanan pada nota transfer</p>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+  </div>
+</div>
+
 
       {% include 'Footer.html' %}
