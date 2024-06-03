@@ -30,9 +30,51 @@ def order_confirmation():
     item = request.args.get('item')
     return f'Terima kasih, {name}! Pesanan Anda untuk {item} telah diterima.'
 
-@app.route('/adproduk')
+@app.route('/adproduk', methods=['GET', 'POST'])
 def adproduk():
+    produk = list(db.adproduk.find({}))
+    return render_template('ad_produk.html', produk=produk)
+
+@app.route('/addProduk', methods=['GET', 'POST'])
+def addProduk():
+    if request.method == 'POST':
+        produk = request.form.get('namaProduk')
+        stock = request.form.get('stock')
+        harga = request.form.get('harga')
+        nama_gambar = request.files.get('gambar')
+        deskripsi = request.form.get('deskripsi')
+        kondisi = request.form.get('kondisi')
+        berat = request.form.get('berat')
+        kategori = request.form.get('kategori')
+        panjang = request.form.get('panjang')
+        lebar = request.form.get('lebar')
+        tinggi = request.form.get('tinggi')
+
+        if nama_gambar :
+            nama_file_asli = nama_gambar.filename
+            nama_file_gambar = nama_file_asli.split('/')[-1]
+            file_path = f'static/ad_assets/imgproduk/{nama_file_gambar}'
+            nama_gambar.save(file_path)
+        else :
+            nama_gambar = None
+        
+        doc = {
+            'nama_produk' : produk,
+            'stock' : stock,
+            'harga' : harga,
+            'gambar' : nama_file_gambar,
+            'deskripsi' : deskripsi,
+            'kondisi' : kondisi,
+            'berat' : berat,
+            'kategori' : kategori,
+            'panjang' : panjang,
+            'lebar' : lebar,
+            'tinggi' : tinggi
+        }
+        db.adproduk.insert_one(doc)
+        return redirect(url_for('adproduk'))
     return render_template('ad_produk.html')
+
 
 @app.route('/adpelanggan')
 def adpelanggan():
