@@ -1,8 +1,10 @@
 import os
 from os.path import join, dirname
 from dotenv import load_dotenv
+
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from pymongo import MongoClient
+from bson import ObjectId
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
@@ -74,6 +76,11 @@ def addProduk():
         db.adproduk.insert_one(doc)
         return redirect(url_for('adproduk'))
     return render_template('ad_produk.html')
+
+@app.route('/deleteProduk/<_id>',methods=['GET','POST'])
+def deleteProduk(_id):
+    db.adproduk.delete_one({'_id': ObjectId(_id)})
+    return redirect(url_for('adproduk'))
 
 
 @app.route('/adpelanggan')
