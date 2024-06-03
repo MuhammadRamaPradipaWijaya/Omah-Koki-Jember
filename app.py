@@ -77,6 +77,36 @@ def addProduk():
         return redirect(url_for('adproduk'))
     return render_template('ad_produk.html')
 
+@app.route('/editProduk/<_id>', methods=['GET', 'POST'])
+def editProduk(_id):
+    if request.method == 'POST':
+        produk = {
+            'nama_produk': request.form.get('namaProduk'),
+            'stock': request.form.get('stock'),
+            'harga': request.form.get('harga'),
+            'deskripsi': request.form.get('deskripsi'),
+            'kondisi': request.form.get('kondisi'),
+            'berat': request.form.get('berat'),
+            'kategori': request.form.get('kategori'),
+            'panjang': request.form.get('panjang'),                'lebar': request.form.get('lebar'),
+            'tinggi': request.form.get('tinggi')
+        }
+
+        nama_gambar = request.files.get('gambar')
+        if nama_gambar:
+            nama_file_asli = nama_gambar.filename
+            nama_file_gambar = nama_file_asli.split('/')[-1]
+            file_path = f'static/ad_assets/imgproduk/{nama_file_gambar}'
+            nama_gambar.save(file_path)                
+            produk['gambar'] = nama_file_gambar
+            
+        db.adproduk.update_one({'_id': ObjectId(_id)}, {'$set': produk})
+        return redirect(url_for('adproduk'))
+    else:
+        produk = db.adproduk.find_one({'_id': ObjectId(_id)})
+        if produk:
+            return render_template('ad_produk.html', produk=produk)           
+
 @app.route('/deleteProduk/<_id>',methods=['GET','POST'])
 def deleteProduk(_id):
     db.adproduk.delete_one({'_id': ObjectId(_id)})
