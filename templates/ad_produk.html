@@ -30,28 +30,27 @@
         </div>
       </div>
     </div>
-    
+
     <div class="container">
       <div class="row justify-content-center">
-        <div class="col-sm-12 col-md-6 col-xl-4 mb-3" style="max-width: 22rem;">
-          <div class="h-100 bg-light rounded p-4 mx-auto" style="padding: 0;">
-            <div class="card" style="width: 100%;">
+        {% for item in produk %}
+        <div class="col-sm-12 col-md-6 col-xl-4 mb-3" style="max-width: 22rem">
+          <div class="h-100 bg-light rounded p-4 mx-auto" style="padding: 0">
+            <div class="card" style="width: 100%">
               <img
-                src="../static/ad_assets/img/testimonial-2.jpg"
+                src="../static/ad_assets/imgproduk/{{item.gambar}}"
                 class="card-img-top d-block mx-auto"
-                alt="..." style="width: 100%; height: 180px;"
+                alt="..."
+                style="width: 100%; height: 180px"
               />
               <div class="card-body">
-                <h5 class="card-title">Nama Produk</h5>
+                <h5 class="card-title">{{item.nama_produk}}</h5>
                 <div class="d-flex justify-content-between">
-                  <p>50 pcs</p>
-                  <p>Rp. 5.000</p>
+                  <p>{{item.stock}} pcs</p>
+                  <p>Rp. {{item.harga}}</p>
                 </div>
                 <p class="text-truncate">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta
-                  dolore ipsam possimus illo labore, officiis id magni ratione? Et
-                  ea officia perferendis veniam rerum nesciunt assumenda tenetur
-                  repellat mollitia. Accusamus!
+                  {{item.deskripsi}}
                 </p>
                 <div class="text-center">
                   <button
@@ -81,157 +80,9 @@
             </div>
           </div>
         </div>
-    
-        <div class="col-sm-12 col-md-6 col-xl-4 mb-3" style="max-width: 22rem;">
-          <div class="h-100 bg-light rounded p-4 mx-auto" style="padding: 0;">
-            <div class="card" style="width: 100%;">
-              <img
-                src="../static/ad_assets/img/testimonial-2.jpg"
-                class="card-img-top d-block mx-auto"
-                alt="..." style="width: 100%; height: 180px;"
-              />
-              <div class="card-body">
-                <h5 class="card-title">Nama Produk</h5>
-                <div class="d-flex justify-content-between">
-                  <p>50 pcs</p>
-                  <p>Rp. 5.000</p>
-                </div>
-                <p class="text-truncate">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta
-                  dolore ipsam possimus illo labore, officiis id magni ratione? Et
-                  ea officia perferendis veniam rerum nesciunt assumenda tenetur
-                  repellat mollitia. Accusamus!
-                </p>
-                <div class="text-center">
-                  <button
-                    type="button"
-                    class="btn btn-square btn-primary m-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#ModalDetail"
-                  >
-                    <i class="fa fa-info"></i>
-                  </button>
-                  <button type="button" class="btn btn-square btn-danger m-2">
-                    <i
-                      class="fa fa-edit"
-                      data-bs-toggle="modal"
-                      data-bs-target="#ModalEdit"
-                    ></i>
-                  </button>
-                  <button type="button" class="btn btn-square btn-dark m-2">
-                    <i
-                      class="fa fa-trash-o"
-                      data-bs-toggle="modal"
-                      data-bs-target="#ModalDelete"
-                    ></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-    
-        <div class="col-sm-12 col-md-6 col-xl-4 mb-3" style="max-width: 22rem;">
-          <div class="h-100 bg-light rounded p-4 mx-auto" style="padding: 0;">
-            <div class="card" style="width: 100%;">
-              <img
-                src="../static/ad_assets/img/testimonial-2.jpg"
-                class="card-img-top d-block mx-auto"
-                alt="..." style="width: 100%; height: 180px;"
-              />
-              <div class="card-body">
-                <h5 class="card-title">Nama Produk</h5>
-                <div class="d-flex justify-content-between">
-                  <p>50 pcs</p>
-                  <p>Rp. 5.000</p>
-                </div>
-                <p class="text-truncate">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta
-                  dolore ipsam possimus illo labore, officiis id magni ratione? Et
-                  ea officia perferendis veniam rerum nesciunt assumenda tenetur
-                  repellat mollitia. Accusamus!
-                </p>
-                <div class="text-center">
-                  <button
-                    type="button"
-                    class="btn btn-square btn-primary m-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#ModalDetail"
-                  >
-                    <i class="fa fa-info"></i>
-                  </button>
-                  <button type="button" class="btn btn-square btn-danger m-2">
-                    <i
-                      class="fa fa-edit"
-                      data-bs-toggle="modal"
-                      data-bs-target="#ModalEdit"
-                    ></i>
-                  </button>
-                  <button type="button" class="btn btn-square btn-dark m-2">
-                    <i
-                      class="fa fa-trash-o"
-                      data-bs-toggle="modal"
-                      data-bs-target="#ModalDelete"
-                    ></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-sm-12 col-md-6 col-xl-4 mb-3" style="max-width: 22rem;">
-          <div class="h-100 bg-light rounded p-4 mx-auto" style="padding: 0;">
-            <div class="card" style="width: 100%;">
-              <img
-                src="../static/ad_assets/img/testimonial-2.jpg"
-                class="card-img-top d-block mx-auto"
-                alt="..." style="width: 100%; height: 180px;"
-              />
-              <div class="card-body">
-                <h5 class="card-title">Nama Produk</h5>
-                <div class="d-flex justify-content-between">
-                  <p>50 pcs</p>
-                  <p>Rp. 5.000</p>
-                </div>
-                <p class="text-truncate">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta
-                  dolore ipsam possimus illo labore, officiis id magni ratione? Et
-                  ea officia perferendis veniam rerum nesciunt assumenda tenetur
-                  repellat mollitia. Accusamus!
-                </p>
-                <div class="text-center">
-                  <button
-                    type="button"
-                    class="btn btn-square btn-primary m-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#ModalDetail"
-                  >
-                    <i class="fa fa-info"></i>
-                  </button>
-                  <button type="button" class="btn btn-square btn-danger m-2">
-                    <i
-                      class="fa fa-edit"
-                      data-bs-toggle="modal"
-                      data-bs-target="#ModalEdit"
-                    ></i>
-                  </button>
-                  <button type="button" class="btn btn-square btn-dark m-2">
-                    <i
-                      class="fa fa-trash-o"
-                      data-bs-toggle="modal"
-                      data-bs-target="#ModalDelete"
-                    ></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        {% endfor %}
       </div>
-    </div>  
-    
+    </div>
   </div>
 </div>
 
@@ -245,142 +96,153 @@
 >
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">TAMBAH PRODUK</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="d-flex align-items-center mb-3">
-              <p class="mb-0 w-25"><strong>Nama Produk</strong></p>
-              <input
-                class="form-control form-control-sm flex-grow-1 ms-3"
-                type="text"
-                placeholder=""
-                aria-label=".form-control-sm example"
-              />
+      <form method="POST" action="/addProduk" enctype="multipart/form-data" >
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">TAMBAH PRODUK</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="d-flex align-items-center mb-3">
+                <p class="mb-0 w-25"><strong>Nama Produk</strong></p>
+                <input
+                  class="form-control form-control-sm flex-grow-1 ms-3"
+                  type="text"
+                  placeholder=""
+                  aria-label=".form-control-sm example"
+                  name="namaProduk"
+                />
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <p class="mb-0 w-25"><strong>Stock</strong></p>
+                <input
+                  class="form-control form-control-sm flex-grow-1 ms-3"
+                  type="text"
+                  placeholder=""
+                  aria-label=".form-control-sm example"
+                  name="stock"
+                />
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <p class="mb-0 w-25"><strong>Harga</strong></p>
+                <input
+                  class="form-control form-control-sm flex-grow-1 ms-3"
+                  type="text"
+                  placeholder=""
+                  aria-label=".form-control-sm example"
+                  name="harga"
+                />
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <p class="mb-0 w-25"><strong>Gambar</strong></p>
+                <input
+                  class="form-control form-control-sm flex-grow-1 ms-3"
+                  id="formFileSm"
+                  type="file"
+                  name="gambar"
+                />
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <p class="mb-0 w-25"><strong>Deskripsi</strong></p>
+                <textarea
+                  class="form-control form-control-sm flex-grow-1 ms-3"
+                  type="text"
+                  placeholder=""
+                  aria-label=".form-control-sm example"
+                  style="height: 100px"
+                  name="deskripsi"
+                ></textarea>
+              </div>
             </div>
-            <div class="d-flex align-items-center mb-3">
-              <p class="mb-0 w-25"><strong>Stock</strong></p>
-              <input
-                class="form-control form-control-sm flex-grow-1 ms-3"
-                type="text"
-                placeholder=""
-                aria-label=".form-control-sm example"
-              />
-            </div>
-            <div class="d-flex align-items-center mb-3">
-              <p class="mb-0 w-25"><strong>Harga</strong></p>
-              <input
-                class="form-control form-control-sm flex-grow-1 ms-3"
-                type="text"
-                placeholder=""
-                aria-label=".form-control-sm example"
-              />
-            </div>
-            <div class="d-flex align-items-center mb-3">
-              <p class="mb-0 w-25"><strong>Gambar</strong></p>
-              <input
-                class="form-control form-control-sm flex-grow-1 ms-3"
-                id="formFileSm"
-                type="file"
-              />
-            </div>
-            <div class="d-flex align-items-center mb-3">
-              <p class="mb-0 w-25"><strong>Deskripsi</strong></p>
-              <textarea
-                class="form-control form-control-sm flex-grow-1 ms-3"
-                type="text"
-                placeholder=""
-                aria-label=".form-control-sm example"
-                style="height: 100px"
-              ></textarea>
-            </div>
-          </div>
 
-          <div class="col-md-1">
-            <div class="vertical-line"></div>
-          </div>
+            <div class="col-md-1">
+              <div class="vertical-line"></div>
+            </div>
 
-          <div class="col-md-5">
-            <div class="d-flex align-items-center mb-3">
-              <p class="mb-0 w-25"><strong>Informasi</strong></p>
-            </div>
-            <div class="d-flex align-items-center mb-3">
-              <p class="mb-0 w-25"><strong>Kondisi</strong></p>
-              <input
-                class="form-control form-control-sm flex-grow-1 ms-3"
-                type="text"
-                placeholder=""
-                aria-label=".form-control-sm example"
-              />
-            </div>
-            <div class="d-flex align-items-center mb-3">
-              <p class="mb-0 w-25"><strong>Berat</strong></p>
-              <input
-                class="form-control form-control-sm flex-grow-1 ms-3"
-                type="text"
-                placeholder=""
-                aria-label=".form-control-sm example"
-              />
-            </div>
-            <div class="d-flex align-items-center mb-3">
-              <p class="mb-0 w-25"><strong>Kategori</strong></p>
-              <select
-                class="form-select form-select-sm w-100 ms-3"
-                aria-label=".form-select-sm example"
-              >
-                <option selected>Pilih Kategori</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
-            </div>
-            <div class="d-flex align-items-center mb-3">
-              <p class="mb-0 w-25"><strong>Panjang</strong></p>
-              <input
-                class="form-control form-control-sm flex-grow-1 ms-3"
-                type="text"
-                placeholder=""
-                aria-label=".form-control-sm example"
-              />
-            </div>
-            <div class="d-flex align-items-center mb-3">
-              <p class="mb-0 w-25"><strong>Lebar</strong></p>
-              <input
-                class="form-control form-control-sm flex-grow-1 ms-3"
-                type="text"
-                placeholder=""
-                aria-label=".form-control-sm example"
-              />
-            </div>
-            <div class="d-flex align-items-center mb-3">
-              <p class="mb-0 w-25"><strong>Tinggi</strong></p>
-              <input
-                class="form-control form-control-sm flex-grow-1 ms-3"
-                type="text"
-                placeholder=""
-                aria-label=".form-control-sm example"
-              />
+            <div class="col-md-5">
+              <div class="d-flex align-items-center mb-3">
+                <p class="mb-0 w-25"><strong>Informasi</strong></p>
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <p class="mb-0 w-25"><strong>Kondisi</strong></p>
+                <input
+                  class="form-control form-control-sm flex-grow-1 ms-3"
+                  type="text"
+                  placeholder=""
+                  aria-label=".form-control-sm example"
+                  name="kondisi"
+                />
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <p class="mb-0 w-25"><strong>Berat</strong></p>
+                <input
+                  class="form-control form-control-sm flex-grow-1 ms-3"
+                  type="text"
+                  placeholder=""
+                  aria-label=".form-control-sm example"
+                  name="berat"
+                />
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <p class="mb-0 w-25"><strong>Kategori</strong></p>
+                <select
+                  class="form-select form-select-sm w-100 ms-3"
+                  aria-label=".form-select-sm example" name="kategori"
+                >
+                  <option selected>Pilih Kategori</option>
+                  <option value="1">One</option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <p class="mb-0 w-25"><strong>Panjang</strong></p>
+                <input
+                  class="form-control form-control-sm flex-grow-1 ms-3"
+                  type="text"
+                  placeholder=""
+                  aria-label=".form-control-sm example"
+                  name="panjang"
+                />
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <p class="mb-0 w-25"><strong>Lebar</strong></p>
+                <input
+                  class="form-control form-control-sm flex-grow-1 ms-3"
+                  type="text"
+                  placeholder=""
+                  aria-label=".form-control-sm example"
+                  name="lebar"
+                />
+              </div>
+              <div class="d-flex align-items-center mb-3">
+                <p class="mb-0 w-25"><strong>Tinggi</strong></p>
+                <input
+                  class="form-control form-control-sm flex-grow-1 ms-3"
+                  type="text"
+                  placeholder=""
+                  aria-label=".form-control-sm example"
+                  name="tinggi"
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-danger btn-sm rounded-pill m-2"
-          data-bs-dismiss="modal"
-        >
-          Tambah Produk
-        </button>
-      </div>
+        <div class="modal-footer">
+          <button
+            type="submit"
+            class="btn btn-danger btn-sm rounded-pill m-2"
+          >
+            Tambah Produk
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
