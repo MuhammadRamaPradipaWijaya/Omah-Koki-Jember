@@ -11,8 +11,8 @@ from datetime import datetime
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
-MONGODB_URI = os.environ.get("MONGODB_URI")
-DB_NAME =  os.environ.get("DB_NAME")
+MONGODB_URI = os.environ.get("mongodb+srv://test:sparta@cluster0.8fdeegb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+DB_NAME =  os.environ.get("OmahKokiJember")
 
 client = MongoClient(MONGODB_URI)
 db = client[DB_NAME]
@@ -156,7 +156,8 @@ def adlpengguna():
 
 @app.route('/adprofil')
 def adprofil():
-    return render_template('ad_profil.html')
+    admin_data = db.admin.find_one({'nama': session.get('username')})
+    return render_template('ad_profil.html', admin_data=admin_data)
 # BAGIAN ADMIN #
 
 
@@ -209,6 +210,7 @@ def login():
         user = db.pembeli.find_one({'email': email})
         if user and jwt.decode(user['password'], SECRET_KEY, algorithms=['HS256'])['password'] == password:
             session['logged_in'] = True
+            session['username'] = user['nama']
             return redirect(url_for('home'))
         else:
             error = 'Email atau kata sandi salah. Silakan coba lagi.'
@@ -256,6 +258,7 @@ def adlogin():
         user = db.admin.find_one({'email': email})
         if user and jwt.decode(user['password'], SECRET_KEY, algorithms=['HS256'])['password'] == password:
             session['logged_in'] = True
+            session['username'] = user['nama']
             return redirect(url_for('dashboard'))
         else:
             error = 'Email atau kata sandi salah. Silakan coba lagi.'
@@ -292,6 +295,11 @@ def cek_email():
         return jsonify({'status': 'fail'})
     else:
         return jsonify({'status': 'success'})
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    return redirect(url_for('adlogin'))
 
 if __name__ == '__main__':
     app.run('0.0.0.0',port=5000,debug=True)
