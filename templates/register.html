@@ -16,7 +16,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="mb-5">
-                                                <h4 class="text-center">Selamat datang di Omah Koki Jember! Silahkan mendaftar.</h4>
+                                                <h6 class="text-center">Selamat datang di Omah Koki Jember! Silahkan mendaftar.</h6>
                                             </div>
                                             {% if error %}
                                                 <div class="alert alert-danger" role="alert">
@@ -29,24 +29,21 @@
                                         <div class="row gy-3 overflow-hidden">
                                             <div class="col-12">
                                                 <div class="form-floating mb-3">
-                                                    <label for="nama" class="form-label">Nama</label>
                                                     <input type="text" class="form-control" name="nama" id="nama"
                                                         placeholder="Nama" required>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-floating mb-3">
-                                                    <label for="telepon" class="form-label">Nomor HP</label>
                                                     <input type="text" class="form-control" name="telepon" id="telepon"
                                                         placeholder="Nomor HP" required>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-floating mb-3">
-                                                    <label for="email" class="form-label">Email</label>
                                                     <div class="input-group mb-3">
                                                         <input type="email" class="form-control" name="email" id="email"
-                                                            placeholder="name@example.com" required>
+                                                            placeholder="Email" required>
                                                         <button type="button" id="cekEmail" class="btn btn-danger">Cek
                                                             Email</button>
                                                     </div>
@@ -57,9 +54,8 @@
                                             </div>                                            
                                             <div class="col-12">
                                                 <div class="form-floating mb-3">
-                                                    <label for="password" class="form-label">Kata Sandi</label>
                                                     <input type="password" class="form-control" name="password"
-                                                        id="password" placeholder="Password" required>
+                                                        id="password" placeholder="Kata Sandi" required>
                                                 </div>
                                                 <div id="passwordAlert" class="alert alert-danger d-none" role="alert">
                                                     Kata sandi minimal 8 karakter.
@@ -67,10 +63,8 @@
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-floating mb-3">
-                                                    <label for="confirm_password" class="form-label">Ulang Kata
-                                                        Sandi</label>
                                                     <input type="password" class="form-control" name="confirm_password"
-                                                        id="confirm_password" placeholder="Confirm Password" required>
+                                                        id="confirm_password" placeholder="Ulang Kata Sandi" required>
                                                 </div>
                                                 <div id="confirmPasswordAlert" class="alert alert-danger d-none" role="alert">
                                                     Konfirmasi kata sandi tidak cocok.
