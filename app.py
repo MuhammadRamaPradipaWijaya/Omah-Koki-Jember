@@ -96,8 +96,7 @@ def editProduk(_id):
             'kondisi': request.form.get('kondisi'),
             'berat': request.form.get('berat'),
             'kategori': request.form.get('kategori'),
-            'panjang': request.form.get('panjang'),                
-            'lebar': request.form.get('lebar'),
+            'panjang': request.form.get('panjang'),                'lebar': request.form.get('lebar'),
             'tinggi': request.form.get('tinggi')
         }
 
@@ -113,7 +112,8 @@ def editProduk(_id):
         return redirect(url_for('adproduk'))
     else:
         produk = db.adproduk.find_one({'_id': ObjectId(_id)})
-        return render_template('ad_produk.html', produk=produk)           
+        if produk:
+            return render_template('ad_produk.html', produk=produk)           
 
 @app.route('/deleteProduk/<_id>',methods=['GET','POST'])
 def deleteProduk(_id):
