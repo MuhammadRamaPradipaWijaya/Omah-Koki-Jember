@@ -199,13 +199,52 @@ def profil():
 # BAGIAN USER #
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        
+        user = db.pembeli.find_one({'email': email})
+        if user and jwt.decode(user['password'], SECRET_KEY, algorithms=['HS256'])['password'] == password:
+            session['logged_in'] = True
+            return redirect(url_for('home'))
+        else:
+            error = 'Email atau kata sandi salah. Silakan coba lagi.'
+            return render_template('login.html', error=error)
     return render_template('login.html')
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
+    if request.method == 'POST':
+        nama = request.form['nama']
+        telepon = request.form['telepon']
+        email = request.form['email']
+        password = request.form['password']
+        
+        token = jwt.encode({'password': password}, SECRET_KEY, algorithm='HS256')
+        
+        tanggal_registrasi = datetime.datetime.utcnow().strftime('%Y-%m-%d')
+        
+        db.pembeli.insert_one({
+            'nama': nama,
+            'telepon': telepon,
+            'email': email,
+            'password': token,
+            'tgl_registrasi': tanggal_registrasi
+        })
+        
+        return redirect(url_for('login'))
     return render_template('register.html')
+
+@app.route('/cek_email_pembeli', methods=['POST'])
+def cek_email_pembeli():
+    email = request.form['email']
+    existing_user = db.pembeli.find_one({'email': email})
+    if existing_user:
+        return jsonify({'status': 'fail'})
+    else:
+        return jsonify({'status': 'success'})
 
 @app.route('/adlogin', methods=['GET', 'POST'])
 def adlogin():
