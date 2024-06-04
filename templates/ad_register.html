@@ -18,6 +18,11 @@
                                             <div class="mb-5">
                                                 <h4 class="text-center">Welcome back you've been missed!</h4>
                                             </div>
+                                            {% if error %}
+                                                <div class="alert alert-danger" role="alert">
+                                                    {{ error }}
+                                                </div>
+                                            {% endif %}
                                         </div>
                                     </div>
                                     <form method="post" action="{{ url_for('adregister') }}">
@@ -46,12 +51,18 @@
                                                             Email</button>
                                                     </div>
                                                 </div>
-                                            </div>
+                                                <div id="emailAlert" class="alert alert-danger d-none" role="alert">
+                                                    Email tidak valid. Silakan coba lagi.
+                                                </div>
+                                            </div>                                            
                                             <div class="col-12">
                                                 <div class="form-floating mb-3">
                                                     <label for="password" class="form-label">Kata Sandi</label>
                                                     <input type="password" class="form-control" name="password"
                                                         id="password" placeholder="Password" required>
+                                                </div>
+                                                <div id="passwordAlert" class="alert alert-danger d-none" role="alert">
+                                                    Kata sandi minimal 8 karakter.
                                                 </div>
                                             </div>
                                             <div class="col-12">
@@ -60,6 +71,9 @@
                                                         Sandi</label>
                                                     <input type="password" class="form-control" name="confirm_password"
                                                         id="confirm_password" placeholder="Confirm Password" required>
+                                                </div>
+                                                <div id="confirmPasswordAlert" class="alert alert-danger d-none" role="alert">
+                                                    Konfirmasi kata sandi tidak cocok.
                                                 </div>
                                             </div>
                                             <br>
@@ -89,6 +103,11 @@
         
         $('#cekEmail').click(function() {
             var email = $('#email').val();
+            if (!isValidEmail(email)) {
+                $('#emailAlert').removeClass('d-none').html('Email tidak valid. Silakan coba lagi.');
+                return;
+            }
+            $('#emailAlert').addClass('d-none');
             $.ajax({
                 type: 'POST',
                 url: '/cek_email',
@@ -97,10 +116,10 @@
                 },
                 success: function(response) {
                     if (response.status == 'success') {
+                        $('#emailAlert').removeClass('d-none').removeClass('alert-danger').addClass('alert-success').html('Email tersedia untuk registrasi.');
                         emailChecked = true;
-                        alert('Email tersedia untuk registrasi.');
                     } else {
-                        alert('Email sudah terdaftar, gunakan email lain.');
+                        $('#emailAlert').removeClass('d-none').removeClass('alert-success').addClass('alert-danger').html('Email sudah terdaftar, gunakan email lain.');
                     }
                 },
                 error: function() {
@@ -112,16 +131,26 @@
         $('#btndaftar').click(function() {
             var password = $('#password').val();
             var confirm_password = $('#confirm_password').val();
-            
+            if (password.length < 8) {
+                $('#passwordAlert').removeClass('d-none');
+                return false;
+            }
+            $('#passwordAlert').addClass('d-none');
             if (!emailChecked) {
-                alert('Harap periksa email terlebih dahulu.');
+                $('#emailAlert').removeClass('d-none');
                 return false;
             }
-            
+            $('#emailAlert').addClass('d-none');
             if (password !== confirm_password) {
-                alert('Password dan Ulang Kata Sandi tidak cocok.');
+                $('#confirmPasswordAlert').removeClass('d-none');
                 return false;
             }
+            $('#confirmPasswordAlert').addClass('d-none');
         });
     });
+
+    function isValidEmail(email) {
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
 </script>
