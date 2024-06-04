@@ -2,9 +2,11 @@ import os
 from os.path import join, dirname
 from dotenv import load_dotenv
 
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 from pymongo import MongoClient
 from bson import ObjectId
+import jwt
+import datetime
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
@@ -17,10 +19,16 @@ db = client[DB_NAME]
 
 app = Flask(__name__)
 
+SECRET_KEY = 'OKJ'
+app.secret_key = SECRET_KEY
+
 # BAGIAN ADMIN #
 @app.route('/dashboard')
 def dashboard():
-    return render_template('ad_index.html')
+    if 'logged_in' in session and session['logged_in']:
+        return render_template('ad_index.html')
+    else:
+        return redirect(url_for('adlogin'))
 
 @app.route('/adpesanan', methods=['GET', 'POST'])
 def adpesanan():
@@ -199,14 +207,51 @@ def login():
 def register():
     return render_template('register.html')
 
-@app.route('/adlogin')
+@app.route('/adlogin', methods=['GET', 'POST'])
 def adlogin():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        
+        user = db.admin.find_one({'email': email})
+        if user and jwt.decode(user['password'], SECRET_KEY, algorithms=['HS256'])['password'] == password:
+            session['logged_in'] = True
+            return redirect(url_for('dashboard'))
+        else:
+            error = 'Email atau kata sandi salah. Silakan coba lagi.'
+            return render_template('ad_login.html', error=error)
     return render_template('ad_login.html')
 
-@app.route('/adregister')
+@app.route('/adregister', methods=['GET', 'POST'])
 def adregister():
+    if request.method == 'POST':
+        nama = request.form['nama']
+        telepon = request.form['telepon']
+        email = request.form['email']
+        password = request.form['password']
+        
+        token = jwt.encode({'password': password}, SECRET_KEY, algorithm='HS256')
+        
+        tanggal_registrasi = datetime.datetime.utcnow().strftime('%Y-%m-%d')
+        db.admin.insert_one({
+            'nama': nama,
+            'telepon': telepon,
+            'email': email,
+            'password': token,
+            'tgl_registrasi': tanggal_registrasi
+        })
+        
+        return redirect(url_for('adlogin'))
     return render_template('ad_register.html')
 
+@app.route('/cek_email', methods=['POST'])
+def cek_email():
+    email = request.form['email']
+    existing_user = db.admin.find_one({'email': email})
+    if existing_user:
+        return jsonify({'status': 'fail'})
+    else:
+        return jsonify({'status': 'success'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0',port=5000,debug=True)

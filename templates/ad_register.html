@@ -1,6 +1,5 @@
 {% include 'header.html' %}
 
-<!-- Login 8 - Bootstrap Brain Component -->
 <section class="bg-light p-3 p-md-4 p-xl-5">
     <div class="container">
         <div class="row justify-content-center">
@@ -21,47 +20,52 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <form action="#!">
+                                    <form method="post" action="{{ url_for('adregister') }}">
                                         <div class="row gy-3 overflow-hidden">
                                             <div class="col-12">
                                                 <div class="form-floating mb-3">
-                                                    <label for="email" class="form-label">Nama</label>
-                                                    <input type="email" class="form-control" name="text" id="email"
-                                                        placeholder="" required>
+                                                    <label for="nama" class="form-label">Nama</label>
+                                                    <input type="text" class="form-control" name="nama" id="nama"
+                                                        placeholder="Nama" required>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-floating mb-3">
-                                                    <label for="email" class="form-label">Nomor HP</label>
-                                                    <input type="email" class="form-control" name="text" id="email"
-                                                        placeholder="" required>
+                                                    <label for="telepon" class="form-label">Nomor HP</label>
+                                                    <input type="text" class="form-control" name="telepon" id="telepon"
+                                                        placeholder="Nomor HP" required>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-floating mb-3">
                                                     <label for="email" class="form-label">Email</label>
-                                                    <input type="email" class="form-control" name="email" id="email"
-                                                        placeholder="name@example.com" required>
+                                                    <div class="input-group mb-3">
+                                                        <input type="email" class="form-control" name="email" id="email"
+                                                            placeholder="name@example.com" required>
+                                                        <button type="button" id="cekEmail" class="btn btn-danger">Cek
+                                                            Email</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-floating mb-3">
                                                     <label for="password" class="form-label">Kata Sandi</label>
                                                     <input type="password" class="form-control" name="password"
-                                                        id="password" value="" placeholder="Password" required>
+                                                        id="password" placeholder="Password" required>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-floating mb-3">
-                                                    <label for="password" class="form-label">Ulang Kata Sandi</label>
-                                                    <input type="password" class="form-control" name="password"
-                                                        id="password" value="" placeholder="Password" required>
+                                                    <label for="confirm_password" class="form-label">Ulang Kata
+                                                        Sandi</label>
+                                                    <input type="password" class="form-control" name="confirm_password"
+                                                        id="confirm_password" placeholder="Confirm Password" required>
                                                 </div>
                                             </div>
                                             <br>
                                             <div class="col-12">
                                                 <div class="d-grid w-100">
-                                                    <button class="btn btn-dark btn-lg w-100" type="submit">Daftar</button>
+                                                    <button type="submit" id="btndaftar" class="btn btn-dark btn-lg w-100">Daftar</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -78,3 +82,46 @@
 </section>
 
 {% include 'footer.html' %}
+
+<script>
+    $(document).ready(function() {
+        var emailChecked = false;
+        
+        $('#cekEmail').click(function() {
+            var email = $('#email').val();
+            $.ajax({
+                type: 'POST',
+                url: '/cek_email',
+                data: {
+                    email: email
+                },
+                success: function(response) {
+                    if (response.status == 'success') {
+                        emailChecked = true;
+                        alert('Email tersedia untuk registrasi.');
+                    } else {
+                        alert('Email sudah terdaftar, gunakan email lain.');
+                    }
+                },
+                error: function() {
+                    alert('Terjadi kesalahan. Silakan coba lagi.');
+                }
+            });
+        });
+        
+        $('#btndaftar').click(function() {
+            var password = $('#password').val();
+            var confirm_password = $('#confirm_password').val();
+            
+            if (!emailChecked) {
+                alert('Harap periksa email terlebih dahulu.');
+                return false;
+            }
+            
+            if (password !== confirm_password) {
+                alert('Password dan Ulang Kata Sandi tidak cocok.');
+                return false;
+            }
+        });
+    });
+</script>
