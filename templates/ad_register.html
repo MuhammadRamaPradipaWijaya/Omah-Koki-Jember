@@ -123,7 +123,7 @@
                     }
                 },
                 error: function() {
-                    alert('Terjadi kesalahan. Silakan coba lagi.');
+                    $('#emailAlert').removeClass('d-none').removeClass('alert-success').addClass('alert-danger').html('Terjadi kesalahan. Silakan coba lagi.');
                 }
             });
         });
