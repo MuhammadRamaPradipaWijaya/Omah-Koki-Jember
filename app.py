@@ -227,7 +227,7 @@ def register():
         
         token = jwt.encode({'password': password}, SECRET_KEY, algorithm='HS256')
         
-        tanggal_registrasi = datetime.datetime.utcnow().strftime('%Y-%m-%d')
+        tanggal_registrasi = datetime.utcnow().strftime('%Y-%m-%d')
         
         db.pembeli.insert_one({
             'nama': nama,
@@ -275,7 +275,7 @@ def adregister():
         
         token = jwt.encode({'password': password}, SECRET_KEY, algorithm='HS256')
         
-        tanggal_registrasi = datetime.datetime.utcnow().strftime('%Y-%m-%d')
+        tanggal_registrasi = datetime.utcnow().strftime('%Y-%m-%d')
         db.admin.insert_one({
             'nama': nama,
             'telepon': telepon,
