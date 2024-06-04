@@ -6,7 +6,7 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for, s
 from pymongo import MongoClient
 from bson import ObjectId
 import jwt
-import datetime
+from datetime import datetime
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
@@ -51,7 +51,6 @@ def addProduk():
         produk = request.form.get('namaProduk')
         stock = request.form.get('stock')
         harga = request.form.get('harga')
-        nama_gambar = request.files.get('gambar')
         deskripsi = request.form.get('deskripsi')
         kondisi = request.form.get('kondisi')
         berat = request.form.get('berat')
@@ -60,19 +59,20 @@ def addProduk():
         lebar = request.form.get('lebar')
         tinggi = request.form.get('tinggi')
 
-        if nama_gambar :
-            nama_file_asli = nama_gambar.filename
-            nama_file_gambar = nama_file_asli.split('/')[-1]
-            file_path = f'static/ad_assets/imgproduk/{nama_file_gambar}'
-            nama_gambar.save(file_path)
-        else :
-            nama_gambar = None
+        today = datetime.now()
+        mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+
+        produk_file = request.files.get('gambar')
+        extension = produk_file.filename.split('.')[-1]
+        filename = f'produk-{mytime}.{extension}'
+        save_to = os.path.join('static/ad_assets/imgproduk', filename)        
+        produk_file.save(save_to)
         
         doc = {
             'nama_produk' : produk,
             'stock' : stock,
             'harga' : harga,
-            'gambar' : nama_file_gambar,
+            'gambar' : filename,
             'deskripsi' : deskripsi,
             'kondisi' : kondisi,
             'berat' : berat,
