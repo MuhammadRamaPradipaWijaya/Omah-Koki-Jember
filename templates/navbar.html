@@ -23,6 +23,7 @@
           <li class="nav-item">
             <a class="nav-link" href="/kontak">Kontak</a>
           </li>
+
           <li class="nav-item">
             <a href="/keranjang" class="btn btn-sm btn-danger m-2" title="Keranjang Belanja">
               <i class="fa fa-cart-arrow-down"></i>
@@ -31,9 +32,10 @@
               <i class="fa fa-list-alt"></i>
             </a>
           </li>
+          
           {% if session.get('logged_in') %}
           <li class="nav-item">
-            <span class="d-none d-lg-inline-flex text-light">{{ session['username'] }}</span>
+            <span class="d-none d-lg-inline-flex" style="color: red;">{{ session['username'] }}</span>
             <a href="{{ url_for('logout') }}" class="btn btn-danger m-2">Keluar</a>
           </li>
           {% else %}
