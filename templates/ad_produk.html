@@ -338,9 +338,9 @@
         <button
           type="button"
           class="btn btn-danger btn-sm rounded-pill m-2"
+          onclick="$('#ModalDetail{{ item._id }}').modal('hide');"
           data-bs-toggle="modal"
           data-bs-target="#ModalEdit{{ item._id }}"
-          
         >
           Edit Produk
         </button>
@@ -352,7 +352,6 @@
 
 <!-- modal edit produk  -->
 {% for item in produk %}
-
 <div
   class="modal fade"
   id="ModalEdit{{ item._id }}"
