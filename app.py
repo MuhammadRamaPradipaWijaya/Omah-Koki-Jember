@@ -15,7 +15,7 @@ MONGODB_URI = os.environ.get("mongodb+srv://test:sparta@cluster0.8fdeegb.mongodb
 DB_NAME =  os.environ.get("OmahKokiJember")
 
 client = MongoClient(MONGODB_URI)
-db = client[DB_NAME]
+db = client["OmahKokiJember"]
 
 app = Flask(__name__)
 
