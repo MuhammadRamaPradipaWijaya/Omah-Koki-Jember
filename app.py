@@ -96,7 +96,8 @@ def editProduk(_id):
             'kondisi': request.form.get('kondisi'),
             'berat': request.form.get('berat'),
             'kategori': request.form.get('kategori'),
-            'panjang': request.form.get('panjang'),                'lebar': request.form.get('lebar'),
+            'panjang': request.form.get('panjang'),                
+            'lebar': request.form.get('lebar'),
             'tinggi': request.form.get('tinggi')
         }
 
