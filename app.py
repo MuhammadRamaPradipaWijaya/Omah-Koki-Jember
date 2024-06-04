@@ -283,7 +283,7 @@ def adregister():
         return redirect(url_for('adlogin'))
     return render_template('ad_register.html')
 
-@app.route('/cek_email', methods=['POST'])
+@app.route('/cek_email_admin', methods=['POST'])
 def cek_email():
     email = request.form['email']
     existing_user = db.admin.find_one({'email': email})
