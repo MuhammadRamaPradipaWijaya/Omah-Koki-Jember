@@ -6,13 +6,13 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for, s
 from pymongo import MongoClient
 from bson import ObjectId
 import jwt
-import datetime
+from datetime import datetime
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
-MONGODB_URI = os.environ.get("mongodb+srv://test:sparta@cluster0.8fdeegb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-DB_NAME =  os.environ.get("OmahKokiJember")
+MONGODB_URI = os.environ.get("MONGODB_URI")
+DB_NAME =  os.environ.get("DB_NAME")
 
 client = MongoClient(MONGODB_URI)
 db = client["OmahKokiJember"]
@@ -51,7 +51,6 @@ def addProduk():
         produk = request.form.get('namaProduk')
         stock = request.form.get('stock')
         harga = request.form.get('harga')
-        nama_gambar = request.files.get('gambar')
         deskripsi = request.form.get('deskripsi')
         kondisi = request.form.get('kondisi')
         berat = request.form.get('berat')
@@ -60,19 +59,20 @@ def addProduk():
         lebar = request.form.get('lebar')
         tinggi = request.form.get('tinggi')
 
-        if nama_gambar :
-            nama_file_asli = nama_gambar.filename
-            nama_file_gambar = nama_file_asli.split('/')[-1]
-            file_path = f'static/ad_assets/imgproduk/{nama_file_gambar}'
-            nama_gambar.save(file_path)
-        else :
-            nama_gambar = None
+        today = datetime.now()
+        mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+
+        produk_file = request.files.get('gambar')
+        extension = produk_file.filename.split('.')[-1]
+        filename = f'produk-{mytime}.{extension}'
+        save_to = os.path.join('static/ad_assets/imgproduk', filename)        
+        produk_file.save(save_to)
         
         doc = {
             'nama_produk' : produk,
             'stock' : stock,
             'harga' : harga,
-            'gambar' : nama_file_gambar,
+            'gambar' : filename,
             'deskripsi' : deskripsi,
             'kondisi' : kondisi,
             'berat' : berat,
@@ -156,7 +156,8 @@ def adlpengguna():
 
 @app.route('/adprofil')
 def adprofil():
-    return render_template('ad_profil.html')
+    admin_data = db.admin.find_one({'nama': session.get('username')})
+    return render_template('ad_profil.html', admin_data=admin_data)
 # BAGIAN ADMIN #
 
 
@@ -209,6 +210,7 @@ def login():
         user = db.pembeli.find_one({'email': email})
         if user and jwt.decode(user['password'], SECRET_KEY, algorithms=['HS256'])['password'] == password:
             session['logged_in'] = True
+            session['username'] = user['nama']
             return redirect(url_for('home'))
         else:
             error = 'Email atau kata sandi salah. Silakan coba lagi.'
@@ -256,6 +258,7 @@ def adlogin():
         user = db.admin.find_one({'email': email})
         if user and jwt.decode(user['password'], SECRET_KEY, algorithms=['HS256'])['password'] == password:
             session['logged_in'] = True
+            session['username'] = user['nama']
             return redirect(url_for('dashboard'))
         else:
             error = 'Email atau kata sandi salah. Silakan coba lagi.'
@@ -292,6 +295,11 @@ def cek_email():
         return jsonify({'status': 'fail'})
     else:
         return jsonify({'status': 'success'})
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run('0.0.0.0',port=5000,debug=True)
