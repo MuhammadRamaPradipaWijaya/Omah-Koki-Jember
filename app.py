@@ -156,8 +156,7 @@ def adlpengguna():
 
 @app.route('/adprofil')
 def adprofil():
-    admin_data = db.admin.find_one({'nama': session.get('username')})
-    return render_template('ad_profil.html', admin_data=admin_data)
+    return render_template('ad_profil.html')
 # BAGIAN ADMIN #
 
 
