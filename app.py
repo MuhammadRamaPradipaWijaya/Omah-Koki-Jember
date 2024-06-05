@@ -15,7 +15,7 @@ MONGODB_URI = os.environ.get("mongodb+srv://test:sparta@cluster0.8fdeegb.mongodb
 DB_NAME =  os.environ.get("OmahKokiJember")
 
 client = MongoClient(MONGODB_URI)
-db = client["OmahKokiJember"]
+db = client[DB_NAME]
 
 app = Flask(__name__)
 
@@ -88,28 +88,41 @@ def addProduk():
 @app.route('/editProduk/<_id>', methods=['GET', 'POST'])
 def editProduk(_id):
     if request.method == 'POST':
-        produk = {
-            'nama_produk': request.form.get('namaProduk'),
-            'stock': request.form.get('stock'),
-            'harga': request.form.get('harga'),
-            'deskripsi': request.form.get('deskripsi'),
-            'kondisi': request.form.get('kondisi'),
-            'berat': request.form.get('berat'),
-            'kategori': request.form.get('kategori'),
-            'panjang': request.form.get('panjang'),                
-            'lebar': request.form.get('lebar'),
-            'tinggi': request.form.get('tinggi')
-        }
+        produk = request.form.get('namaProduk')
+        stock = request.form.get('stock')
+        harga = request.form.get('harga')
+        deskripsi = request.form.get('deskripsi')
+        kondisi = request.form.get('kondisi')
+        berat = request.form.get('berat')
+        kategori = request.form.get('kategori')
+        panjang = request.form.get('panjang')
+        lebar = request.form.get('lebar')
+        tinggi = request.form.get('tinggi')
 
-        nama_gambar = request.files.get('gambar')
-        if nama_gambar:
-            nama_file_asli = nama_gambar.filename
-            nama_file_gambar = nama_file_asli.split('/')[-1]
-            file_path = f'static/ad_assets/imgproduk/{nama_file_gambar}'
-            nama_gambar.save(file_path)                
-            produk['gambar'] = nama_file_gambar
+        today = datetime.now()
+        mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+
+        produk_file = request.files.get('gambar')
+        extension = produk_file.filename.split('.')[-1]
+        filename = f'produk-{mytime}.{extension}'
+        save_to = os.path.join('static/ad_assets/imgproduk', filename)        
+        produk_file.save(save_to)
+
+        doc = {
+            'nama_produk' : produk,
+            'stock' : stock,
+            'harga' : harga,
+            'gambar' : filename,
+            'deskripsi' : deskripsi,
+            'kondisi' : kondisi,
+            'berat' : berat,
+            'kategori' : kategori,
+            'panjang' : panjang,
+            'lebar' : lebar,
+            'tinggi' : tinggi
+        }
             
-        db.adproduk.update_one({'_id': ObjectId(_id)}, {'$set': produk})
+        db.adproduk.update_one({'_id': ObjectId(_id)}, {'$set': doc})
         return redirect(url_for('adproduk'))
     else:
         produk = db.adproduk.find_one({'_id': ObjectId(_id)})
@@ -120,7 +133,6 @@ def editProduk(_id):
 def deleteProduk(_id):
     db.adproduk.delete_one({'_id': ObjectId(_id)})
     return redirect(url_for('adproduk'))
-
 
 @app.route('/adpelanggan')
 def adpelanggan():
@@ -156,8 +168,7 @@ def adlpengguna():
 
 @app.route('/adprofil')
 def adprofil():
-    admin_data = db.admin.find_one({'nama': session.get('username')})
-    return render_template('ad_profil.html', admin_data=admin_data)
+    return render_template('ad_profil.html')
 # BAGIAN ADMIN #
 
 
@@ -165,15 +176,18 @@ def adprofil():
 # BAGIAN USER #
 @app.route('/')
 def home():
-    return render_template('index.html')
+    produk_terbaru = list(db.adproduk.find().sort('_id', -1).limit(3))
+    return render_template('index.html', produk_terbaru=produk_terbaru)
 
-@app.route('/produk')
+@app.route('/produk', methods=['GET'])
 def produk():
-    return render_template('produk.html')
+    produk_list = list(db.adproduk.find({}))
+    return render_template('produk.html', produk=produk_list)
 
-@app.route('/detailproduk')
-def detailproduk():
-    return render_template('detail_produk.html')
+@app.route('/detailproduk/<produk_id>', methods=['GET'])
+def detail_produk(produk_id):
+    produk = db.adproduk.find_one({'_id': ObjectId(produk_id)})
+    return render_template('detail_produk.html', produk=produk)
 
 @app.route('/tentang')
 def tentang():
@@ -227,7 +241,7 @@ def register():
         
         token = jwt.encode({'password': password}, SECRET_KEY, algorithm='HS256')
         
-        tanggal_registrasi = datetime.datetime.utcnow().strftime('%Y-%m-%d')
+        tanggal_registrasi = datetime.utcnow().strftime('%Y-%m-%d')
         
         db.pembeli.insert_one({
             'nama': nama,
@@ -275,7 +289,7 @@ def adregister():
         
         token = jwt.encode({'password': password}, SECRET_KEY, algorithm='HS256')
         
-        tanggal_registrasi = datetime.datetime.utcnow().strftime('%Y-%m-%d')
+        tanggal_registrasi = datetime.utcnow().strftime('%Y-%m-%d')
         db.admin.insert_one({
             'nama': nama,
             'telepon': telepon,

@@ -24,7 +24,7 @@
           <div class="card">
             <article class="filter-group">
               <div class="card-header-custom">
-                <a href="/detailproduk" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
+                <a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
                   <i class="icon-control fa fa-chevron-down"></i>
                   <h6 class="title">Kategori</h6>
                 </a>
@@ -32,19 +32,23 @@
               <div class="filter-content collapse show" id="collapse_1">
                 <div class="card-body">
                   <ul class="list-menu">
-                    <li><a href="#">Semua Produk</a></li>
-                    <li><a href="#">Ikan Hias</a></li>
-                    <li><a href="#">Pakan & Obat</a></li>
-                    <li><a href="#">Lainnya</a></li>
+                    <li><a href="#" data-category="Semua Produk">Semua Produk</a></li>
+                    <li><a href="#" data-category="Ikan Hias">Ikan Hias</a></li>
+                    <li><a href="#" data-category="Obat Ikan">Obat Ikan</a></li>
+                    <li><a href="#" data-category="Pakan Ikan">Pakan Ikan</a></li>
+                    <li><a href="#" data-category="Aquarium">Aquarium</a></li>
+                    <li><a href="#" data-category="Aksesoris Aquarium">Aksesoris Aquarium</a></li>
+                    <li><a href="#" data-category="Alat-alat">Alat-alat</a></li>
                   </ul>
                 </div>
               </div>
             </article>
           </div>
 
+          {% if session.get('logged_in') %}
           <div class="card">
             <div class="card-header-custom">
-              <a href="/detailproduk" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" class="">
+              <a href="#" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" class="">
                 <i class="icon-control fa fa-chevron-down"></i>
                 <h6 class="title">Keranjang Belanja</h6>
               </a>
@@ -56,6 +60,8 @@
               </div>
             </div>
           </div>
+          {% endif %}
+
         </div>
       </div>
 
@@ -63,15 +69,19 @@
         <div class="filters-content">
           <div class="row grid">
 
-            <div class="col-lg-4 col-md-4 all des">
+            {% for item in produk %}
+            <div class="col-md-4 all" data-category="{{ item.kategori }}">
               <div class="product-item">
-                <a href="/detailproduk"><img src="../static/assets/images/product_01.jpg" alt=""></a>
+                <a href="/detailproduk/{{ item._id }}">
+                  <img src="{{ url_for('static', filename='ad_assets/imgproduk/' ~ item.gambar) }}" alt=""
+                    style="width: 100%; height: 200px; object-fit: cover;">
+                </a>
                 <div class="down-content">
-                  <a href="/detailproduk">
-                    <h4>Tittle goes here</h4>
+                  <a href="/detailproduk/{{ item._id }}">
+                    <h4 class="text-truncate">{{ item.nama_produk }}</h4>
                   </a>
-                  <h6>$18.25</h6>
-                  <p class="text-truncate">Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
+                  <h6>Rp.{{ item.harga }}</h6>
+                  <p class="text-truncate">{{ item.deskripsi }}</p>
                   <ul class="stars">
                     <li><i class="fa fa-star"></i></li>
                     <li><i class="fa fa-star"></i></li>
@@ -82,107 +92,9 @@
                 </div>
               </div>
             </div>
+            {% endfor %}
 
-            <div class="col-lg-4 col-md-4 all dev">
-              <div class="product-item">
-                <a href="/detailproduk"><img src="../static/assets/images/product_02.jpg" alt=""></a>
-                <div class="down-content">
-                  <a href="/detailproduk">
-                    <h4>Tittle goes here</h4>
-                  </a>
-                  <h6>$16.75</h6>
-                  <p class="text-truncate">Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                  <ul class="stars">
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
 
-            <div class="col-lg-4 col-md-4 all gra">
-              <div class="product-item">
-                <a href="/detailproduk"><img src="../static/assets/images/product_03.jpg" alt=""></a>
-                <div class="down-content">
-                  <a href="/detailproduk">
-                    <h4>Tittle goes here</h4>
-                  </a>
-                  <h6>$32.50</h6>
-                  <p class="text-truncate">Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                  <ul class="stars">
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-4 all gra">
-              <div class="product-item">
-                <a href="/detailproduk"><img src="../static/assets/images/product_04.jpg" alt=""></a>
-                <div class="down-content">
-                  <a href="/detailproduk">
-                    <h4>Tittle goes here</h4>
-                  </a>
-                  <h6>$24.60</h6>
-                  <p class="text-truncate">Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                  <ul class="stars">
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-4 all dev">
-              <div class="product-item">
-                <a href="/detailproduk"><img src="../static/assets/images/product_05.jpg" alt=""></a>
-                <div class="down-content">
-                  <a href="/detailproduk">
-                    <h4>Tittle goes here</h4>
-                  </a>
-                  <h6>$18.75</h6>
-                  <p class="text-truncate">Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                  <ul class="stars">
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-4 all des">
-              <div class="product-item">
-                <a href="/detailproduk"><img src="../static/assets/images/product_06.jpg" alt=""></a>
-                <div class="down-content">
-                  <a href="/detailproduk">
-                    <h4>Tittle goes here</h4>
-                  </a>
-                  <h6>$12.50</h6>
-                  <p class="text-truncate">Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                  <ul class="stars">
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            
           </div>
         </div>
 
@@ -201,6 +113,27 @@
 </div>
 
 {% include 'Footer.html' %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.list-menu li a').forEach(function (link) {
+      link.addEventListener('click', function (event) {
+        event.preventDefault();
+        var selectedCategory = this.textContent;
+        var products = document.querySelectorAll('.product-item');
+
+        products.forEach(function (product) {
+          var category = product.parentNode.dataset.category;
+          if (selectedCategory === 'Semua Produk' || selectedCategory === category) {
+            product.style.display = 'block';
+          } else {
+            product.style.display = 'none';
+          }
+        });
+      });
+    });
+  });
+</script>
 
 <style>
   .list-menu {
@@ -228,5 +161,11 @@
 
   .list-menu li a:hover {
     color: #f33f3f;
+  }
+
+  /* Set fixed height for product items */
+  .product-item {
+    height: 400px;
+    /* Adjust the height as needed */
   }
 </style>

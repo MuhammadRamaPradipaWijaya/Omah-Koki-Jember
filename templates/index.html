@@ -1,146 +1,124 @@
 {% include 'header.html' %}
 {% include 'navbar.html' %}
 
-    <!-- Page Content -->
-    <!-- Banner Starts Here -->
-    <div class="banner header-text">
-      <div class="owl-banner owl-carousel">
-        <div class="banner-item-01">
-          <div class="text-content">
-            <h4>Selamat Datang</h4>
-            <h2>Omah Koki Jember</h2>
-          </div>
+<!-- Page Content -->
+<!-- Banner Starts Here -->
+<div class="banner header-text">
+  <div class="owl-banner owl-carousel">
+    <div class="banner-item-01">
+      <div class="text-content">
+        <h4>Selamat Datang</h4>
+        <h2>Omah Koki Jember</h2>
+      </div>
+    </div>
+    <div class="banner-item-02">
+      <div class="text-content">
+        <h4>Koleksi Terlengkap</h4>
+        <h2>Ikan Koki & Ikan Hias Lainnya</h2>
+      </div>
+    </div>
+    <div class="banner-item-03">
+      <div class="text-content">
+        <h4>Kebutuhan Ikan Anda</h4>
+        <h2>Pakan, Obat & Aksesoris</h2>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Banner Ends Here -->
+
+<div class="latest-products">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="section-heading">
+          <h2>Produk Terbaru</h2>
+          <a href="/produk">Liat Semua Produk <i class="fa fa-angle-right"></i></a>
         </div>
-        <div class="banner-item-02">
-          <div class="text-content">
-            <h4>Koleksi Terlengkap</h4>
-            <h2>Ikan Koki & Ikan Hias Lainnya</h2>
-          </div>
-        </div>
-        <div class="banner-item-03">
-          <div class="text-content">
-            <h4>Kebutuhan Ikan Anda</h4>
-            <h2>Pakan, Obat & Aksesoris</h2>
+      </div>
+
+      {% for produk in produk_terbaru %}
+      <div class="col-md-4">
+        <div class="product-item">
+          <a href="/detailproduk/{{ produk._id }}">
+            <img src="{{ url_for('static', filename='ad_assets/imgproduk/' ~ produk.gambar) }}" alt=""
+              style="width: 100%; height: 200px; object-fit: cover;">
+          </a>
+          <div class="down-content">
+            <a href="/detailproduk/{{ produk._id }}">
+              <h4>{{ produk.nama_produk }}</h4>
+            </a>
+            <h6>Rp.{{ produk.harga }}</h6>
+            <p class="text-truncate">{{ produk.deskripsi }}</p>
+            <ul class="stars">
+              <li><i class="fa fa-star"></i></li>
+              <li><i class="fa fa-star"></i></li>
+              <li><i class="fa fa-star"></i></li>
+              <li><i class="fa fa-star"></i></li>
+              <li><i class="fa fa-star"></i></li>
+            </ul>
           </div>
         </div>
       </div>
-    </div>    
-    <!-- Banner Ends Here -->
+      {% endfor %}
 
-    <div class="latest-products">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="section-heading">
-              <h2>Produk Terbaru</h2>
-              <a href="/produk">Liat Semua Produk <i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+</div>
+
+<div class="best-features">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="section-heading">
+          <h2>About Omah Koki Jember</h2>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="left-content">
+          <h4>Looking for the best products?</h4>
+          <p><a rel="nofollow" href="https://templatemo.com/tm-546-sixteen-clothing" target="_parent">This template</a>
+            is free to use for your business websites. However, you have no permission to redistribute the downloadable
+            ZIP file on any template collection website. <a rel="nofollow" href="https://templatemo.com/contact">Contact
+              us</a> for more info.</p>
+          <ul class="featured-list">
+            <li><a href="#">Lorem ipsum dolor sit amet</a></li>
+            <li><a href="#">Consectetur an adipisicing elit</a></li>
+            <li><a href="#">It aquecorporis nulla aspernatur</a></li>
+            <li><a href="#">Corporis, omnis doloremque</a></li>
+            <li><a href="#">Non cum id reprehenderit</a></li>
+          </ul>
+          <a href="/tentang" class="filled-button">Read More</a>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="right-image">
+          <img src="../static/assets/images/feature-image.jpg" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="call-to-action">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="inner-content">
+          <div class="row">
+            <div class="col-md-8">
+              <h4>Creative &amp; Unique <em>Omah Koki Jember</em> Products</h4>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque corporis amet elite author nulla.</p>
             </div>
-          </div>
-          <div class="col-md-4">
-            <div class="product-item">
-              <a href="/detailproduk"><img src="../static/assets/images/product_01.jpg" alt=""></a>
-              <div class="down-content">
-                <a href="/detailproduk"><h4>Tittle goes here</h4></a>
-                <h6>$25.75</h6>
-                <p class="text-truncate">Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                <ul class="stars">
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="product-item">
-              <a href="/detailproduk"><img src="../static/assets/images/product_02.jpg" alt=""></a>
-              <div class="down-content">
-                <a href="/detailproduk"><h4>Tittle goes here</h4></a>
-                <h6>$30.25</h6>
-                <p class="text-truncate">Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                <ul class="stars">
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="product-item">
-              <a href="/detailproduk"><img src="../static/assets/images/product_03.jpg" alt=""></a>
-              <div class="down-content">
-                <a href="/detailproduk"><h4>Tittle goes here</h4></a>
-                <h6>$20.45</h6>
-                <p class="text-truncate">Sixteen Clothing is free CSS template provided by TemplateMo.</p>
-                <ul class="stars">
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                  <li><i class="fa fa-star"></i></li>
-                </ul>
-              </div>
+            <div class="col-md-4">
+              <a href="#" class="filled-button">Purchase Now</a>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>
 
-    <div class="best-features">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="section-heading">
-              <h2>About Omah Koki Jember</h2>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="left-content">
-              <h4>Looking for the best products?</h4>
-              <p><a rel="nofollow" href="https://templatemo.com/tm-546-sixteen-clothing" target="_parent">This template</a> is free to use for your business websites. However, you have no permission to redistribute the downloadable ZIP file on any template collection website. <a rel="nofollow" href="https://templatemo.com/contact">Contact us</a> for more info.</p>
-              <ul class="featured-list">
-                <li><a href="#">Lorem ipsum dolor sit amet</a></li>
-                <li><a href="#">Consectetur an adipisicing elit</a></li>
-                <li><a href="#">It aquecorporis nulla aspernatur</a></li>
-                <li><a href="#">Corporis, omnis doloremque</a></li>
-                <li><a href="#">Non cum id reprehenderit</a></li>
-              </ul>
-              <a href="/tentang" class="filled-button">Read More</a>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="right-image">
-              <img src="../static/assets/images/feature-image.jpg" alt="">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="call-to-action">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="inner-content">
-              <div class="row">
-                <div class="col-md-8">
-                  <h4>Creative &amp; Unique <em>Omah Koki Jember</em> Products</h4>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque corporis amet elite author nulla.</p>
-                </div>
-                <div class="col-md-4">
-                  <a href="#" class="filled-button">Purchase Now</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    {% include 'Footer.html' %}
+{% include 'Footer.html' %}
