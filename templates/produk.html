@@ -100,11 +100,16 @@
 
         <div class="col-md-12">
           <ul class="pages">
-            <li><a href="#">1</a></li>
-            <li class="active"><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
+            {% for i in range(1, total_pages + 1) %}
+            <li class="{% if i == page %}active{% endif %}">
+              <a href="{{ url_for('produk', page=i) }}">{{ i }}</a>
+            </li>
+            {% endfor %}
+            {% if page < total_pages %}
+            <li>
+              <a href="{{ url_for('produk', page=page+1) }}"><i class="fa fa-angle-double-right"></i></a>
+            </li>
+            {% endif %}
           </ul>
         </div>
       </div>
