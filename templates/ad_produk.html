@@ -14,7 +14,7 @@
               class="form-select form-select-sm me-2 flex-grow-1"
               aria-label=".form-select-sm example"
             >
-              <option selected>Semua Kategori</option>
+              <option selected>Semua Produk</option>
               <option value="Ikan Hias">Ikan Hias</option>
               <option value="Obat Ikan">Obat Ikan</option>
               <option value="Pakan Ikan">Pakan Ikan</option>
@@ -553,7 +553,7 @@
 
     for (var i = 0; i < products.length; i++) {
       var productCategory = products[i].getAttribute('data-category');
-      if (selectedCategory === 'Semua Kategori' || selectedCategory === productCategory) {
+      if (selectedCategory === 'Semua Produk' || selectedCategory === productCategory) {
         products[i].style.display = 'block';
       } else {
         products[i].style.display = 'none';
