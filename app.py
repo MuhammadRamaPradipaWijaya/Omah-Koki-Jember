@@ -99,8 +99,8 @@ def editProduk(_id):
         lebar = request.form.get('lebar')
         tinggi = request.form.get('tinggi')
 
-        existing_product = db.adproduk.find_one({'_id': ObjectId(_id)})
-        if not existing_product:
+        produk_sebelumnya = db.adproduk.find_one({'_id': ObjectId(_id)})
+        if not produk_sebelumnya:
             return redirect(url_for('adproduk'))
 
         today = datetime.now()
@@ -113,7 +113,7 @@ def editProduk(_id):
             save_to = os.path.join('static/ad_assets/imgproduk', filename)
             produk_file.save(save_to)
         else:
-            filename = existing_product.get('gambar')
+            filename = produk_sebelumnya.get('gambar')
 
         doc = {
             'nama_produk' : produk,
