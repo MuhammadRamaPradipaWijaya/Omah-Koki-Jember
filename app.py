@@ -88,28 +88,41 @@ def addProduk():
 @app.route('/editProduk/<_id>', methods=['GET', 'POST'])
 def editProduk(_id):
     if request.method == 'POST':
-        produk = {
-            'nama_produk': request.form.get('namaProduk'),
-            'stock': request.form.get('stock'),
-            'harga': request.form.get('harga'),
-            'deskripsi': request.form.get('deskripsi'),
-            'kondisi': request.form.get('kondisi'),
-            'berat': request.form.get('berat'),
-            'kategori': request.form.get('kategori'),
-            'panjang': request.form.get('panjang'),                
-            'lebar': request.form.get('lebar'),
-            'tinggi': request.form.get('tinggi')
-        }
+        produk = request.form.get('namaProduk')
+        stock = request.form.get('stock')
+        harga = request.form.get('harga')
+        deskripsi = request.form.get('deskripsi')
+        kondisi = request.form.get('kondisi')
+        berat = request.form.get('berat')
+        kategori = request.form.get('kategori')
+        panjang = request.form.get('panjang')
+        lebar = request.form.get('lebar')
+        tinggi = request.form.get('tinggi')
 
-        nama_gambar = request.files.get('gambar')
-        if nama_gambar:
-            nama_file_asli = nama_gambar.filename
-            nama_file_gambar = nama_file_asli.split('/')[-1]
-            file_path = f'static/ad_assets/imgproduk/{nama_file_gambar}'
-            nama_gambar.save(file_path)                
-            produk['gambar'] = nama_file_gambar
+        today = datetime.now()
+        mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+
+        produk_file = request.files.get('gambar')
+        extension = produk_file.filename.split('.')[-1]
+        filename = f'produk-{mytime}.{extension}'
+        save_to = os.path.join('static/ad_assets/imgproduk', filename)        
+        produk_file.save(save_to)
+
+        doc = {
+            'nama_produk' : produk,
+            'stock' : stock,
+            'harga' : harga,
+            'gambar' : filename,
+            'deskripsi' : deskripsi,
+            'kondisi' : kondisi,
+            'berat' : berat,
+            'kategori' : kategori,
+            'panjang' : panjang,
+            'lebar' : lebar,
+            'tinggi' : tinggi
+        }
             
-        db.adproduk.update_one({'_id': ObjectId(_id)}, {'$set': produk})
+        db.adproduk.update_one({'_id': ObjectId(_id)}, {'$set': doc})
         return redirect(url_for('adproduk'))
     else:
         produk = db.adproduk.find_one({'_id': ObjectId(_id)})
