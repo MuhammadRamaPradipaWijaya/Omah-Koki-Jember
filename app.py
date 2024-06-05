@@ -99,14 +99,21 @@ def editProduk(_id):
         lebar = request.form.get('lebar')
         tinggi = request.form.get('tinggi')
 
+        existing_product = db.adproduk.find_one({'_id': ObjectId(_id)})
+        if not existing_product:
+            return redirect(url_for('adproduk'))
+
         today = datetime.now()
         mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
 
         produk_file = request.files.get('gambar')
-        extension = produk_file.filename.split('.')[-1]
-        filename = f'produk-{mytime}.{extension}'
-        save_to = os.path.join('static/ad_assets/imgproduk', filename)        
-        produk_file.save(save_to)
+        if produk_file and produk_file.filename != '':
+            extension = produk_file.filename.split('.')[-1]
+            filename = f'produk-{mytime}.{extension}'
+            save_to = os.path.join('static/ad_assets/imgproduk', filename)
+            produk_file.save(save_to)
+        else:
+            filename = existing_product.get('gambar')
 
         doc = {
             'nama_produk' : produk,
@@ -127,7 +134,7 @@ def editProduk(_id):
     else:
         produk = db.adproduk.find_one({'_id': ObjectId(_id)})
         if produk:
-            return render_template('ad_produk.html', produk=produk)           
+            return render_template('ad_produk.html', produk=produk)
 
 @app.route('/deleteProduk/<_id>',methods=['GET','POST'])
 def deleteProduk(_id):
