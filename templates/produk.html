@@ -72,7 +72,10 @@
             {% for item in produk %}
             <div class="col-md-4 all" data-category="{{ item.kategori }}">
               <div class="product-item">
-                <a href="/detailproduk/{{ item._id }}"><img src="{{ url_for('static', filename='ad_assets/imgproduk/' ~ item.gambar) }}" alt="" style="width: 100%; height: 200px"></a>
+                <a href="/detailproduk/{{ item._id }}">
+                  <img src="{{ url_for('static', filename='ad_assets/imgproduk/' ~ item.gambar) }}" alt=""
+                    style="width: 100%; height: 200px; object-fit: cover;">
+                </a>
                 <div class="down-content">
                   <a href="/detailproduk/{{ item._id }}">
                     <h4 class="text-truncate">{{ item.nama_produk }}</h4>
@@ -90,7 +93,8 @@
               </div>
             </div>
             {% endfor %}
-            
+
+
           </div>
         </div>
 
@@ -111,14 +115,14 @@
 {% include 'Footer.html' %}
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.list-menu li a').forEach(function(link) {
-      link.addEventListener('click', function(event) {
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.list-menu li a').forEach(function (link) {
+      link.addEventListener('click', function (event) {
         event.preventDefault();
         var selectedCategory = this.textContent;
         var products = document.querySelectorAll('.product-item');
 
-        products.forEach(function(product) {
+        products.forEach(function (product) {
           var category = product.parentNode.dataset.category;
           if (selectedCategory === 'Semua Produk' || selectedCategory === category) {
             product.style.display = 'block';
@@ -161,6 +165,7 @@
 
   /* Set fixed height for product items */
   .product-item {
-    height: 400px; /* Adjust the height as needed */
+    height: 400px;
+    /* Adjust the height as needed */
   }
 </style>

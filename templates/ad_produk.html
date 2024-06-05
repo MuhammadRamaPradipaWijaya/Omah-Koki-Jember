@@ -8,12 +8,8 @@
       <div class="row">
         <div class="col-sm-12">
           <div class="d-flex justify-content-between align-items-center">
-            <select
-              id="kategoriSelect"
-              style="max-width: 15%"
-              class="form-select form-select-sm me-2 flex-grow-1"
-              aria-label=".form-select-sm example"
-            >
+            <select id="kategoriSelect" style="max-width: 15%" class="form-select form-select-sm me-2 flex-grow-1"
+              aria-label=".form-select-sm example">
               <option selected>Semua Produk</option>
               <option value="Ikan Hias">Ikan Hias</option>
               <option value="Obat Ikan">Obat Ikan</option>
@@ -22,12 +18,8 @@
               <option value="Aksesoris Aquarium">Aksesoris Aquarium</option>
               <option value="Alat-alat">Alat-alat</option>
             </select>
-            <button
-              type="button"
-              class="btn btn-danger btn-sm rounded-pill"
-              data-bs-toggle="modal"
-              data-bs-target="#ModalTambahProduk"
-            >
+            <button type="button" class="btn btn-danger btn-sm rounded-pill" data-bs-toggle="modal"
+              data-bs-target="#ModalTambahProduk">
               Tambah Produk
             </button>
           </div>
@@ -38,51 +30,29 @@
     <div class="container">
       <div class="row justify-content-center">
         {% for item in produk %}
-        <div class="col-sm-12 col-md-6 col-xl-4 mb-3 produk-item"
-             style="max-width: 22rem"
-             data-category="{{ item.kategori }}"
-          >
+        <div class="col-sm-12 col-md-6 col-xl-4 mb-3 produk-item" style="max-width: 22rem"
+          data-category="{{ item.kategori }}">
           <div class="h-100 bg-light rounded p-4 mx-auto" style="padding: 0">
             <div class="card" style="width: 100%">
-              <img
-                src="../static/ad_assets/imgproduk/{{item.gambar}}"
-                class="card-img-top d-block mx-auto"
-                alt="..."
-                style="width: 100%; height: 180px"
-              />
+              <img src="../static/ad_assets/imgproduk/{{item.gambar}}" class="card-img-top d-block mx-auto" alt="..."
+                style="width: 100%; height: 180px; object-fit: cover;">
               <div class="card-body">
-                <h5 class="card-title">{{item.nama_produk}}</h5>
+                <h5 class="card-title text-truncate">{{item.nama_produk}}</h5>
                 <div class="d-flex justify-content-between">
                   <p>{{item.stock}} pcs</p>
                   <p>Rp. {{item.harga}}</p>
                 </div>
                 <p class="text-truncate">{{item.deskripsi}}</p>
                 <div class="text-center">
-                  <button
-                    type="button"
-                    class="btn btn-square btn-primary m-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#ModalDetail{{ item._id }}"
-                  >
+                  <button type="button" class="btn btn-square btn-primary m-2" data-bs-toggle="modal"
+                    data-bs-target="#ModalDetail{{ item._id }}">
                     <i class="fa fa-info"></i>
                   </button>
                   <button type="button" class="btn btn-square btn-danger m-2">
-                    <i
-                      class="fa fa-edit"
-                      data-bs-toggle="modal"
-                      data-bs-target="#ModalEdit{{ item._id }}"
-                    ></i>
+                    <i class="fa fa-edit" data-bs-toggle="modal" data-bs-target="#ModalEdit{{ item._id }}"></i>
                   </button>
-                  <a
-                    href="/deleteProduk/{{item._id}}"
-                    type="button"
-                    class="btn btn-square btn-dark m-2"
-                  >
-                    <i
-                      class="fa fa-trash-o"
-                      data-bs-toggle="modal"
-                      data-bs-target="#ModalDelete"
-                    ></i>
+                  <a href="/deleteProduk/{{item._id}}" type="button" class="btn btn-square btn-dark m-2">
+                    <i class="fa fa-trash-o" data-bs-toggle="modal" data-bs-target="#ModalDelete"></i>
                   </a>
                 </div>
               </div>
@@ -96,77 +66,40 @@
 </div>
 
 <!-- modal tambah produk -->
-<div
-  class="modal fade"
-  id="ModalTambahProduk"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel"
-  aria-hidden="true"
->
+<div class="modal fade" id="ModalTambahProduk" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <form method="POST" action="/addProduk" enctype="multipart/form-data">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">TAMBAH PRODUK</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="row">
             <div class="col-md-6">
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Nama Produk</strong></p>
-                <input
-                  class="form-control form-control-sm flex-grow-1 ms-3"
-                  type="text"
-                  placeholder=""
-                  aria-label=".form-control-sm example"
-                  name="namaProduk"
-                />
+                <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder=""
+                  aria-label=".form-control-sm example" name="namaProduk" />
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Stock</strong></p>
-                <input
-                  class="form-control form-control-sm flex-grow-1 ms-3"
-                  type="text"
-                  placeholder=""
-                  aria-label=".form-control-sm example"
-                  name="stock"
-                />
+                <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder=""
+                  aria-label=".form-control-sm example" name="stock" />
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Harga</strong></p>
-                <input
-                  class="form-control form-control-sm flex-grow-1 ms-3"
-                  type="text"
-                  placeholder=""
-                  aria-label=".form-control-sm example"
-                  name="harga"
-                />
+                <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder=""
+                  aria-label=".form-control-sm example" name="harga" />
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Gambar</strong></p>
-                <input
-                  class="form-control form-control-sm flex-grow-1 ms-3"
-                  id="gambar"
-                  type="file"
-                  name="gambar"
-                />
+                <input class="form-control form-control-sm flex-grow-1 ms-3" id="gambar" type="file" name="gambar" />
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Deskripsi</strong></p>
-                <textarea
-                  class="form-control form-control-sm flex-grow-1 ms-3"
-                  type="text"
-                  placeholder=""
-                  aria-label=".form-control-sm example"
-                  style="height: 100px"
-                  name="deskripsi"
-                ></textarea>
+                <textarea class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder=""
+                  aria-label=".form-control-sm example" style="height: 100px" name="deskripsi"></textarea>
               </div>
             </div>
 
@@ -180,31 +113,18 @@
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Kondisi</strong></p>
-                <input
-                  class="form-control form-control-sm flex-grow-1 ms-3"
-                  type="text"
-                  placeholder=""
-                  aria-label=".form-control-sm example"
-                  name="kondisi"
-                />
+                <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder=""
+                  aria-label=".form-control-sm example" name="kondisi" />
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Berat</strong></p>
-                <input
-                  class="form-control form-control-sm flex-grow-1 ms-3"
-                  type="text"
-                  placeholder=""
-                  aria-label=".form-control-sm example"
-                  name="berat"
-                />
+                <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder=""
+                  aria-label=".form-control-sm example" name="berat" />
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Kategori</strong></p>
-                <select
-                  class="form-select form-select-sm w-100 ms-3"
-                  aria-label=".form-select-sm example"
-                  name="kategori"
-                >
+                <select class="form-select form-select-sm w-100 ms-3" aria-label=".form-select-sm example"
+                  name="kategori">
                   <option selected>Pilih Kategori</option>
                   <option value="Ikan Hias">Ikan Hias</option>
                   <option value="Obat Ikan">Obat Ikan</option>
@@ -217,33 +137,18 @@
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Panjang</strong></p>
-                <input
-                  class="form-control form-control-sm flex-grow-1 ms-3"
-                  type="text"
-                  placeholder=""
-                  aria-label=".form-control-sm example"
-                  name="panjang"
-                />
+                <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder=""
+                  aria-label=".form-control-sm example" name="panjang" />
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Lebar</strong></p>
-                <input
-                  class="form-control form-control-sm flex-grow-1 ms-3"
-                  type="text"
-                  placeholder=""
-                  aria-label=".form-control-sm example"
-                  name="lebar"
-                />
+                <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder=""
+                  aria-label=".form-control-sm example" name="lebar" />
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Tinggi</strong></p>
-                <input
-                  class="form-control form-control-sm flex-grow-1 ms-3"
-                  type="text"
-                  placeholder=""
-                  aria-label=".form-control-sm example"
-                  name="tinggi"
-                />
+                <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder=""
+                  aria-label=".form-control-sm example" name="tinggi" />
               </div>
             </div>
           </div>
@@ -260,36 +165,22 @@
 
 <!-- modal detail produk  -->
 {% for item in produk %}
-<div
-  class="modal fade"
-  id="ModalDetail{{ item._id }}"
-  tabindex="-1"
-  aria-labelledby="ModalLabelDetail{{ item._id }}"
-  aria-hidden="true"
->
+<div class="modal fade" id="ModalDetail{{ item._id }}" tabindex="-1" aria-labelledby="ModalLabelDetail{{ item._id }}"
+  aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="ModalLabelDetail{{ item._id }}">
           DETAIL PRODUK
         </h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="row">
           <div class="col-md-6">
             <div class="d-flex align-items-center mb-3">
               <p class="mb-0 w-25"><strong>Gambar</strong></p>
-              <img
-                src="../static/ad_assets/imgproduk/{{item.gambar}}"
-                alt=""
-                style="max-width: 100px"
-              />
+              <img src="../static/ad_assets/imgproduk/{{item.gambar}}" alt="" style="max-width: 100px" />
             </div>
             <div class="d-flex align-items-center mb-3">
               <p class="mb-0 w-25"><strong>Nama Produk</strong></p>
@@ -346,13 +237,9 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-danger btn-sm rounded-pill m-2"
-          onclick="$('#ModalDetail{{ item._id }}').modal('hide');"
-          data-bs-toggle="modal"
-          data-bs-target="#ModalEdit{{ item._id }}"
-        >
+        <button type="button" class="btn btn-danger btn-sm rounded-pill m-2"
+          onclick="$('#ModalDetail{{ item._id }}').modal('hide');" data-bs-toggle="modal"
+          data-bs-target="#ModalEdit{{ item._id }}">
           Edit Produk
         </button>
       </div>
@@ -363,92 +250,47 @@
 
 <!-- modal edit produk  -->
 {% for item in produk %}
-<div
-  class="modal fade"
-  id="ModalEdit{{ item._id }}"
-  tabindex="-1"
-  aria-labelledby="ModalLabelEdit{{ item._id }}"
-  aria-hidden="true"
->
+<div class="modal fade" id="ModalEdit{{ item._id }}" tabindex="-1" aria-labelledby="ModalLabelEdit{{ item._id }}"
+  aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <form
-        method="POST"
-        action="/editProduk/{{item._id}}"
-        enctype="multipart/form-data"
-      >
+      <form method="POST" action="/editProduk/{{item._id}}" enctype="multipart/form-data">
         <div class="modal-header">
           <h5 class="modal-title" id="ModalLabelEdit{{ item._id }}">
             EDIT PRODUK
           </h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <div class="row">
             <div class="col-md-6">
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Nama Produk</strong></p>
-                <input
-                  class="form-control form-control-sm flex-grow-1 ms-3"
-                  type="text"
-                  placeholder=""
-                  aria-label=".form-control-sm example"
-                  name="namaProduk"
-                  value="{{item.nama_produk}}"
-                />
+                <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder=""
+                  aria-label=".form-control-sm example" name="namaProduk" value="{{item.nama_produk}}" />
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Stock</strong></p>
-                <input
-                  class="form-control form-control-sm flex-grow-1 ms-3"
-                  type="text"
-                  placeholder=""
-                  aria-label=".form-control-sm example"
-                  name="stock"
-                  value="{{item.stock}}"
-                />
+                <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder=""
+                  aria-label=".form-control-sm example" name="stock" value="{{item.stock}}" />
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Harga</strong></p>
-                <input
-                  class="form-control form-control-sm flex-grow-1 ms-3"
-                  type="text"
-                  placeholder=""
-                  aria-label=".form-control-sm example"
-                  name="harga"
-                  value="{{item.harga}}"
-                />
+                <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder=""
+                  aria-label=".form-control-sm example" name="harga" value="{{item.harga}}" />
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Gambar</strong></p>
-                <img
-                  id="gambar-preview"
-                  src="../static/assets/imgproduk/{{item.gambar}}"
-                  alt=""
-                />
-                <input
-                  class="form-control form-control-sm flex-grow-1 ms-3"
-                  id="formFileSm"
-                  type="file"
-                  name="gambar"
-                />
+                <img id="gambar-preview" src="../static/assets/imgproduk/{{item.gambar}}" alt="" />
+                <input class="form-control form-control-sm flex-grow-1 ms-3" id="formFileSm" type="file"
+                  name="gambar" />
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Deskripsi</strong></p>
 
-                <textarea
-                  class="form-control form-control-sm flex-grow-1 ms-3"
-                  type="text"
-                  placeholder=""
-                  aria-label=".form-control-sm example"
-                  style="height: 100px"
-                  name="deskripsi"
-                >{{item.deskripsi}}</textarea>
+                <textarea class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder=""
+                  aria-label=".form-control-sm example" style="height: 100px"
+                  name="deskripsi">{{item.deskripsi}}</textarea>
               </div>
             </div>
 
@@ -462,33 +304,18 @@
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Kondisi</strong></p>
-                <input
-                  class="form-control form-control-sm flex-grow-1 ms-3"
-                  type="text"
-                  placeholder=""
-                  aria-label=".form-control-sm example"
-                  name="kondisi"
-                  value="{{item.kondisi}}"
-                />
+                <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder=""
+                  aria-label=".form-control-sm example" name="kondisi" value="{{item.kondisi}}" />
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Berat</strong></p>
-                <input
-                  class="form-control form-control-sm flex-grow-1 ms-3"
-                  type="text"
-                  placeholder=""
-                  aria-label=".form-control-sm example"
-                  name="berat"
-                  value="{{item.berat}}"
-                />
+                <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder=""
+                  aria-label=".form-control-sm example" name="berat" value="{{item.berat}}" />
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Kategori</strong></p>
-                <select
-                  class="form-select form-select-sm w-100 ms-3"
-                  aria-label=".form-select-sm example"
-                  name="kategori"
-                >
+                <select class="form-select form-select-sm w-100 ms-3" aria-label=".form-select-sm example"
+                  name="kategori">
                   <option selected>{{item.kategori}}</option>
                   <option value="Ikan Hias">Ikan Hias</option>
                   <option value="Obat Ikan">Obat Ikan</option>
@@ -500,36 +327,18 @@
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Panjang</strong></p>
-                <input
-                  class="form-control form-control-sm flex-grow-1 ms-3"
-                  type="text"
-                  placeholder=""
-                  aria-label=".form-control-sm example"
-                  name="panjang"
-                  value="{{item.panjang}}"
-                />
+                <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder=""
+                  aria-label=".form-control-sm example" name="panjang" value="{{item.panjang}}" />
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Lebar</strong></p>
-                <input
-                  class="form-control form-control-sm flex-grow-1 ms-3"
-                  type="text"
-                  placeholder=""
-                  aria-label=".form-control-sm example"
-                  name="lebar"
-                  value="{{item.lebar}}"
-                />
+                <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder=""
+                  aria-label=".form-control-sm example" name="lebar" value="{{item.lebar}}" />
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Tinggi</strong></p>
-                <input
-                  class="form-control form-control-sm flex-grow-1 ms-3"
-                  type="text"
-                  placeholder=""
-                  aria-label=".form-control-sm example"
-                  name="tinggi"
-                  value="{{item.tinggi}}"
-                />
+                <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder=""
+                  aria-label=".form-control-sm example" name="tinggi" value="{{item.tinggi}}" />
               </div>
             </div>
           </div>
@@ -547,7 +356,7 @@
 
 
 <script>
-  document.getElementById('kategoriSelect').addEventListener('change', function() {
+  document.getElementById('kategoriSelect').addEventListener('change', function () {
     var selectedCategory = this.value;
     var products = document.getElementsByClassName('produk-item');
 
