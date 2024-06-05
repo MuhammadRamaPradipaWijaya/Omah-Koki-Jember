@@ -24,7 +24,7 @@
           <div class="card">
             <article class="filter-group">
               <div class="card-header-custom">
-                <a href="/detailproduk" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
+                <a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
                   <i class="icon-control fa fa-chevron-down"></i>
                   <h6 class="title">Kategori</h6>
                 </a>
@@ -44,7 +44,7 @@
 
           <div class="card">
             <div class="card-header-custom">
-              <a href="/detailproduk" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" class="">
+              <a href="#" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" class="">
                 <i class="icon-control fa fa-chevron-down"></i>
                 <h6 class="title">Keranjang Belanja</h6>
               </a>
@@ -62,16 +62,16 @@
       <div class="col-lg-9">
         <div class="filters-content">
           <div class="row grid">
-
+            {% for item in produk %}
             <div class="col-lg-4 col-md-4 all des">
               <div class="product-item">
-                <a href="/detailproduk"><img src="../static/assets/images/product_01.jpg" alt=""></a>
+                <a href="/detailproduk?id={{ item._id }}"><img src="{{ url_for('static', filename='ad_assets/imgproduk/' ~ item.gambar) }}" alt=""style="width: 100%; height: 180px"></a>
                 <div class="down-content">
-                  <a href="/detailproduk">
-                    <h4>Tittle goes here</h4>
+                  <a href="/detailproduk?id={{ item._id }}">
+                    <h4>{{ item.nama_produk }}</h4>
                   </a>
-                  <h6>$18.25</h6>
-                  <p class="text-truncate">Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
+                  <h6>Rp.{{ item.harga }}</h6>
+                  <p class="text-truncate">{{ item.deskripsi }}</p>
                   <ul class="stars">
                     <li><i class="fa fa-star"></i></li>
                     <li><i class="fa fa-star"></i></li>
@@ -82,107 +82,7 @@
                 </div>
               </div>
             </div>
-
-            <div class="col-lg-4 col-md-4 all dev">
-              <div class="product-item">
-                <a href="/detailproduk"><img src="../static/assets/images/product_02.jpg" alt=""></a>
-                <div class="down-content">
-                  <a href="/detailproduk">
-                    <h4>Tittle goes here</h4>
-                  </a>
-                  <h6>$16.75</h6>
-                  <p class="text-truncate">Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                  <ul class="stars">
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-4 all gra">
-              <div class="product-item">
-                <a href="/detailproduk"><img src="../static/assets/images/product_03.jpg" alt=""></a>
-                <div class="down-content">
-                  <a href="/detailproduk">
-                    <h4>Tittle goes here</h4>
-                  </a>
-                  <h6>$32.50</h6>
-                  <p class="text-truncate">Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                  <ul class="stars">
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-4 all gra">
-              <div class="product-item">
-                <a href="/detailproduk"><img src="../static/assets/images/product_04.jpg" alt=""></a>
-                <div class="down-content">
-                  <a href="/detailproduk">
-                    <h4>Tittle goes here</h4>
-                  </a>
-                  <h6>$24.60</h6>
-                  <p class="text-truncate">Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                  <ul class="stars">
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-4 all dev">
-              <div class="product-item">
-                <a href="/detailproduk"><img src="../static/assets/images/product_05.jpg" alt=""></a>
-                <div class="down-content">
-                  <a href="/detailproduk">
-                    <h4>Tittle goes here</h4>
-                  </a>
-                  <h6>$18.75</h6>
-                  <p class="text-truncate">Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                  <ul class="stars">
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-4 col-md-4 all des">
-              <div class="product-item">
-                <a href="/detailproduk"><img src="../static/assets/images/product_06.jpg" alt=""></a>
-                <div class="down-content">
-                  <a href="/detailproduk">
-                    <h4>Tittle goes here</h4>
-                  </a>
-                  <h6>$12.50</h6>
-                  <p class="text-truncate">Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.</p>
-                  <ul class="stars">
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                    <li><i class="fa fa-star"></i></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            
+            {% endfor %}
           </div>
         </div>
 

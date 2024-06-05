@@ -24,6 +24,7 @@
             <a class="nav-link" href="/kontak">Kontak</a>
           </li>
 
+          {% if session.get('logged_in') %}
           <li class="nav-item">
             <a href="/keranjang" class="btn btn-sm btn-danger m-2" title="Keranjang Belanja">
               <i class="fa fa-cart-arrow-down"></i>
@@ -33,10 +34,15 @@
             </a>
           </li>
           
-          {% if session.get('logged_in') %}
-          <li class="nav-item">
-            <span class="d-none d-lg-inline-flex" style="color: red;">{{ session['username'] }}</span>
-            <a href="{{ url_for('logout') }}" class="btn btn-danger m-2">Keluar</a>
+          <li class="nav-item dropdown">
+            <a href="#" class="d-block text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+              <span class="d-none d-lg-inline-flex" style="color: red;">{{ session['username'] }}</span>
+            </a>
+            <ul class="dropdown-menu text-small dropdown-menu-center" aria-labelledby="dropdownUser1">
+              <li><a class="dropdown-item" href="#">Profil</a></li>
+              <li><a href="{{ url_for('logout') }}" class="dropdown-item">Keluar</a></li>
+            </ul>
           </li>
           {% else %}
           <li class="nav-item">

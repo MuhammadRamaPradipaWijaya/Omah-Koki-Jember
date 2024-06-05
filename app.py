@@ -166,9 +166,10 @@ def adprofil():
 def home():
     return render_template('index.html')
 
-@app.route('/produk')
+@app.route('/produk', methods=['GET'])
 def produk():
-    return render_template('produk.html')
+    produk_list = list(db.adproduk.find({}))
+    return render_template('produk.html', produk=produk_list)
 
 @app.route('/detailproduk')
 def detailproduk():
