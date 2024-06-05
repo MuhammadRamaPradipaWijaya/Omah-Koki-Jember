@@ -176,16 +176,17 @@ def adprofil():
 # BAGIAN USER #
 @app.route('/')
 def home():
-    return render_template('index.html')
+    produk_terbaru = list(db.adproduk.find().sort('_id', -1).limit(3))
+    return render_template('index.html', produk_terbaru=produk_terbaru)
 
 @app.route('/produk', methods=['GET'])
 def produk():
     produk_list = list(db.adproduk.find({}))
     return render_template('produk.html', produk=produk_list)
 
-@app.route('/detailproduk/<product_id>', methods=['GET'])
-def detail_produk(product_id):
-    produk = db.adproduk.find_one({'_id': ObjectId(product_id)})
+@app.route('/detailproduk/<produk_id>', methods=['GET'])
+def detail_produk(produk_id):
+    produk = db.adproduk.find_one({'_id': ObjectId(produk_id)})
     return render_template('detail_produk.html', produk=produk)
 
 @app.route('/tentang')
