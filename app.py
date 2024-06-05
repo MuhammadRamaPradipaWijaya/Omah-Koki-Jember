@@ -134,7 +134,6 @@ def deleteProduk(_id):
     db.adproduk.delete_one({'_id': ObjectId(_id)})
     return redirect(url_for('adproduk'))
 
-
 @app.route('/adpelanggan')
 def adpelanggan():
     return render_template('ad_pelanggan.html')
@@ -184,9 +183,10 @@ def produk():
     produk_list = list(db.adproduk.find({}))
     return render_template('produk.html', produk=produk_list)
 
-@app.route('/detailproduk')
-def detailproduk():
-    return render_template('detail_produk.html')
+@app.route('/detailproduk/<product_id>', methods=['GET'])
+def detail_produk(product_id):
+    produk = db.adproduk.find_one({'_id': ObjectId(product_id)})
+    return render_template('detail_produk.html', produk=produk)
 
 @app.route('/tentang')
 def tentang():
