@@ -444,12 +444,11 @@ header .navbar {
 }
 
 .product-item .down-content h6 {
-	position: absolute;
-	top: 30px;
-	right: 30px;
+	position: relative;
+	margin-top: 10px;
 	font-size: 14px;
 	color: #121212;
-}
+  }
 
 .product-item .down-content p {
 	margin-bottom: 20px;

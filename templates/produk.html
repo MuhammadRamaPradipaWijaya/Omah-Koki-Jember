@@ -68,13 +68,14 @@
       <div class="col-lg-9">
         <div class="filters-content">
           <div class="row grid">
+
             {% for item in produk %}
-            <div class="col-lg-4 col-md-4 all" data-category="{{ item.kategori }}">
+            <div class="col-md-4 all" data-category="{{ item.kategori }}">
               <div class="product-item">
-                <a href="/detailproduk/{{ item._id }}"><img src="{{ url_for('static', filename='ad_assets/imgproduk/' ~ item.gambar) }}" alt=""style="width: 100%; height: 180px"></a>
+                <a href="/detailproduk/{{ item._id }}"><img src="{{ url_for('static', filename='ad_assets/imgproduk/' ~ item.gambar) }}" alt="" style="width: 100%; height: 200px"></a>
                 <div class="down-content">
                   <a href="/detailproduk/{{ item._id }}">
-                    <h4>{{ item.nama_produk }}</h4>
+                    <h4 class="text-truncate">{{ item.nama_produk }}</h4>
                   </a>
                   <h6>Rp.{{ item.harga }}</h6>
                   <p class="text-truncate">{{ item.deskripsi }}</p>
@@ -89,6 +90,7 @@
               </div>
             </div>
             {% endfor %}
+            
           </div>
         </div>
 
@@ -155,5 +157,10 @@
 
   .list-menu li a:hover {
     color: #f33f3f;
+  }
+
+  /* Set fixed height for product items */
+  .product-item {
+    height: 400px; /* Adjust the height as needed */
   }
 </style>
