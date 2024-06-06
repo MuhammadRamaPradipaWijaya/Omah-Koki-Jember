@@ -40,6 +40,11 @@ def order_confirmation():
     item = request.args.get('item')
     return f'Terima kasih, {name}! Pesanan Anda untuk {item} telah diterima.'
 
+@app.route('/adproduk', methods=['GET', 'POST'])
+def adproduk():
+    produk = list(db.adproduk.find({}))
+    return render_template('ad_produk.html', produk=produk)
+
 @app.route('/addProduk', methods=['GET', 'POST'])
 def addProduk():
     if request.method == 'POST':
