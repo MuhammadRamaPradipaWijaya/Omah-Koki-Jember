@@ -1,92 +1,153 @@
-{% include 'ad_header.html' %}
-{% include 'ad_navbar.html' %}
-{% include 'ad_sidebar.html' %}
+{% include 'ad_header.html' %} {% include 'ad_navbar.html' %} {% include
+'ad_sidebar.html' %}
 
 <div class="container-fluid pt-4 px-4">
-    <h6 class="mb-4">PENGATURAN PEMBAYARAN</h6>
-    <div class="row g-4">
-        <div class="col-sm-12 col-xl-6">
-            <div class="bg-light rounded h-100 p-4">
-                <form>
-                    <div class="mb-3">
-                        <label for="bankName" class="form-label">Nama Bank</label>
-                        <input type="text" class="form-control" id="bankName">
-                    </div>
-                    <div class="mb-3">
-                        <label for="accountOwner" class="form-label">Nama Pemilik Rekening</label>
-                        <input type="text" class="form-control" id="accountOwner">
-                    </div>
-                    <div class="mb-3">
-                        <label for="accountNumber" class="form-label">Nomor Rekening</label>
-                        <input type="text" class="form-control" id="accountNumber">
-                    </div>
-                    <button type="submit" class="btn btn-danger rounded-pill m-2">Masukkan</button>
-                </form>
-            </div>
-        </div>
-
-
-        <div class="col-12">
-            <div class="bg-light rounded h-100 p-4">
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th scope="col">No</th>
-                                <th scope="col">Nama Bank</th>
-                                <th scope="col">Pemilik Rekening</th>
-                                <th scope="col">Nomor Rekening</th>
-                                <th scope="col" class="text-center">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>BNI</td>
-                                <td>Lorem Ipsum</td>
-                                <td>123456789</td>
-                                <td class="text-center">
-                                    <button type="button" class="btn btn-danger rounded-pill m-2">Hapus</button>
-                                    <button type="button" class="btn btn-primary rounded-pill m-2"
-                                        data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+  <h6 class="mb-4">PENGATURAN PEMBAYARAN</h6>
+  <div class="row g-4">
+    <div class="col-sm-12 col-xl-6">
+      <div class="bg-light rounded h-100 p-4">
+        <form method="POST" action="/addpembayaran">
+          <div class="mb-3">
+            <label for="bankName" class="form-label">Nama Bank</label>
+            <input type="text" class="form-control" name="bank" id="bankName" />
+          </div>
+          <div class="mb-3">
+            <label for="accountOwner" class="form-label"
+              >Nama Pemilik Rekening</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              name="pemilikrek"
+              id="accountOwner"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="accountNumber" class="form-label">Nomor Rekening</label>
+            <input
+              type="text"
+              class="form-control"
+              name="norek"
+              id="accountNumber"
+            />
+          </div>
+          <button type="submit" class="btn btn-danger rounded-pill m-2">
+            Masukkan
+          </button>
+        </form>
+      </div>
     </div>
+
+    <div class="col-12">
+      <div class="bg-light rounded h-100 p-4">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead class="bg-danger text-light">
+              <tr>
+                <th scope="col">No</th>
+                <th scope="col">Nama Bank</th>
+                <th scope="col">Pemilik Rekening</th>
+                <th scope="col">Nomor Rekening</th>
+                <th scope="col" class="text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in pembayaran %}
+              <tr>
+                <td>{{loop.index}}</td>
+                <td>{{item.Nama_Bank}}</td>
+                <td>{{item.Pemilik_Rek}}</td>
+                <td>{{item.No_Rek}}</td>
+                <td class="text-center">
+                  <button type="button" class="btn btn-square btn-danger m-2">
+                    <i
+                      class="fa fa-edit"
+                      data-bs-toggle="modal"
+                      data-bs-target="#ModalEdit{{ item._id }}"
+                      title="Edit"
+                    ></i>
+                  </button>
+                  <a
+                    href="/deletePembayaran/{{item._id}}"
+                    type="button"
+                    class="btn btn-square btn-dark m-2"
+                  >
+                    <i class="fa fa-trash-o" title="Delete"></i>
+                  </a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">EDIT</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label for="bankName" class="form-label">Nama Bank</label>
-                    <input type="text" class="form-control" id="bankName">
-                </div>
-                <div class="mb-3">
-                    <label for="accountOwner" class="form-label">Nama Pemilik Rekening</label>
-                    <input type="text" class="form-control" id="accountOwner">
-                </div>
-                <div class="mb-3">
-                    <label for="accountNumber" class="form-label">Nomor Rekening</label>
-                    <input type="text" class="form-control" id="accountNumber">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary rounded-pill m-2" data-bs-dismiss="modal">Tutup</button>
-                <button type="button" class="btn btn-primary rounded-pill m-2">Simpan</button>
-            </div>
-        </div>
-    </div>
-</div>
+{% for item in pembayaran %}
 
-{% include 'ad_footer.html' %}
+<div
+  class="modal fade"
+  id="ModalEdit{{ item._id }}"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="POST" action="/editPembayaran/{{item._id}}">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">EDIT</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="bankName" class="form-label">Nama Bank</label>
+            <input
+              type="text"
+              class="form-control"
+              id="bankName"
+              name="bank"
+              value="{{item.Nama_Bank}}"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="accountOwner" class="form-label"
+              >Nama Pemilik Rekening</label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="accountOwner"
+              name="pemilikrek"
+              value="{{item.Pemilik_Rek}}"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="accountNumber" class="form-label">Nomor Rekening</label>
+            <input
+              type="text"
+              class="form-control"
+              id="accountNumber"
+              name="norek"
+              value="{{item.No_Rek}}"
+            />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-danger rounded-pill m-2">
+            Simpan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endfor %} {% include 'ad_footer.html' %}
