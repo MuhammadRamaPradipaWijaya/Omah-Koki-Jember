@@ -19,7 +19,7 @@
                                 <div>
                                     <strong>SubTotal</strong>
                                 </div>
-                                <span><strong>Rp.{{ subtotal }}</strong></span>
+                                <span><strong>Rp {{ "{:,.0f}".format(subtotal).replace(",", ".") }}</strong></span>
                             </li>
                         </ul>
                     </div>
@@ -47,7 +47,7 @@
                                             {{ item.nama_produk }}
                                         </a>
                                     </h3>
-                                    <div class="font-size-lg pt-2" style="text-align: left;">Rp.{{ item.harga }}</div>
+                                    <div class="font-size-lg pt-2" style="text-align: left;">Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</div>
                                     <div class="font-size-lg pt-2" style="text-align: left;">Stok: {{ item.stok }}</div>
                                 </div>                                
                             </div>

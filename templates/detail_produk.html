@@ -17,7 +17,7 @@
                 <div class="product-details"><br>
                     <div>
                         <h4 style="margin-bottom: 15px;">{{ produk.nama_produk }}</h4>
-                        <h5 style="margin-bottom: 15px;">Rp.{{ produk.harga }}</h5>
+                        <h5 style="margin-bottom: 15px;">Rp {{ "{:,.0f}".format(produk.harga).replace(",", ".") }}</h5>
                         <h6 style="margin-bottom: 15px;">Stok: {{ produk.stock }}</h6>
                     </div><br>
                     <form action="{{ url_for('tambah_ke_keranjang') }}" method="POST">

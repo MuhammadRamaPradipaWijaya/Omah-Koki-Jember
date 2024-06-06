@@ -48,7 +48,7 @@
             <a href="/detailproduk/{{ produk._id }}">
               <h4 class="text-truncate">{{ produk.nama_produk }}</h4>
             </a>
-            <h6>Rp.{{ produk.harga }}</h6>
+            <h6>Rp {{ "{:,.0f}".format(produk.harga).replace(",", ".") }}</h6>
             <p class="text-truncate">{{ produk.deskripsi }}</p>
             <ul class="stars">
               <li><i class="fa fa-star"></i></li>
