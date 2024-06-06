@@ -32,13 +32,13 @@
               <div class="filter-content collapse show" id="collapse_1">
                 <div class="card-body">
                   <ul class="list-menu">
-                    <li><a href="#" data-category="Semua Produk">Semua Produk</a></li>
-                    <li><a href="#" data-category="Ikan Hias">Ikan Hias</a></li>
-                    <li><a href="#" data-category="Obat Ikan">Obat Ikan</a></li>
-                    <li><a href="#" data-category="Pakan Ikan">Pakan Ikan</a></li>
-                    <li><a href="#" data-category="Aquarium">Aquarium</a></li>
-                    <li><a href="#" data-category="Aksesoris Aquarium">Aksesoris Aquarium</a></li>
-                    <li><a href="#" data-category="Alat-alat">Alat-alat</a></li>
+                    <li><a href="#">Semua Produk</a></li>
+                    <li><a href="#">Ikan Hias</a></li>
+                    <li><a href="#">Obat Ikan</a></li>
+                    <li><a href="#">Pakan Ikan</a></li>
+                    <li><a href="#">Aquarium</a></li>
+                    <li><a href="#">Aksesoris Aquarium</a></li>
+                    <li><a href="#">Alat-alat</a></li>
                   </ul>
                 </div>
               </div>
@@ -70,7 +70,7 @@
           <div class="row grid">
 
             {% for item in produk %}
-            <div class="col-md-4 all" data-category="{{ item.kategori }}">
+            <div class="col-md-4 all">
               <div class="product-item">
                 <a href="/detailproduk/{{ item._id }}">
                   <img src="{{ url_for('static', filename='ad_assets/imgproduk/' ~ item.gambar) }}" alt=""
