@@ -50,7 +50,7 @@ def addProduk():
     if request.method == 'POST':
         produk = request.form.get('namaProduk')
         stock = request.form.get('stock')
-        harga = request.form.get('harga')
+        harga = float(request.form.get('harga'))
         deskripsi = request.form.get('deskripsi')
         kondisi = request.form.get('kondisi')
         berat = request.form.get('berat')
@@ -90,7 +90,7 @@ def editProduk(_id):
     if request.method == 'POST':
         produk = request.form.get('namaProduk')
         stock = request.form.get('stock')
-        harga = request.form.get('harga')
+        harga = float(request.form.get('harga'))
         deskripsi = request.form.get('deskripsi')
         kondisi = request.form.get('kondisi')
         berat = request.form.get('berat')
