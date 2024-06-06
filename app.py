@@ -212,21 +212,27 @@ def tambah_ke_keranjang():
         produk = db.adproduk.find_one({'_id': ObjectId(produk_id)})
 
         if produk:
-            item_keranjang = {
-                'email_pengguna': email_pengguna,
-                'produk_id': produk_id,
-                'jumlah': jumlah,
-                'nama_produk': produk['nama_produk'],
-                'harga': produk['harga'],
-                'gambar': produk['gambar']
-            }
+            existing_item = db.keranjang.find_one({'email_pengguna': email_pengguna, 'produk_id': produk_id})
 
-            db.keranjang.insert_one(item_keranjang)
-            return redirect(url_for('keranjang'))
+            if existing_item:
+                db.keranjang.update_one({'_id': existing_item['_id']}, {'$set': {'jumlah': jumlah}})
+                return redirect(url_for('keranjang'))
+            else:
+                item_keranjang = {
+                    'email_pengguna': email_pengguna,
+                    'produk_id': produk_id,
+                    'jumlah': jumlah,
+                    'nama_produk': produk['nama_produk'],
+                    'harga': produk['harga'],
+                    'gambar': produk['gambar']
+                }
+                db.keranjang.insert_one(item_keranjang)
+                return redirect(url_for('keranjang'))
         else:
             return jsonify({'status': 'gagal', 'pesan': 'Produk tidak ditemukan'})
     else:
         return redirect(url_for('login'))
+
 
 @app.route('/tentang')
 def tentang():
@@ -249,7 +255,7 @@ def keranjang():
         return render_template('keranjang.html', items_keranjang=items_keranjang, subtotal=subtotal)
     else:
         return redirect(url_for('login'))
-
+    
 @app.route('/hapus_dari_keranjang/<item_id>', methods=['POST'])
 def hapus_dari_keranjang(item_id):
     if 'logged_in' in session and session['logged_in']:
