@@ -163,7 +163,48 @@ def cetakLaporanProduk():
 
 @app.route('/adpembayaran')
 def adpembayaran():
+    pembayaran = list(db.pembayaran.find({}))
+    return render_template('ad_pembayaran.html', pembayaran = pembayaran)
+
+@app.route('/addpembayaran', methods=['GET','POST'])
+def addpembayaran():
+    if request.method == 'POST':
+        bank = request.form.get('bank')
+        pemilik = request.form.get('pemilikrek')
+        norek = request.form.get('norek')
+
+        doc = {
+            'Nama_Bank' : bank,
+            'Pemilik_Rek' : pemilik,
+            'No_Rek' : norek 
+        }
+        db.pembayaran.insert_one(doc)
+        return redirect(url_for('adpembayaran'))
     return render_template('ad_pembayaran.html')
+
+@app.route('/editPembayaran/<_id>', methods=['GET', 'POST'])
+def editPembayaran(_id):
+    if request.method == 'POST':
+        bank = request.form.get('bank')
+        pemilik = request.form.get('pemilikrek')
+        norek = request.form.get('norek')
+
+        doc = {
+            'Nama_Bank' : bank,
+            'Pemilik_Rek' : pemilik,
+            'No_Rek' : norek 
+        }
+        db.pembayaran.update_one({'_id': ObjectId(_id)}, {'$set': doc})
+        return redirect(url_for('adpembayaran'))
+    id = ObjectId(_id)
+    pembayaran =list(db.pembayaran.find({'_id': id}))
+    return render_template('ad_pembayaran.html', pembayaran=pembayaran)
+
+
+@app.route('/deletePembayaran/<_id>',methods=['GET','POST'])
+def deletePembayaran(_id):
+    db.pembayaran.delete_one({'_id': ObjectId(_id)})
+    return redirect(url_for('adpembayaran'))
 
 @app.route('/adpengiriman')
 def adlpengiriman():
