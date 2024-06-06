@@ -188,15 +188,8 @@ def home():
 
 @app.route('/produk', methods=['GET'])
 def produk():
-    page = request.args.get('page', 1, type=int)
-    per_page = 9
-    
-    produk_list = list(db.adproduk.find().skip((page - 1) * per_page).limit(per_page))
-    
-    total_products = db.adproduk.count_documents({})
-    total_pages = (total_products + per_page - 1) // per_page
-
-    return render_template('produk.html', produk=produk_list, page=page, total_pages=total_pages)
+    produk_list = list(db.adproduk.find({}))
+    return render_template('produk.html', produk=produk_list)
 
 @app.route('/detailproduk/<produk_id>', methods=['GET'])
 def detail_produk(produk_id):
