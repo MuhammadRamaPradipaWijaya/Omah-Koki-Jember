@@ -40,7 +40,7 @@
                 <h5 class="card-title text-truncate">{{item.nama_produk}}</h5>
                 <div class="d-flex justify-content-between">
                   <p>{{item.stock}} pcs</p>
-                  <p>Rp. {{item.harga}}</p>
+                  <p>Rp. {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</p>
                 </div>
                 <p class="text-truncate">{{item.deskripsi}}</p>
                 <div class="text-center">
@@ -89,7 +89,7 @@
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Harga</strong></p>
-                <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder=""
+                <input class="form-control form-control-sm flex-grow-1 ms-3" type="number" placeholder=""
                   aria-label=".form-control-sm example" name="harga" />
               </div>
               <div class="d-flex align-items-center mb-3">
@@ -192,7 +192,7 @@
             </div>
             <div class="d-flex align-items-center mb-3">
               <p class="mb-0 w-25"><strong>Harga</strong></p>
-              <p>{{item.harga}} Rupiah</p>
+              <p> {{ "{:,.0f}".format(item.harga).replace(",", ".") }} Rupiah</p>
             </div>
 
             <div class="d-flex align-items-center mb-3">
@@ -276,7 +276,7 @@
               </div>
               <div class="d-flex align-items-center mb-3">
                 <p class="mb-0 w-25"><strong>Harga</strong></p>
-                <input class="form-control form-control-sm flex-grow-1 ms-3" type="text" placeholder=""
+                <input class="form-control form-control-sm flex-grow-1 ms-3" type="number" placeholder=""
                   aria-label=".form-control-sm example" name="harga" value="{{item.harga}}" />
               </div>
               <div class="d-flex align-items-center mb-3">
