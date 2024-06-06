@@ -32,13 +32,13 @@
               <div class="filter-content collapse show" id="collapse_1">
                 <div class="card-body">
                   <ul class="list-menu">
-                    <li><a href="#">Semua Produk</a></li>
-                    <li><a href="#">Ikan Hias</a></li>
-                    <li><a href="#">Obat Ikan</a></li>
-                    <li><a href="#">Pakan Ikan</a></li>
-                    <li><a href="#">Aquarium</a></li>
-                    <li><a href="#">Aksesoris Aquarium</a></li>
-                    <li><a href="#">Alat-alat</a></li>
+                    <li><a href="{{ url_for('produk') }}">Semua Produk</a></li>
+                    <li><a href="{{ url_for('produk', kategori='Ikan Hias') }}">Ikan Hias</a></li>
+                    <li><a href="{{ url_for('produk', kategori='Obat Ikan') }}">Obat Ikan</a></li>
+                    <li><a href="{{ url_for('produk', kategori='Pakan Ikan') }}">Pakan Ikan</a></li>
+                    <li><a href="{{ url_for('produk', kategori='Aquarium') }}">Aquarium</a></li>
+                    <li><a href="{{ url_for('produk', kategori='Aksesoris Aquarium') }}">Aksesoris Aquarium</a></li>
+                    <li><a href="{{ url_for('produk', kategori='Alat-alat') }}">Alat-alat</a></li>
                   </ul>
                 </div>
               </div>
@@ -94,19 +94,17 @@
             </div>
             {% endfor %}
 
-
           </div>
         </div>
 
         <div class="col-md-12">
           <ul class="pages">
-            <li><a href="#">1</a></li>
-            <li class="active"><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
+            {% for num in range(1, total_pages + 1) %}
+              <li {% if num == current_page %}class="active"{% endif %}><a href="{{ url_for('produk', page=num, kategori=filter_kategori) }}">{{ num }}</a></li>
+            {% endfor %}
+            <li><a href="{{ url_for('produk', page=current_page + 1, kategori=filter_kategori) }}"><i class="fa fa-angle-double-right"></i></a></li>
           </ul>
-        </div>
+        </div>        
       </div>
     </div>
   </div>
