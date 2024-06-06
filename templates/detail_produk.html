@@ -20,11 +20,14 @@
                         <h5 style="margin-bottom: 15px;">Rp.{{ produk.harga }}</h5>
                         <h6 style="margin-bottom: 15px;">Stok: {{ produk.stock }}</h6>
                     </div><br>
-                    <div class="form-group mb-2" style="width: 120px;">
-                        <label for="quantity1">Jumlah</label>
-                        <input class="form-control form-control-sm" type="number" id="quantity1" value="1">
-                    </div>
-                    <button type="button" class="btn btn-danger mt-3">Tambah Ke Keranjang</button>
+                    <form action="{{ url_for('tambah_ke_keranjang') }}" method="POST">
+                        <div class="form-group mb-2" style="width: 120px;">
+                            <label for="jumlah1">Jumlah</label>
+                            <input class="form-control form-control-sm" type="number" id="jumlah1" name="jumlah" value="1" min="1" max="{{ produk.stock }}">
+                        </div>
+                        <input type="hidden" name="produk_id" value="{{ produk._id }}">
+                        <button type="submit" class="btn btn-danger mt-3">Tambah Ke Keranjang</button>
+                    </form>
                 </div>
             </div>
         </div>

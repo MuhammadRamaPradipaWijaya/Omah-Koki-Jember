@@ -40,11 +40,6 @@ def order_confirmation():
     item = request.args.get('item')
     return f'Terima kasih, {name}! Pesanan Anda untuk {item} telah diterima.'
 
-@app.route('/adproduk', methods=['GET', 'POST'])
-def adproduk():
-    produk = list(db.adproduk.find({}))
-    return render_template('ad_produk.html', produk=produk)
-
 @app.route('/addProduk', methods=['GET', 'POST'])
 def addProduk():
     if request.method == 'POST':
@@ -207,6 +202,32 @@ def detail_produk(produk_id):
     produk = db.adproduk.find_one({'_id': ObjectId(produk_id)})
     return render_template('detail_produk.html', produk=produk)
 
+@app.route('/tambah_ke_keranjang', methods=['POST'])
+def tambah_ke_keranjang():
+    if 'logged_in' in session and session['logged_in']:
+        email_pengguna = session['username']
+        produk_id = request.form.get('produk_id')
+        jumlah = request.form.get('jumlah')
+
+        produk = db.adproduk.find_one({'_id': ObjectId(produk_id)})
+
+        if produk:
+            item_keranjang = {
+                'email_pengguna': email_pengguna,
+                'produk_id': produk_id,
+                'jumlah': jumlah,
+                'nama_produk': produk['nama_produk'],
+                'harga': produk['harga'],
+                'gambar': produk['gambar']
+            }
+
+            db.keranjang.insert_one(item_keranjang)
+            return redirect(url_for('keranjang'))
+        else:
+            return jsonify({'status': 'gagal', 'pesan': 'Produk tidak ditemukan'})
+    else:
+        return redirect(url_for('login'))
+
 @app.route('/tentang')
 def tentang():
     return render_template('tentang.html')
@@ -221,7 +242,21 @@ def pesanan():
 
 @app.route('/keranjang')
 def keranjang():
-    return render_template('keranjang.html')
+    if 'logged_in' in session and session['logged_in']:
+        email_pengguna = session['username']
+        items_keranjang = list(db.keranjang.find({'email_pengguna': email_pengguna}))
+        subtotal = sum(int(item['harga']) * int(item['jumlah']) for item in items_keranjang)
+        return render_template('keranjang.html', items_keranjang=items_keranjang, subtotal=subtotal)
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/hapus_dari_keranjang/<item_id>', methods=['POST'])
+def hapus_dari_keranjang(item_id):
+    if 'logged_in' in session and session['logged_in']:
+        db.keranjang.delete_one({'_id': ObjectId(item_id)})
+        return redirect(url_for('keranjang'))
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/checkout')
 def checkout():
