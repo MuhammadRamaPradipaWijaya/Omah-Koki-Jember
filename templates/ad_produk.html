@@ -44,15 +44,15 @@
                 </div>
                 <p class="text-truncate">{{item.deskripsi}}</p>
                 <div class="text-center">
-                  <button type="button" class="btn btn-square btn-primary m-2" data-bs-toggle="modal"
+                  <button type="button" class="btn btn-square btn-primary m-2" title="Detail" data-bs-toggle="modal"
                     data-bs-target="#ModalDetail{{ item._id }}">
                     <i class="fa fa-info"></i>
                   </button>
                   <button type="button" class="btn btn-square btn-danger m-2">
-                    <i class="fa fa-edit" data-bs-toggle="modal" data-bs-target="#ModalEdit{{ item._id }}"></i>
+                    <i class="fa fa-edit" title="Edit" data-bs-toggle="modal" data-bs-target="#ModalEdit{{ item._id }}"></i>
                   </button>
                   <a href="/deleteProduk/{{item._id}}" type="button" class="btn btn-square btn-dark m-2">
-                    <i class="fa fa-trash-o" data-bs-toggle="modal" data-bs-target="#ModalDelete"></i>
+                    <i class="fa fa-trash-o" title="Delete" data-bs-toggle="modal" data-bs-target="#ModalDelete"></i>
                   </a>
                 </div>
               </div>
