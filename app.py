@@ -207,11 +207,11 @@ def deletePembayaran(_id):
     return redirect(url_for('adpembayaran'))
 
 @app.route('/adpengiriman')
-def adlpengiriman():
+def adpengiriman():
     return render_template('ad_pengiriman.html')
 
 @app.route('/adpengguna')
-def adlpengguna():
+def adpengguna():
     return render_template('ad_pengguna.html')
 
 @app.route('/adprofil')
@@ -278,7 +278,6 @@ def tambah_ke_keranjang():
             return jsonify({'status': 'gagal', 'pesan': 'Produk tidak ditemukan'})
     else:
         return redirect(url_for('login'))
-
 
 @app.route('/tentang')
 def tentang():
