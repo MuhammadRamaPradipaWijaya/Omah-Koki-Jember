@@ -8,87 +8,91 @@
         <div class="col-sm-12 col-xl-7">
             <div class="bg-light rounded h-100 p-4">
                 <h6 class="mb-4">Konfigurasi Pengiriman</h6>
-                <form>
+                <form action="{{ url_for('tambah_pengiriman') }}" method="POST">
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="Text" class="form-label">Jasa Kirim</label>
-                            <input type="text" class="form-control" id="exampleInputText">
+                            <label for="jasa_kirim" class="form-label">Jasa Kirim</label>
+                            <input type="text" class="form-control" id="jasa_kirim" name="jasa_kirim">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="text" class="form-label">Tarif Dalam Kota (TDK)</label>
-                            <input type="text" class="form-control" id="text">
+                            <label for="tarif_dalam_kota" class="form-label">Tarif Dalam Kota (TDK)</label>
+                            <input type="text" class="form-control" id="tarif_dalam_kota" name="tarif_dalam_kota">
                         </div>
                         <div class="col">
-                            <label for="text" class="form-label">Estimasi Dalam Kota (EDK)</label>
-                            <input type="text" class="form-control" id="text">
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col">
-                            <label for="text" class="form-label">Tarif Luar Kota (TLK)</label>
-                            <input type="text" class="form-control" id="text">
-                        </div>
-                        <div class="col">
-                            <label for="text" class="form-label">Estimasi Luar Kota (ELK)</label>
-                            <input type="text" class="form-control" id="text">
+                            <label for="estimasi_dalam_kota" class="form-label">Estimasi Dalam Kota (EDK)</label>
+                            <input type="text" class="form-control" id="estimasi_dalam_kota" name="estimasi_dalam_kota">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="text" class="form-label">Tarif Kota Luar Provinsi (TKLP)</label>
-                            <input type="text" class="form-control" id="text">
+                            <label for="tarif_luar_kota" class="form-label">Tarif Luar Kota (TLK)</label>
+                            <input type="text" class="form-control" id="tarif_luar_kota" name="tarif_luar_kota">
                         </div>
                         <div class="col">
-                            <label for="text" class="form-label">Estimasi Kota Luar Provinsi
+                            <label for="estimasi_luar_kota" class="form-label">Estimasi Luar Kota (ELK)</label>
+                            <input type="text" class="form-control" id="estimasi_luar_kota" name="estimasi_luar_kota">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="tarif_luar_provinsi" class="form-label">Tarif Kota Luar Provinsi (TKLP)</label>
+                            <input type="text" class="form-control" id="tarif_luar_provinsi" name="tarif_luar_provinsi">
+                        </div>
+                        <div class="col">
+                            <label for="estimasi_luar_provinsi" class="form-label">Estimasi Kota Luar Provinsi
                                 (EKLP)</label>
-                            <input type="text" class="form-control" id="text">
+                            <input type="text" class="form-control" id="estimasi_luar_provinsi"
+                                name="estimasi_luar_provinsi">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="text" class="form-label">Tarif Luar Pulau (TLP)</label>
-                            <input type="text" class="form-control" id="text">
+                            <label for="tarif_luar_pulau" class="form-label">Tarif Luar Pulau (TLP)</label>
+                            <input type="text" class="form-control" id="tarif_luar_pulau" name="tarif_luar_pulau">
                         </div>
                         <div class="col">
-                            <label for="text" class="form-label">Estimasi Luar Pulau (ELP)</label>
-                            <input type="text" class="form-control" id="text">
+                            <label for="estimasi_luar_pulau" class="form-label">Estimasi Luar Pulau (ELP)</label>
+                            <input type="text" class="form-control" id="estimasi_luar_pulau" name="estimasi_luar_pulau">
                         </div>
                     </div>
                     <button type="submit" class="btn btn-danger rounded-pill">Masukkan</button>
                 </form>
+
             </div>
         </div>
 
         <div class="col-sm-12 col-xl-5">
             <div class="bg-light rounded h-100 p-4">
                 <h6 class="mb-4">Tambah Kota/Kab</h6>
-                <form>
+                <form action="{{ url_for('tambah_kota') }}" method="POST">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Pilih Jasa Kirim</label>
-                        <select class="form-select mb-3" aria-label="Default select example">
-                            <option selected=""></option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <label for="jasa_kirim" class="form-label">Pilih Jasa Kirim</label>
+                        <select class="form-select mb-3" name="jasa_kirim" aria-label="Pilih Jasa Kirim">
+                            <option selected>Pilih Jasa Kirim</option>
+                            {% for item in pengiriman %}
+                            <option value="{{ item.jasa_kirim }}">{{ item.jasa_kirim }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Pilih Zona Tarif</label>
-                        <select class="form-select mb-3" aria-label="Default select example">
-                            <option selected=""></option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                        <label for="zona_tarif" class="form-label">Pilih Zona Tarif</label>
+                        <select class="form-select mb-3" name="zona_tarif" aria-label="Pilih Zona Tarif">
+                            <option selected>Pilih Zona Tarif</option>
+                            <option value="Dalam Kota">Dalam Kota</option>
+                            <option value="Luar Kota">Luar Kota</option>
+                            <option value="Luar Provinsi">Luar Provinsi</option>
+                            <option value="Luar Pulau">Luar Pulau</option>
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="Text" class="form-label">Nama Kota/Kab</label>
-                        <input type="text" class="form-control" id="exampleInputText">
+                        <label for="nama_kota" class="form-label">Nama Kota/Kab</label>
+                        <input type="text" class="form-control" id="nama_kota" name="nama_kota">
                     </div>
                     <button type="submit" class="btn btn-danger rounded-pill">Tambah</button>
                 </form>
+
             </div>
         </div>
 
@@ -100,54 +104,49 @@
                             <tr>
                                 <th scope="col">No</th>
                                 <th scope="col">Jasa Kirim</th>
-
                                 <th scope="col">TDK</th>
                                 <th scope="col">EDK</th>
-
                                 <th scope="col">TLK</th>
                                 <th scope="col">ELK</th>
-
                                 <th scope="col">TKLP</th>
                                 <th scope="col">EKLP</th>
-
                                 <th scope="col">TLP</th>
                                 <th scope="col">ELP</th>
-
                                 <th scope="col">Daftar Kota/Kab</th>
-
                                 <th scope="col" class="text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {% for item in pengiriman %}
                             <tr>
-                                <th scope="row">1</th>
-                                <td>JNE (Reg)</td>
-                                <td>Rp.6.000</td>
-                                <td>1-2</td>
-
-                                <td>Rp.10.000</td>
-                                <td>2-3</td>
-
-                                <td>Rp.15.000</td>
-                                <td>3-4</td>
-
-                                <td>Rp.55.000</td>
-                                <td>4-5</td>
-
+                                <th scope="row">{{ loop.index }}</th>
+                                <td>{{ item.jasa_kirim }}</td>
+                                <td>{{ item.zona['dalam kota'].tarif }}</td>
+                                <td>{{ item.zona['dalam kota'].estimasi }}</td>
+                                <td>{{ item.zona['luar kota'].tarif }}</td>
+                                <td>{{ item.zona['luar kota'].estimasi }}</td>
+                                <td>{{ item.zona['luar provinsi'].tarif }}</td>
+                                <td>{{ item.zona['luar provinsi'].estimasi }}</td>
+                                <td>{{ item.zona['luar pulau'].tarif }}</td>
+                                <td>{{ item.zona['luar pulau'].estimasi }}</td>
                                 <td>
-                                    Kabupaten Jember (TDK)
-                                    Kabupaten Lumajang (TLK)
-                                    Kabupaten Demak (TKLP)
-                                    Kabupaten Bone (TLP)
+                                    {% for zona, detail_zona in item.zona.items() %}
+                                    {% set jumlah_kota = detail_zona['kota-kabupaten']|length %}
+                                    {{ zona }}: {{ jumlah_kota }}<br>
+                                    {% endfor %}
                                 </td>
-
                                 <td class="text-center">
-                                    <button type="button" class="btn btn-danger rounded-pill m-2">Hapus</button>
+                                    <form action="{{ url_for('hapus_pengiriman', pengiriman_id=item._id) }}"
+                                        method="POST">
+                                        <button type="submit" class="btn btn-danger rounded-pill m-2">Hapus</button>
+                                    </form>
                                     <button type="button" class="btn btn-primary rounded-pill m-2"
-                                        data-bs-toggle="modal" data-bs-target="#exampleModal">Edit</button>
+                                        data-bs-toggle="modal" data-bs-target="#ModalEdit{{ item._id }}">Edit</button>
                                 </td>
                             </tr>
+                            {% endfor %}
                         </tbody>
+
                     </table>
                 </div>
             </div>
@@ -156,8 +155,10 @@
     </div>
 </div>
 
-<!-- Modal Edit Jasa Kirim -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal Edit Pengiriman -->
+{% for item in pengiriman %}
+<div class="modal fade" id="ModalEdit{{ item._id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -165,86 +166,75 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form method="POST" action="/editpengiriman/{{ item._id }}">
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="Text" class="form-label">Jasa Kirim</label>
-                            <input type="text" class="form-control" id="exampleInputText">
+                            <label for="jasa_kirim" class="form-label">Jasa Kirim</label>
+                            <input type="text" class="form-control" id="jasa_kirim" name="jasa_kirim"
+                                value="{{ item.jasa_kirim }}">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="text" class="form-label">Tarif Dalam Kota (TDK)</label>
-                            <input type="text" class="form-control" id="text">
+                            <label for="tarif_dalam_kota" class="form-label">Tarif Dalam Kota (TDK)</label>
+                            <input type="text" class="form-control" id="tarif_dalam_kota" name="tarif_dalam_kota"
+                                value="{{ item.zona['dalam kota'].tarif }}">
                         </div>
                         <div class="col">
-                            <label for="text" class="form-label">Estimasi Dalam Kota (EDK)</label>
-                            <input type="text" class="form-control" id="text">
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col">
-                            <label for="text" class="form-label">Tarif Luar Kota (TLK)</label>
-                            <input type="text" class="form-control" id="text">
-                        </div>
-                        <div class="col">
-                            <label for="text" class="form-label">Estimasi Luar Kota (ELK)</label>
-                            <input type="text" class="form-control" id="text">
+                            <label for="estimasi_dalam_kota" class="form-label">Estimasi Dalam Kota (EDK)</label>
+                            <input type="text" class="form-control" id="estimasi_dalam_kota" name="estimasi_dalam_kota"
+                                value="{{ item.zona['dalam kota'].estimasi }}">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="text" class="form-label">Tarif Kota Luar Provinsi (TKLP)</label>
-                            <input type="text" class="form-control" id="text">
+                            <label for="tarif_luar_kota" class="form-label">Tarif Luar Kota (TLK)</label>
+                            <input type="text" class="form-control" id="tarif_luar_kota" name="tarif_luar_kota"
+                                value="{{ item.zona['luar kota'].tarif }}">
                         </div>
                         <div class="col">
-                            <label for="text" class="form-label">Estimasi Kota Luar Provinsi
+                            <label for="estimasi_luar_kota" class="form-label">Estimasi Luar Kota (ELK)</label>
+                            <input type="text" class="form-control" id="estimasi_luar_kota" name="estimasi_luar_kota"
+                                value="{{ item.zona['luar kota'].estimasi }}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="tarif_luar_provinsi" class="form-label">Tarif Kota Luar Provinsi (TKLP)</label>
+                            <input type="text" class="form-control" id="tarif_luar_provinsi" name="tarif_luar_provinsi"
+                                value="{{ item.zona['luar provinsi'].tarif }}">
+                        </div>
+                        <div class="col">
+                            <label for="estimasi_luar_provinsi" class="form-label">Estimasi Kota Luar Provinsi
                                 (EKLP)</label>
-                            <input type="text" class="form-control" id="text">
+                            <input type="text" class="form-control" id="estimasi_luar_provinsi"
+                                name="estimasi_luar_provinsi" value="{{ item.zona['luar provinsi'].estimasi }}">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col">
-                            <label for="text" class="form-label">Tarif Luar Pulau (TLP)</label>
-                            <input type="text" class="form-control" id="text">
+                            <label for="tarif_luar_pulau" class="form-label">Tarif Luar Pulau (TLP)</label>
+                            <input type="text" class="form-control" id="tarif_luar_pulau" name="tarif_luar_pulau"
+                                value="{{ item.zona['luar pulau'].tarif }}">
                         </div>
                         <div class="col">
-                            <label for="text" class="form-label">Estimasi Luar Pulau (ELP)</label>
-                            <input type="text" class="form-control" id="text">
+                            <label for="estimasi_luar_pulau" class="form-label">Estimasi Luar Pulau (ELP)</label>
+                            <input type="text" class="form-control" id="estimasi_luar_pulau" name="estimasi_luar_pulau"
+                                value="{{ item.zona['luar pulau'].estimasi }}">
                         </div>
                     </div>
                 </form>
-
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Zona Tarif</th>
-                            <th scope="col">Nama Kota/Kab</th>
-                            <th scope="col" class="text-center">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>TDK</td>
-                            <td>Kabupaten Jember</td>
-                            <td class="text-center">
-                                <button type="button" class="btn btn-danger rounded-pill m-2">Hapus</button>
-                                <button type="button" class="btn btn-primary rounded-pill m-2" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal2">Edit</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary rounded-pill m-2" data-bs-dismiss="modal">Tutup</button>
-                <button type="button" class="btn btn-primary rounded-pill m-2">Simpan</button>
+                <button type="button" class="btn btn-secondary rounded-pill m-2" data-bs-dismiss="modal">Close</button>
+                <button type="submit" form="editForm{{ item._id }}" class="btn btn-primary rounded-pill m-2">Save
+                    changes</button>
             </div>
         </div>
     </div>
 </div>
+{% endfor %}
+
 
 <!-- Modal Edit Kota/Kab -->
 <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

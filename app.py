@@ -208,7 +208,106 @@ def deletePembayaran(_id):
 
 @app.route('/adpengiriman')
 def adpengiriman():
+    pengiriman = list(db.pengiriman.find({}))
+    return render_template('ad_pengiriman.html', pengiriman=pengiriman)
+
+@app.route('/tambah_pengiriman', methods=['POST'])
+def tambah_pengiriman():
+    if request.method == 'POST':
+        jasa_kirim = request.form.get('jasa_kirim')
+        tarif_dalam_kota = request.form.get('tarif_dalam_kota')
+        estimasi_dalam_kota = request.form.get('estimasi_dalam_kota')
+        tarif_luar_kota = request.form.get('tarif_luar_kota')
+        estimasi_luar_kota = request.form.get('estimasi_luar_kota')
+        tarif_luar_provinsi = request.form.get('tarif_luar_provinsi')
+        estimasi_luar_provinsi = request.form.get('estimasi_luar_provinsi')
+        tarif_luar_pulau = request.form.get('tarif_luar_pulau')
+        estimasi_luar_pulau = request.form.get('estimasi_luar_pulau')
+        
+        db.pengiriman.insert_one({
+            'jasa_kirim': jasa_kirim,
+            'zona': {
+                'dalam kota':{
+                    'tarif': tarif_dalam_kota,
+                    'estimasi': estimasi_dalam_kota
+                },
+                'luar kota':{
+                    'tarif': tarif_luar_kota,
+                    'estimasi': estimasi_luar_kota
+                },
+                'luar provinsi':{
+                    'tarif': tarif_luar_provinsi,
+                    'estimasi': estimasi_luar_provinsi
+                },
+                'luar pulau':{
+                    'tarif': tarif_luar_pulau,
+                    'estimasi': estimasi_luar_pulau
+                }
+            }
+        })
+        return redirect(url_for('adpengiriman'))
     return render_template('ad_pengiriman.html')
+
+@app.route('/tambah_kota', methods=['POST'])
+def tambah_kota():
+    if request.method == 'POST':
+        jasa_kirim = request.form.get('jasa_kirim')
+        zona_tarif = request.form.get('zona_tarif')
+        nama_kota = request.form.get('nama_kota')
+        
+        db.pengiriman.update_one(
+            {'jasa_kirim': jasa_kirim},
+            {
+                '$push': {
+                    'zona.' + zona_tarif.lower() + '.kota-kabupaten': nama_kota
+                }
+            }
+        )
+        return redirect(url_for('adpengiriman'))
+
+@app.route('/editpengiriman/<pengiriman_id>', methods=['GET', 'POST'])
+def editpengiriman(pengiriman_id):
+    if request.method == 'POST':
+        jasa_kirim = request.form.get('jasa_kirim')
+        tarif_dalam_kota = request.form.get('tarif_dalam_kota')
+        estimasi_dalam_kota = request.form.get('estimasi_dalam_kota')
+        tarif_luar_kota = request.form.get('tarif_luar_kota')
+        estimasi_luar_kota = request.form.get('estimasi_luar_kota')
+        tarif_luar_provinsi = request.form.get('tarif_luar_provinsi')
+        estimasi_luar_provinsi = request.form.get('estimasi_luar_provinsi')
+        tarif_luar_pulau = request.form.get('tarif_luar_pulau')
+        estimasi_luar_pulau = request.form.get('estimasi_luar_pulau')
+        
+        db.pengiriman.update_one({'_id': ObjectId(pengiriman_id)}, {
+            '$set': {
+                'jasa_kirim': jasa_kirim,
+                'zona': {
+                    'dalam kota': {
+                        'tarif': tarif_dalam_kota,
+                        'estimasi': estimasi_dalam_kota
+                    },
+                    'luar kota': {
+                        'tarif': tarif_luar_kota,
+                        'estimasi': estimasi_luar_kota
+                    },
+                    'luar provinsi': {
+                        'tarif': tarif_luar_provinsi,
+                        'estimasi': estimasi_luar_provinsi
+                    },
+                    'luar pulau': {
+                        'tarif': tarif_luar_pulau,
+                        'estimasi': estimasi_luar_pulau
+                    }
+                }
+            }
+        })
+        return redirect(url_for('adpengiriman'))
+    return render_template('ad_pengiriman.html')
+
+@app.route('/hapus_pengiriman/<pengiriman_id>', methods=['POST'])
+def hapus_pengiriman(pengiriman_id):
+    db.pengiriman.delete_one({'_id': ObjectId(pengiriman_id)})
+    return redirect(url_for('adpengiriman'))
 
 @app.route('/adpengguna')
 def adpengguna():
