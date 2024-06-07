@@ -235,18 +235,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <<tr>
+                        <tr>
+                        <tr>
                             <th scope="row">1</th>
                             <td>TDK</td>
                             <td>Kabupaten Jember</td>
                             <td class="text-center">
-                                <form action="/hapus_kota/{{ item._id }}/Dalam Kota/Kabupaten Jember" method="POST" style="display: inline;">
+                                <form action="/hapus_kota/{{ item._id }}/Dalam Kota" method="POST"
+                                    style="display: inline;">
                                     <button type="submit" class="btn btn-danger rounded-pill m-2">Hapus</button>
-                                </form>                                
+                                </form>
                                 <button type="button" class="btn btn-primary rounded-pill m-2" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal2{{ item._id }}">Edit</button>
                             </td>
-                        </tr>                        
+                        </tr>
+                        </tr>
                     </tbody>
                 </table>
             </div>
