@@ -166,7 +166,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="/editpengiriman/{{ item._id }}">
+                <form id="editForm{{ item._id }}" method="POST" action="/editpengiriman/{{ item._id }}">
                     <div class="row mb-3">
                         <div class="col">
                             <label for="jasa_kirim" class="form-label">Jasa Kirim</label>
@@ -224,11 +224,38 @@
                         </div>
                     </div>
                 </form>
+                <!-- Tabel Kota/Kabupaten -->
+                <table class="table table-bordered mt-4">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Zona Tarif</th>
+                            <th scope="col">Nama Kota/Kab</th>
+                            <th scope="col" class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>TDK</td>
+                            <td>Kabupaten Jember</td>
+                            <td class="text-center">
+                                <form action="/hapus_kota/{{ item._id }}/{{ zona_tarif }}/{{ kota }}" method="POST" style="display: inline;">
+                                    <button type="submit" class="btn btn-danger rounded-pill m-2">Hapus</button>
+                                </form>                                                               
+                                <!-- <button type="button" class="btn btn-primary rounded-pill m-2" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal2{{ item._id }}">Edit</button> -->
+                            </td>
+                        </tr>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary rounded-pill m-2" data-bs-dismiss="modal">Close</button>
-                <button type="submit" form="editForm{{ item._id }}" class="btn btn-primary rounded-pill m-2">Save
-                    changes</button>
+                <button type="button" class="btn btn-secondary rounded-pill m-2" data-bs-dismiss="modal">Tutup</button>
+                <button type="submit" form="editForm{{ item._id }}"
+                    class="btn btn-primary rounded-pill m-2">Simpan</button>
             </div>
         </div>
     </div>
@@ -237,37 +264,32 @@
 
 
 <!-- Modal Edit Kota/Kab -->
-<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+{% for item in pengiriman %}
+<div class="modal fade" id="exampleModal2{{ item._id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">EDIT</h5>
+                <h5 class="modal-title" id="exampleModalLabel">EDIT KOTA</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="/edit_kota/{{ item._id }}/{{ zona_tarif }}" method="POST">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Pilih Zona Tarif</label>
-                        <select class="form-select mb-3" aria-label="Default select example">
-                            <option selected=""></option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
+                        <label for="exampleInputEmail1" class="form-label">Nama Kota/Kab</label>
+                        <input type="text" class="form-control" id="nama_kota{{ item._id }}" name="nama_kota">
                     </div>
-                    <div class="mb-3">
-                        <label for="Text" class="form-label">Nama Kota/Kab</label>
-                        <input type="text" class="form-control" id="exampleInputText">
-                    </div>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary rounded-pill m-2" data-bs-dismiss="modal">Tutup</button>
-                <button type="button" class="btn btn-primary rounded-pill m-2">Simpan</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
     </div>
 </div>
+{% endfor %}
+
 
 </body>
 {% include 'ad_footer.html' %}
