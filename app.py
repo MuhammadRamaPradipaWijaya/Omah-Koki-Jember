@@ -299,15 +299,11 @@ def hapus_pengiriman(pengiriman_id):
     db.pengiriman.delete_one({'_id': ObjectId(pengiriman_id)})
     return redirect(url_for('adpengiriman'))
 
-@app.route('/hapus_kota/<pengiriman_id>/<zona_tarif>/<nama_kota>', methods=['POST'])
-def hapus_kota(pengiriman_id, zona_tarif, nama_kota):
+@app.route('/hapus_kota/<pengiriman_id>/<zona>/<kota>', methods=['POST'])
+def hapus_kota(pengiriman_id, zona, kota):
     db.pengiriman.update_one(
         {'_id': ObjectId(pengiriman_id)},
-        {
-            '$pull': {
-                'zona.' + zona_tarif.lower() + '.kota-kabupaten': nama_kota
-            }
-        }
+        {'$pull': {'zona.' + zona.lower() + '.kota-kabupaten': kota}}
     )
     return redirect(url_for('adpengiriman'))
 
