@@ -543,7 +543,7 @@ def register():
         session['username'] = nama
         session['user_id'] = str(user_id)
         
-        return redirect(url_for('home'))
+        return redirect(url_for('login'))
     return render_template('register.html')
 
 @app.route('/cek_email_pembeli', methods=['POST'])
