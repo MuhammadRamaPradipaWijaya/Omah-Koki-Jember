@@ -200,7 +200,6 @@ def editPembayaran(_id):
     pembayaran =list(db.pembayaran.find({'_id': id}))
     return render_template('ad_pembayaran.html', pembayaran=pembayaran)
 
-
 @app.route('/deletePembayaran/<_id>',methods=['GET','POST'])
 def deletePembayaran(_id):
     db.pembayaran.delete_one({'_id': ObjectId(_id)})
@@ -498,6 +497,7 @@ def checkout():
 def profil():
     return render_template('profil.html')
 # BAGIAN USER #
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
