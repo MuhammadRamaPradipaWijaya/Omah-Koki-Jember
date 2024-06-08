@@ -361,7 +361,7 @@ def adprofil():
             mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
             
             admin_img = request.files.get('profil')
-            filename = admin['avatar']
+            filename = admin.get('avatar', '')
 
             if (admin_img) :
                 extension = admin_img.filename.split('.')[-1]
