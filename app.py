@@ -299,6 +299,31 @@ def hapus_pengiriman(pengiriman_id):
     db.pengiriman.delete_one({'_id': ObjectId(pengiriman_id)})
     return redirect(url_for('adpengiriman'))
 
+@app.route('/edit_kota/<pengiriman_id>/<kota_kabupaten_id>', methods=['POST'])
+def edit_kota(pengiriman_id, kota_kabupaten_id):
+    if request.method == 'POST':
+        new_city_name = request.form.get('nama_kota')
+        # Lakukan pembaruan nama kota
+        db.pengiriman.update_one(
+            {'_id': ObjectId(pengiriman_id), 'zona.kota-kabupaten': kota_kabupaten_id},
+            {'$set': {'zona.$[z].kota-kabupaten': new_city_name}},
+            array_filters=[{'z.kota-kabupaten': kota_kabupaten_id}]
+        )
+        return redirect(url_for('adpengiriman'))
+
+
+@app.route('/hapus_kota/<nama_kota>', methods=['POST'])
+def hapus_kota(nama_kota):
+    if request.method == 'POST':
+        for item in db.pengiriman.find({}):
+            for zona, detail_zona in item['zona'].items():
+                if nama_kota in detail_zona.get('kota-kabupaten', []):
+                    db.pengiriman.update_one(
+                        {'_id': item['_id']},
+                        {'$pull': {'zona.' + zona + '.kota-kabupaten': nama_kota}}
+                    )
+        return redirect(url_for('adpengiriman'))
+
 @app.route('/adpengguna')
 def adpengguna():
     return render_template('ad_pengguna.html')
