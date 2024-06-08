@@ -245,14 +245,15 @@
                             <td>{{ zona }}</td>
                             <td>{{ kota_kabupaten }}</td>
                             <td class="text-center">
-                                <form action="/hapus_kota/{{ kota_kabupaten }}" method="POST">
-                                    <button type="submit" class="btn btn-square btn-dark m-2"><i class="fa fa-trash-o"
-                                            title="Delete"></i></button>
-                                </form>
-                                <button type="button" class="btn btn-square btn-danger m-2" data-bs-toggle="modal"
-                                    data-bs-target="#editModal{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}">
-                                    <i class="fa fa-edit" title="Edit"></i>
-                                </button>
+                                <div class="d-inline-block">
+                                    <form action="/hapus_kota/{{ kota_kabupaten }}" method="POST" style="display:inline;">
+                                        <button type="submit" class="btn btn-square btn-dark m-2"><i class="fa fa-trash-o" title="Delete"></i></button>
+                                    </form>
+                                    <button type="button" class="btn btn-square btn-danger m-2" data-bs-toggle="modal"
+                                        data-bs-target="#editModal{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}">
+                                        <i class="fa fa-edit" title="Edit"></i>
+                                    </button>
+                                </div>
                             </td>
                         </tr>
                         {% endfor %}
