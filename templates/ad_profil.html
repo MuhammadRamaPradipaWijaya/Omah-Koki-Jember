@@ -9,7 +9,8 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <div style="height: 200px; width: 200px; border-radius: 50%;" class="bg-secondary mx-auto mt-3">
+                        <div class="text-center">
+                            <img src="../static/ad_assets/profil_admin/{{ session['avatar'] }}" alt="" style="height: 200px; width: 200px; border-radius: 50%;" class="bg-secondary mt-3">
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -19,33 +20,37 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <h5>Nama</h5>
-                                    <p>John</p>
-                                </div>
-
-                                <div class="mb-3">
-                                    <h5>Tanggal Lahir</h5>
-                                    <p>20/02/2024</p>
-                                </div>
-
-                                <div class="mb-3">
-                                    <h5>Jenis Kelamin</h5>
-                                    <p>Laki-laki</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <h5>Email</h5>
-                                    <p>lorem@gmail.com</p>
+                                    <p>{{ session['username'] }}</p>
                                 </div>
 
                                 <div class="mb-3">
                                     <h5>No. HP</h5>
-                                    <p>08309128320</p>
+                                    <p>{{ session['telepon'] }}</p>
                                 </div>
 
+                                {% if session['gender'] %}
                                 <div class="mb-3">
-                                    <h5>Kata Sandi</h5>
-                                    <p>***********</p>
+                                    <h5>Jenis Kelamin</h5>
+                                    <p>{{ session['gender'] }}</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <h5>Email</h5>
+                                    <p>{{ session['email'] }}</p>
+                                </div>
+
+                                {% if session['tgl_lahir'] %}
+                                <div class="mb-3">
+                                    <h5>Tanggal Lahir</h5>
+                                    <p>{{ session['tgl_lahir'] }}</p>
+                                </div>
+                                {% endif %}
+                                
+                                <div class="mb-3">
+                                    <h5>Tanggal Registrasi</h5>
+                                    <p>{{ session['tgl_registrasi'] }}</p>
                                 </div>
                             </div>
                         </div>
@@ -70,40 +75,43 @@
                         <h5 class="modal-title" id="exampleModalLabel">EDIT</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="formFile" class="form-label">Profil</label>
-                            <input class="form-control" type="file" id="formFile">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="formFile" class="form-label">Profil</label>
+                                <input class="form-control" type="file" id="formFile" name="profil" accept=".jpeg, .png, .jpg">
+                            </div>
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Nama</label>
+                                <input type="text" class="form-control" id="username" name="username" value="{{ session['username'] }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="tgl_lahir" class="form-label">Tanggal Lahir</label>
+                                <input type="date" class="form-control" id="tgl_lahir" name="tgl_lahir" value="{{ session['tgl_lahir'] }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="gender" class="form-label">Jenis Kelamin</label>
+                                <select class="form-select form-select-sm mb-3" name="gender" aria-label=".form-select-sm example">
+                                    <option value="" hidden>Pilih</option>
+                                    <option value="Laki-laki" {{ 'selected' if session['gender'] == 'Laki-laki' }}>Laki-laki</option>
+                                    <option value="Perempuan" {{ 'selected' if session['gender'] == 'Perempuan' }}>Perempuan</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="telepon" class="form-label">No HP</label>
+                                <input type="text" class="form-control" id="telepon" name="telepon" value="{{ session['telepon'] }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Kata Sandi</label>
+                                <input type="password" class="form-control" id="password" name="password">
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="bankName" class="form-label">Nama</label>
-                            <input type="text" class="form-control" id="bankName">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary rounded-pill m-2"
+                                data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary rounded-pill m-2">Simpan</button>
                         </div>
-                        <div class="mb-3">
-                            <label for="birthDate" class="form-label">Tanggal Lahir</label>
-                            <input type="date" class="form-control" id="birthDate">
-                        </div>
-                        <div class="mb-3">
-                            <label for="gender" class="form-label">Jenis Kelamin</label>
-                            <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
-                                <option value="1">Laki-laki</option>
-                                <option value="2">Perempuan</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="phoneNumber" class="form-label">No HP</label>
-                            <input type="text" class="form-control" id="phoneNumber">
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Kata Sandi</label>
-                            <input type="password" class="form-control" id="password">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary rounded-pill m-2"
-                            data-bs-dismiss="modal">Tutup</button>
-                        <button type="button" class="btn btn-primary rounded-pill m-2">Simpan</button>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

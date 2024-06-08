@@ -301,11 +301,78 @@ def hapus_pengiriman(pengiriman_id):
 
 @app.route('/adpengguna')
 def adpengguna():
-    return render_template('ad_pengguna.html')
+    users = list(db.pembeli.find())
+    return render_template('ad_pengguna.html', users=users)
 
-@app.route('/adprofil')
+@app.route('/toggle-blokir/<id>', methods=['POST'])
+def blokir(id):
+    diblokir = False
+    user = db.pembeli.find_one({'_id': ObjectId(id)})
+
+
+    if "diblokir" in user :
+        if user['diblokir'] == True :
+            diblokir = False
+        else:
+            diblokir = True
+
+    db.pembeli.update_one(
+        {'_id': ObjectId(id)},
+        {'$set': {'diblokir': diblokir}}
+    )
+    return redirect(url_for('adpengguna'))
+
+@app.route('/adprofil', methods=['GET', 'POST'])
 def adprofil():
-    return render_template('ad_profil.html')
+    if 'logged_in' in session and session['logged_in']:
+        if request.method == 'POST' :
+            admin = db.admin.find_one({'_id': ObjectId(session['user_id'])})
+
+            nama = request.form['username']
+            gender = request.form['gender']
+            tgl_lahir = request.form['tgl_lahir']
+            telepon = request.form['telepon']
+
+            today = datetime.now()
+            mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+            
+            admin_img = request.files.get('profil')
+            filename = admin['avatar']
+
+            if (admin_img) :
+                extension = admin_img.filename.split('.')[-1]
+                filename = f'admin-{mytime}.{extension}'
+                save_to = os.path.join('static/ad_assets/profil_admin', filename)        
+                admin_img.save(save_to)
+
+            data = {
+                'nama' : nama,
+                'telepon' : telepon,
+                'gender' : gender,
+                'tgl_lahir' : tgl_lahir,
+                'avatar' : filename
+            }
+
+            if request.form['password']:
+                data['password'] = jwt.encode({'password': request.form['password']}, SECRET_KEY, algorithm='HS256')
+
+            db.admin.update_one(
+                {'_id': ObjectId(session['user_id'])},
+                {'$set': data}
+            )
+            
+
+            session['username'] = nama
+            session['telepon'] = telepon
+            session['tgl_lahir'] = tgl_lahir
+            session['gender'] = gender
+            session['avatar'] = filename
+
+            return redirect(url_for('adprofil'))
+        else :
+            return render_template('ad_profil.html')
+    else:
+        return redirect(url_for('adlogin'))
 # BAGIAN ADMIN #
 
 
@@ -414,9 +481,13 @@ def login():
         password = request.form['password']
         
         user = db.pembeli.find_one({'email': email})
+
+        if 'diblokir' in user and user['diblokir'] == True :
+            return render_template('login.html', error="Akun ini terblokir")
+        
         if user and jwt.decode(user['password'], SECRET_KEY, algorithms=['HS256'])['password'] == password:
             session['logged_in'] = True
-            session['username'] = user['nama']
+            session['username'] = user['username']
             session['user_id'] = str(user['_id'])
             return redirect(url_for('home'))
         else:
@@ -470,7 +541,12 @@ def adlogin():
         if user and jwt.decode(user['password'], SECRET_KEY, algorithms=['HS256'])['password'] == password:
             session['logged_in'] = True
             session['username'] = user['nama']
+            session['email'] = user['email']
+            session['telepon'] = user['telepon']
+            session['tgl_registrasi'] = user['tgl_registrasi']
+            session['avatar'] = user['avatar']
             session['user_id'] = str(user['_id'])
+            
             return redirect(url_for('dashboard'))
         else:
             error = 'Email atau kata sandi salah. Silakan coba lagi.'
@@ -498,6 +574,9 @@ def adregister():
         
         session['logged_in'] = True
         session['username'] = nama
+        session['email'] = email
+        session['telepon'] = telepon
+        session['tgl_registrasi'] = tanggal_registrasi
         session['user_id'] = str(user_id)
         
         return redirect(url_for('adlogin'))
@@ -516,6 +595,10 @@ def cek_email():
 def logout():
     session.pop('logged_in', None)
     session.pop('username', None)
+    session.pop('email', None)
+    session.pop('telepon', None)
+    session.pop('tgl_registrasi', None)
+    session.pop('avatar', None)
     session.pop('user_id', None)
     return redirect(url_for('home'))
 
