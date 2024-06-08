@@ -138,10 +138,10 @@
                                 <td class="text-center">
                                     <form action="{{ url_for('hapus_pengiriman', pengiriman_id=item._id) }}"
                                         method="POST">
-                                        <button type="submit" class="btn btn-danger rounded-pill m-2">Hapus</button>
+                                        <button type="submit" class="btn btn-square btn-dark m-2"><i class="fa fa-trash-o" title="Delete"></i></button>
                                     </form>
-                                    <button type="button" class="btn btn-primary rounded-pill m-2"
-                                        data-bs-toggle="modal" data-bs-target="#ModalEdit{{ item._id }}">Edit</button>
+                                    <button type="button" class="btn btn-square btn-danger m-2"
+                                        data-bs-toggle="modal" data-bs-target="#ModalEdit{{ item._id }}"><i class="fa fa-edit" title="Delete"></i></button>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -263,7 +263,6 @@
 </div>
 {% endfor %}
 
-
 <!-- Modal Edit Kota/Kab -->
 {% for item in pengiriman %}
 <div class="modal fade" id="exampleModal2{{ item._id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -290,7 +289,6 @@
     </div>
 </div>
 {% endfor %}
-
 
 </body>
 {% include 'ad_footer.html' %}
