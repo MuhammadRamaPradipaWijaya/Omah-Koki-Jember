@@ -511,7 +511,7 @@ def login():
         
         if user and jwt.decode(user['password'], SECRET_KEY, algorithms=['HS256'])['password'] == password:
             session['logged_in'] = True
-            session['username'] = user['username']
+            session['username'] = user['nama']
             session['user_id'] = str(user['_id'])
             return redirect(url_for('home'))
         else:
