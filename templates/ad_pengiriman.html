@@ -250,7 +250,7 @@
                                             title="Delete"></i></button>
                                 </form>
                                 <button type="button" class="btn btn-square btn-danger m-2" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal2">
+                                    data-bs-target="#editModal{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}">
                                     <i class="fa fa-edit" title="Edit"></i>
                                 </button>
                             </td>
@@ -271,11 +271,12 @@
 </div>
 {% endfor %}
 
-<!-- Modal Edit Kota/Kab -->
+
 {% for item in pengiriman %}
 {% for zona, detail_zona in item.zona.items() %}
 {% for kota_kabupaten in detail_zona['kota-kabupaten'] %}
-<div class="modal fade" id="exampleModal2" tabindex="-1"
+<!-- Modal Edit Kota/Kab -->
+<div class="modal fade" id="editModal{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -284,17 +285,17 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="editForm" action="" method="POST">
+                <form id="editForm{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}" action="/edit_kota/{{ kota_kabupaten }}" method="POST">
                     <div class="mb-3">
-                        <label for="exampleInputEmail1" class="form-label">Nama Kota/Kab</label>
-                        <input type="text" class="form-control" id="nama_kota" name="nama_kota"
+                        <label for="nama_kota_{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}" class="form-label">Nama Kota/Kab</label>
+                        <input type="text" class="form-control" id="nama_kota_{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}" name="nama_baru"
                             value="{{ kota_kabupaten }}">
                     </div>
-                    <button type="submit" form="editForm" class="btn btn-primary">Simpan</button>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                <button type="submit" form="editForm{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}" class="btn btn-primary">Simpan</button>
             </div>
         </div>
     </div>
@@ -304,5 +305,4 @@
 {% endfor %}
 
 
-</body>
 {% include 'ad_footer.html' %}
