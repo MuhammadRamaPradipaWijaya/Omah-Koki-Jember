@@ -568,7 +568,8 @@ def adlogin():
             session['email'] = user['email']
             session['telepon'] = user['telepon']
             session['tgl_registrasi'] = user['tgl_registrasi']
-            session['avatar'] = user['avatar']
+            if 'avatar' in user:
+                session['avatar'] = user['avatar']
             session['user_id'] = str(user['_id'])
             
             return redirect(url_for('dashboard'))
