@@ -340,21 +340,21 @@ def detail_produk(produk_id):
 @app.route('/tambah_ke_keranjang', methods=['POST'])
 def tambah_ke_keranjang():
     if 'logged_in' in session and session['logged_in']:
-        email_pengguna = session['username']
+        user_id = session['user_id']
         produk_id = request.form.get('produk_id')
         jumlah = request.form.get('jumlah')
 
         produk = db.adproduk.find_one({'_id': ObjectId(produk_id)})
 
         if produk:
-            existing_item = db.keranjang.find_one({'email_pengguna': email_pengguna, 'produk_id': produk_id})
+            existing_item = db.keranjang.find_one({'user_id': user_id, 'produk_id': produk_id})
 
             if existing_item:
                 db.keranjang.update_one({'_id': existing_item['_id']}, {'$set': {'jumlah': jumlah}})
                 return redirect(url_for('keranjang'))
             else:
                 item_keranjang = {
-                    'email_pengguna': email_pengguna,
+                    'user_id': user_id,
                     'produk_id': produk_id,
                     'jumlah': jumlah,
                     'nama_produk': produk['nama_produk'],
@@ -383,8 +383,8 @@ def pesanan():
 @app.route('/keranjang')
 def keranjang():
     if 'logged_in' in session and session['logged_in']:
-        email_pengguna = session['username']
-        items_keranjang = list(db.keranjang.find({'email_pengguna': email_pengguna}))
+        user_id = session['user_id']
+        items_keranjang = list(db.keranjang.find({'user_id': user_id}))
         subtotal = sum(int(item['harga']) * int(item['jumlah']) for item in items_keranjang)
         return render_template('keranjang.html', items_keranjang=items_keranjang, subtotal=subtotal)
     else:
@@ -407,7 +407,6 @@ def profil():
     return render_template('profil.html')
 # BAGIAN USER #
 
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -418,6 +417,7 @@ def login():
         if user and jwt.decode(user['password'], SECRET_KEY, algorithms=['HS256'])['password'] == password:
             session['logged_in'] = True
             session['username'] = user['nama']
+            session['user_id'] = str(user['_id'])
             return redirect(url_for('home'))
         else:
             error = 'Email atau kata sandi salah. Silakan coba lagi.'
@@ -436,15 +436,19 @@ def register():
         
         tanggal_registrasi = datetime.utcnow().strftime('%Y-%m-%d')
         
-        db.pembeli.insert_one({
+        user_id = db.pembeli.insert_one({
             'nama': nama,
             'telepon': telepon,
             'email': email,
             'password': token,
             'tgl_registrasi': tanggal_registrasi
-        })
+        }).inserted_id
         
-        return redirect(url_for('login'))
+        session['logged_in'] = True
+        session['username'] = nama
+        session['user_id'] = str(user_id)
+        
+        return redirect(url_for('home'))
     return render_template('register.html')
 
 @app.route('/cek_email_pembeli', methods=['POST'])
@@ -466,6 +470,7 @@ def adlogin():
         if user and jwt.decode(user['password'], SECRET_KEY, algorithms=['HS256'])['password'] == password:
             session['logged_in'] = True
             session['username'] = user['nama']
+            session['user_id'] = str(user['_id'])
             return redirect(url_for('dashboard'))
         else:
             error = 'Email atau kata sandi salah. Silakan coba lagi.'
@@ -483,13 +488,17 @@ def adregister():
         token = jwt.encode({'password': password}, SECRET_KEY, algorithm='HS256')
         
         tanggal_registrasi = datetime.utcnow().strftime('%Y-%m-%d')
-        db.admin.insert_one({
+        user_id = db.admin.insert_one({
             'nama': nama,
             'telepon': telepon,
             'email': email,
             'password': token,
             'tgl_registrasi': tanggal_registrasi
-        })
+        }).inserted_id
+        
+        session['logged_in'] = True
+        session['username'] = nama
+        session['user_id'] = str(user_id)
         
         return redirect(url_for('adlogin'))
     return render_template('ad_register.html')
@@ -506,7 +515,9 @@ def cek_email():
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
+    session.pop('username', None)
+    session.pop('user_id', None)
     return redirect(url_for('home'))
 
 if __name__ == '__main__':
-    app.run('0.0.0.0',port=5000,debug=True)
+    app.run('0.0.0.0', port=5000, debug=True)
