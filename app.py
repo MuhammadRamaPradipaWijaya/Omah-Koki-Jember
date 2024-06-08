@@ -311,7 +311,6 @@ def edit_kota(pengiriman_id, kota_kabupaten_id):
         )
         return redirect(url_for('adpengiriman'))
 
-
 @app.route('/hapus_kota/<nama_kota>', methods=['POST'])
 def hapus_kota(nama_kota):
     if request.method == 'POST':
