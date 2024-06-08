@@ -250,7 +250,7 @@
                                             title="Delete"></i></button>
                                 </form>
                                 <button type="button" class="btn btn-square btn-danger m-2" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal2{{ item._id }}_{{ loop.index }}">
+                                    data-bs-target="#exampleModal2">
                                     <i class="fa fa-edit" title="Edit"></i>
                                 </button>
                             </td>
@@ -275,7 +275,7 @@
 {% for item in pengiriman %}
 {% for zona, detail_zona in item.zona.items() %}
 {% for kota_kabupaten in detail_zona['kota-kabupaten'] %}
-<div class="modal fade" id="exampleModal2{{ item._id }}_{{ loop.index }}" tabindex="-1"
+<div class="modal fade" id="exampleModal2" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -284,13 +284,13 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="editForm{{ item._id }}_{{ loop.index }}" action="/edit_kota/{{ item._id }}/{{ zona }}" method="POST">
+                <form id="editForm" action="" method="POST">
                     <div class="mb-3">
                         <label for="exampleInputEmail1" class="form-label">Nama Kota/Kab</label>
                         <input type="text" class="form-control" id="nama_kota" name="nama_kota"
                             value="{{ kota_kabupaten }}">
                     </div>
-                    <button type="submit" form="editForm{{ item._id }}_{{ loop.index }}" class="btn btn-primary">Simpan</button>
+                    <button type="submit" form="editForm" class="btn btn-primary">Simpan</button>
                 </form>
             </div>
             <div class="modal-footer">
