@@ -85,7 +85,7 @@
                                     </a>
                                 </h3>
                                 <div class="font-size-lg pt-2" style="text-align: left;">Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</div>
-                                <div class="font-size-lg pt-2" style="text-align: left;">Stok: {{ item.stok }}</div>
+                                <div class="font-size-lg pt-2" style="text-align: left;">Jumlah: {{ item['jumlah'] }}</div>
                             </div>                                
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                   <p><strong>Total Produk : </strong></p>
                 </div>
                 <div class="mb-3">
-                  <p><strong>Rp. {{ subtotal }}</strong></p>
+                  <p><strong>Rp {{ "{:,.0f}".format(subtotal).replace(",", ".") }}</strong></p>
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between">
