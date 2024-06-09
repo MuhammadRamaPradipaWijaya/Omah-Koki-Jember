@@ -386,7 +386,7 @@ def adprofil():
             )
             
 
-            session['nama'] = nama
+            session['username'] = nama
             session['telepon'] = telepon
             session['tgl_lahir'] = tgl_lahir
             session['gender'] = gender
