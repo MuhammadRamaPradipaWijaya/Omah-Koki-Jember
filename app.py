@@ -386,7 +386,7 @@ def adprofil():
             )
             
 
-            session['username'] = nama
+            session['nama'] = nama
             session['telepon'] = telepon
             session['tgl_lahir'] = tgl_lahir
             session['gender'] = gender
@@ -504,9 +504,56 @@ def checkout():
     else:
         return redirect(url_for('login'))
 
-@app.route('/profil')
+@app.route('/profil', methods=['GET', 'POST'])
 def profil():
-    return render_template('profil.html')
+    if 'logged_in' in session and session['logged_in']:
+        if request.method == 'POST':
+            pembeli = db.pembeli.find_one({'_id': ObjectId(session['user_id'])})
+
+            nama = request.form['nama']
+            tglLahir = request.form['tglLahir']
+            gender = request.form['gender']
+            telepon = request.form['telepon']
+
+            today = datetime.now()
+            mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+
+            pembeli_img = request.files['image']
+            filename = pembeli.get('image', '')
+            if pembeli_img:
+                extension = pembeli_img.filename.split('.')[-1]
+                filename = f'pembeli-{mytime}.{extension}'
+                save_to = os.path.join('static/assets/profil_pembeli', filename)
+                pembeli_img.save(save_to)
+            
+            doc = {
+                'nama': nama,
+                'tglLahir': tglLahir,
+                'gender': gender,
+                'telepon': telepon,
+                'image': filename
+            }
+
+            if request.form['password']:
+                doc['password'] = jwt.encode({'password': request.form['password']}, SECRET_KEY, algorithm='HS256')
+
+            db.pembeli.update_one(
+                {'_id': ObjectId(session['user_id'])},
+                {'$set': doc}
+            )
+
+            session['nama'] = nama
+            session['tglLahir'] = tglLahir
+            session['gender'] = gender
+            session['telepon'] = telepon
+            session['image'] = filename
+
+            return redirect(url_for('profil'))
+        else:
+            pembeli = db.pembeli.find_one({'_id': ObjectId(session['user_id'])})
+            return render_template('profil.html', pembeli=pembeli)
+    else:
+        return redirect(url_for('login'))
 # BAGIAN USER #
 
 
