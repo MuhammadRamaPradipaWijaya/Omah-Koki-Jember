@@ -53,7 +53,7 @@ def addProduk():
         harga = float(request.form.get('harga'))
         deskripsi = request.form.get('deskripsi')
         kondisi = request.form.get('kondisi')
-        berat = request.form.get('berat')
+        berat = float(request.form.get('berat'))
         kategori = request.form.get('kategori')
         panjang = request.form.get('panjang')
         lebar = request.form.get('lebar')
@@ -93,7 +93,7 @@ def editProduk(_id):
         harga = float(request.form.get('harga'))
         deskripsi = request.form.get('deskripsi')
         kondisi = request.form.get('kondisi')
-        berat = request.form.get('berat')
+        berat = float(request.form.get('berat'))
         kategori = request.form.get('kategori')
         panjang = request.form.get('panjang')
         lebar = request.form.get('lebar')
@@ -452,8 +452,8 @@ def tambah_ke_keranjang():
                     'jumlah': jumlah,
                     'nama_produk': produk['nama_produk'],
                     'harga': produk['harga'],
-                    'gambar': produk['gambar'],
-                    'berat': jumlah * produk['berat']
+                    'berat': (jumlah * produk['berat']),
+                    'gambar': produk['gambar']
                 }
                 db.keranjang.insert_one(item_keranjang)
                 return redirect(url_for('keranjang'))
