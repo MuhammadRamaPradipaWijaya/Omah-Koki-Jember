@@ -73,20 +73,24 @@
             <div class="bg-light text-center rounded p-4">
               <h6>Ringkasan Belanja</h6>
               {% for item in items_keranjang %}
-              <div class="card mb-3 bg-danger text-white rounded-card mx-auto" style="max-width: 400px; height: auto;">
-                <div class="row g-0">
-                  <div class="col-md-4 d-flex align-items-center justify-content-center">
-                    <img src="{{ url_for('static', filename='ad_assets/imgproduk/' + item['gambar']) }}"
-                      class="img-fluid rounded-start" style="object-fit: cover; max-width: 150px; max-height: 150px;">
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body text-start">
-                      <h6 class="card-title text-md-start text-center text-truncate">{{ item['nama_produk'] }}</h6>
-                      <h6 class="card-title text-md-start text-center">Rp. {{ item['harga'] }} - Jumlah ({{ item['jumlah'] }})</h6>
+              <div class="card mb-4">
+                <div class="card-body">
+                    <div class="d-sm-flex justify-content-between">
+                        <div class="media d-block d-sm-flex text-center text-sm-left">
+                            <a class="cart-item-thumb mx-auto mr-sm-4" href="#"><img src="{{ url_for('static', filename='ad_assets/imgproduk/' + item['gambar']) }}" alt="Product" style="object-fit: cover; max-width: 150px; max-height: 150px;"></a>
+                            <div class="media-body pt-3">
+                                <h3 class="product-card-title font-weight-semibold border-0 pb-0 ">
+                                    <a href="#" style="display: inline-block; width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left;">
+                                        {{ item.nama_produk }}
+                                    </a>
+                                </h3>
+                                <div class="font-size-lg pt-2" style="text-align: left;">Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</div>
+                                <div class="font-size-lg pt-2" style="text-align: left;">Stok: {{ item.stok }}</div>
+                            </div>                                
+                        </div>
                     </div>
-                  </div>
                 </div>
-              </div>
+            </div>
               {% endfor %}
             </div>
             <br>
@@ -172,5 +176,59 @@
   </div>
 </div>
 
-
 {% include 'Footer.html' %}
+
+
+
+<style>
+  .product-card-title,
+  .font-size-lg {
+      margin-left: 20px;
+  }
+
+  .cart-item-thumb {
+      display: block;
+      width: 10rem;
+  }
+
+  .cart-item-thumb>img {
+      display: block;
+      width: 100%;
+      border-radius: 15px;
+  }
+
+  .product-card-title>a {
+      color: #222;
+  }
+
+  .font-weight-semibold {
+      font-weight: 600 !important;
+  }
+
+  .product-card-title {
+      display: block;
+      margin-bottom: .75rem;
+      padding-bottom: .875rem;
+      border-bottom: 1px dashed #e2e2e2;
+      font-size: 1rem;
+      font-weight: normal;
+  }
+
+  .text-muted {
+      color: #888 !important;
+  }
+
+  .bg-secondary {
+      background-color: #f7f7f7 !important;
+  }
+
+  .accordion .accordion-heading {
+      margin-bottom: 0;
+      font-size: 1rem;
+      font-weight: bold;
+  }
+
+  .font-weight-semibold {
+      font-weight: 600 !important;
+  }
+</style>
