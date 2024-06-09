@@ -489,9 +489,17 @@ def hapus_dari_keranjang(item_id):
     else:
         return redirect(url_for('login'))
 
-@app.route('/checkout')
+@app.route('/checkout', methods=['GET'])
 def checkout():
-    return render_template('checkout.html')
+    if 'logged_in' in session and session['logged_in']:
+        user_id = session['user_id']
+        items_keranjang = list(db.keranjang.find({'user_id': user_id}))
+        subtotal = sum(int(item['harga']) * int(item['jumlah']) for item in items_keranjang)
+        pengiriman_list = list(db.pengiriman.find({}))
+        pembayaran_list = list(db.pembayaran.find({}))
+        return render_template('checkout.html', items_keranjang=items_keranjang, subtotal=subtotal, pengiriman_list=pengiriman_list, pembayaran_list=pembayaran_list)
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/profil')
 def profil():
