@@ -433,7 +433,7 @@ def tambah_ke_keranjang():
     if 'logged_in' in session and session['logged_in']:
         user_id = session['user_id']
         produk_id = request.form.get('produk_id')
-        jumlah = request.form.get('jumlah')
+        jumlah = int(request.form.get('jumlah'))
 
         produk = db.adproduk.find_one({'_id': ObjectId(produk_id)})
 
@@ -441,7 +441,9 @@ def tambah_ke_keranjang():
             existing_item = db.keranjang.find_one({'user_id': user_id, 'produk_id': produk_id})
 
             if existing_item:
-                db.keranjang.update_one({'_id': existing_item['_id']}, {'$set': {'jumlah': jumlah}})
+                total_jumlah = existing_item['jumlah'] + jumlah
+                total_berat = total_jumlah * produk['berat']
+                db.keranjang.update_one({'_id': existing_item['_id']}, {'$set': {'jumlah': total_jumlah, 'berat': total_berat}})
                 return redirect(url_for('keranjang'))
             else:
                 item_keranjang = {
@@ -450,7 +452,8 @@ def tambah_ke_keranjang():
                     'jumlah': jumlah,
                     'nama_produk': produk['nama_produk'],
                     'harga': produk['harga'],
-                    'gambar': produk['gambar']
+                    'gambar': produk['gambar'],
+                    'berat': jumlah * produk['berat']
                 }
                 db.keranjang.insert_one(item_keranjang)
                 return redirect(url_for('keranjang'))
