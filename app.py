@@ -7,6 +7,7 @@ from pymongo import MongoClient
 from bson import ObjectId
 import jwt
 from datetime import datetime
+import requests
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
@@ -21,6 +22,7 @@ app = Flask(__name__)
 
 SECRET_KEY = 'OKJ'
 app.secret_key = SECRET_KEY
+api_key = "34943098462755445d31e41f9fa7a8db"
 
 # BAGIAN ADMIN #
 @app.route('/dashboard')
@@ -492,17 +494,94 @@ def hapus_dari_keranjang(item_id):
     else:
         return redirect(url_for('login'))
 
-@app.route('/checkout', methods=['GET'])
+def calculate_total(items_keranjang, shipping_cost):
+    subtotal = sum(int(item['harga']) * int(item['jumlah']) for item in items_keranjang)
+    total = subtotal + shipping_cost
+    return subtotal, total
+
+@app.route('/checkout', methods=['GET', 'POST'])
 def checkout():
+    if request.method == 'POST':
+        # Ambil data dari form
+        data = request.form.to_dict()
+        origin = "160"
+        destination = data['kota_kabupaten']
+        total_berat = sum(item['berat'] for item in items_keranjang)
+        courier = request.form['courier'] 
+
+        # Ambil biaya pengiriman dari API RajaOngkir :)
+        dataRajaOngkir = requests.post(
+            "https://api.rajaongkir.com/starter/cost",
+            headers={"key": api_key},
+            data={
+                "origin": origin,
+                "destination": destination,
+                "weight": total_berat,
+                "courier": courier
+            }
+        ).json()
+
+        if dataRajaOngkir["rajaongkir"]["status"]["code"] == 200:
+            costs = dataRajaOngkir["rajaongkir"]["results"][0]["costs"]
+            shipping_cost = costs[0]["cost"][0]["value"]
+        else:
+            return render_template('checkout.html', error="Gagal mendapatkan data ongkir")
+
+        # Hitung total dan subtotal
+        subtotal, total = calculate_total(items_keranjang, shipping_cost)
+        return render_template('checkout.html', items_keranjang=items_keranjang, subtotal=subtotal, shipping_cost=shipping_cost, total=total)
+    
     if 'logged_in' in session and session['logged_in']:
         user_id = session['user_id']
         items_keranjang = list(db.keranjang.find({'user_id': user_id}))
-        subtotal = sum(int(item['harga']) * int(item['jumlah']) for item in items_keranjang)
-        pengiriman_list = list(db.pengiriman.find({}))
-        pembayaran_list = list(db.pembayaran.find({}))
-        return render_template('checkout.html', items_keranjang=items_keranjang, subtotal=subtotal, pengiriman_list=pengiriman_list, pembayaran_list=pembayaran_list)
+        subtotal, total = calculate_total(items_keranjang, 0)
+        return render_template('checkout.html', items_keranjang=items_keranjang, subtotal=subtotal, shipping_cost=0, total=total)
     else:
-        return redirect(url_for('login'))
+        items_keranjang = []
+
+    return render_template('checkout.html', items_keranjang=items_keranjang)
+
+@app.route('/get_province')
+def get_province():
+    response = requests.get(
+        "https://api.rajaongkir.com/starter/province",
+        headers={"key": api_key}
+    )
+    provinces = response.json()["rajaongkir"]["results"]
+    return jsonify(provinces)
+
+@app.route('/get_city/<province_id>')
+def get_city(province_id):
+    response = requests.get(
+        f"https://api.rajaongkir.com/starter/city?province={province_id}",
+        headers={"key": api_key}
+    )
+    cities = response.json()["rajaongkir"]["results"]
+    return jsonify(cities)
+
+@app.route('/calculate_shipping', methods=['POST'])
+def calculate_shipping():
+    data = request.json
+    origin = "160"
+    destination = data["city_id"]
+    weight = data["weight"]
+    courier = data["courier"]
+
+    payload = {
+        "origin": origin,
+        "destination": destination,
+        "weight": weight,
+        "courier": courier
+    }
+
+    response = requests.post(
+        "https://api.rajaongkir.com/starter/cost",
+        headers={"key": api_key},
+        data=payload
+    )
+
+    shipping_cost = response.json()["rajaongkir"]["results"][0]["costs"][0]["cost"][0]["value"]
+    return jsonify({"ongkos_kirim": shipping_cost})
 
 @app.route('/profil', methods=['GET', 'POST'])
 def profil():

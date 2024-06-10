@@ -22,7 +22,7 @@
               <strong>
                 <hr style="border: none; height: 5px; background-color: #f33f3f" />
               </strong>
-              <form>
+              <form method="POST" action="{{ url_for('checkout') }}">
                 <div class="d-flex align-items-center justify-content-between">
                   <div class="mb-3">
                     <label for="jalan" class="form-label">Jalan</label>
@@ -42,28 +42,24 @@
                   <input type="text" class="form-control" id="kecamatan" name="kecamatan" required />
                 </div>
                 <div class="mb-3">
-                  <label for="kota_kabupaten" class="form-label">Kota/Kabupaten</label>
-                  <select class="form-select mb-3" id="kota_kabupaten" name="kota_kabupaten" required>
-                    <option selected>Pilih</option>
-                    {% for pengiriman in pengiriman_list %}
-                    {% for zona, data_zona in pengiriman['zona'].items() %}
-                    {% for kota in data_zona['kota-kabupaten'] %}
-                    <option value="{{ kota }}">{{ kota }}</option>
-                    {% endfor %}
-                    {% endfor %}
-                    {% endfor %}
+                  <label for="provinsi" class="form-label">Provinsi</label>
+                  <select class="form-select mb-3" id="provinsi" name="provinsi" required onchange="getCity()">
+                    <option selected disabled>Pilih Provinsi</option>
                   </select>
                 </div>
-                <div class="d-flex align-items-center justify-content-between">
-                  <div class="mb-3">
-                    <label for="provinsi" class="form-label">Provinsi</label>
-                    <input type="text" class="form-control" id="provinsi" name="provinsi" required
-                      style="width: 290px;" />
-                  </div>
-                  <div class="mb-3">
-                    <label for="kode_pos" class="form-label">Kode Pos</label>
-                    <input type="text" class="form-control" id="kode_pos" name="kode_pos" required />
-                  </div>
+                <div class="mb-3">
+                  <label for="kota_kabupaten" class="form-label">Kota/Kabupaten</label>
+                  <select class="form-select mb-3" id="kota_kabupaten" name="kota_kabupaten" required
+                    onchange="calculateShipping()">
+                    <option selected disabled>Pilih Kota/Kabupaten</option>
+                  </select>
+                </div>
+                <div class="mb-3">
+                  <input type="hidden" id="weight" value="1000" />
+                </div>
+                <div class="mb-3">
+                  <label for="kode_pos" class="form-label">Kode Pos</label>
+                  <input type="text" class="form-control" id="kode_pos" name="kode_pos" required style="width: 30%;" />
                 </div>
               </form>
             </div>
@@ -75,22 +71,25 @@
               {% for item in items_keranjang %}
               <div class="card mb-4">
                 <div class="card-body">
-                    <div class="d-sm-flex justify-content-between">
-                        <div class="media d-block d-sm-flex text-center text-sm-left">
-                            <a class="cart-item-thumb mx-auto mr-sm-4" href="#"><img src="{{ url_for('static', filename='ad_assets/imgproduk/' + item['gambar']) }}" alt="Product" style="object-fit: cover; max-width: 150px; max-height: 150px;"></a>
-                            <div class="media-body pt-3">
-                                <h3 class="product-card-title font-weight-semibold border-0 pb-0 ">
-                                    <a href="#" style="display: inline-block; width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left;">
-                                        {{ item.nama_produk }}
-                                    </a>
-                                </h3>
-                                <div class="font-size-lg pt-2" style="text-align: left;">Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</div>
-                                <div class="font-size-lg pt-2" style="text-align: left;">Jumlah: {{ item['jumlah'] }}</div>
-                            </div>                                
-                        </div>
+                  <div class="d-sm-flex justify-content-between">
+                    <div class="media d-block d-sm-flex text-center text-sm-left">
+                      <a class="cart-item-thumb mx-auto mr-sm-4" href="#"><img
+                          src="{{ url_for('static', filename='ad_assets/imgproduk/' ~ item.gambar) }}" alt="Product"
+                          style="object-fit: cover; max-width: 150px; max-height: 150px;"></a>
+                      <div class="media-body pt-3">
+                        <h3 class="product-card-title font-weight-semibold border-0 pb-0 ">
+                          <a href="#"
+                            style="display: inline-block; width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left;">
+                            {{ item['nama_produk'] }}
+                          </a>
+                        </h3>
+                        <div class="font-size-lg pt-2" style="text-align: left;">Rp {{ item['harga'] }}</div>
+                        <div class="font-size-lg pt-2" style="text-align: left;">Jumlah: {{ item['jumlah'] }}</div>
+                      </div>
                     </div>
+                  </div>
                 </div>
-            </div>
+              </div>
               {% endfor %}
             </div>
             <br>
@@ -99,22 +98,23 @@
                 <hr style="border: none; height: 5px; background-color: #f33f3f" />
               </strong>
               <h6>Metode Pengirimian</h6>
-              <select class="form-select mb-3 mx-auto" aria-label="Default select example"
+              <select class="form-select mb-3 mx-auto" name="courier" id="courier" onchange="calculateShipping()"
                 style="max-width: 250px; background-color: #dc3545; color:white;">
-                <option selected>Pilih</option>
-                {% for pengiriman in pengiriman_list %}
-                <option value="{{ pengiriman['_id'] }}">{{ pengiriman['jasa_kirim'] }}</option>
-                {% endfor %}
+                <option selected disabled>Pilih Kurir</option>
+                <option value="jne">JNE</option>
+                <option value="pos">POS Indonesia</option>
+                <option value="tiki">TIKI</option>
               </select>
               <strong>
                 <hr style="border: none; height: 5px; background-color: #f33f3f" />
               </strong>
+              <!-- Detail ringkasan belanja -->
               <div class="d-flex align-items-center justify-content-between">
                 <div class="mb-3">
                   <p><strong>Total Produk : </strong></p>
                 </div>
                 <div class="mb-3">
-                  <p><strong>Rp {{ "{:,.0f}".format(subtotal).replace(",", ".") }}</strong></p>
+                  <p id="subtotal"><strong>Rp {{ subtotal }}</strong></p>
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between">
@@ -122,7 +122,7 @@
                   <p><strong>Total Pengiriman : </strong></p>
                 </div>
                 <div class="mb-3">
-                  <p><strong>Rp. 0</strong></p>
+                  <p id="shipping_cost"><strong>Rp. {{ shipping_cost }}</strong></p>
                 </div>
               </div>
               <strong>
@@ -133,7 +133,7 @@
                   <p><strong>Total : </strong></p>
                 </div>
                 <div class="mb-3">
-                  <p><strong>Rp. 0</strong></p>
+                  <p id="total"><strong>Rp. {{ total }}</strong></p>
                 </div>
               </div>
               <strong>
@@ -159,17 +159,15 @@
       </div>
       <a href="/pesanan" class="card">
         <div class="bg-light rounded p-4">
-          {% for pembayaran in pembayaran_list %}
-            <div class="card w-80">
-              <div class="card-body">
-                <p class="card-title"><strong>{{ pembayaran['Nama_Bank'] }} No. Rekening : {{ pembayaran['No_Rek'] }}</strong></p>
-                <p class="card-text">AN : {{ pembayaran['Pemilik_Rek'] }}</p>
-                <p class="card-text">Lakukan transfer sesuai dengan nominal yang tertera. <br>
+          <div class="card w-80">
+            <div class="card-body">
+              <p class="card-title"><strong>Nama Bank No. Rekening : 12345678910</strong></p>
+              <p class="card-text">AN : Pemilik</p>
+              <p class="card-text">Lakukan transfer sesuai dengan nominal yang tertera. <br>
                 Ketika melakukan transfer diharapkan menambahkan kode pesanan pada nota transfer</p>
-              </div>
             </div>
-            <br>
-            {% endfor %}
+          </div>
+          <br>
         </div>
       </a>
     </div>
@@ -179,56 +177,103 @@
 {% include 'Footer.html' %}
 
 
+<script>
+  function getProvince() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/get_province", true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        var provinces = JSON.parse(xhr.responseText);
+        var selectProvince = document.getElementById("provinsi");
+        selectProvince.innerHTML = "";
+        provinces.forEach(function (province) {
+          var option = document.createElement("option");
+          option.text = province.province;
+          option.value = province.province_id;
+          selectProvince.appendChild(option);
+        });
+      }
+    };
+    xhr.send();
+  }
+
+  function getCity() {
+    var provinceId = document.getElementById("provinsi").value;
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/get_city/" + provinceId, true);
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+  xhr.open("POST", "/calculate_shipping", true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      var shippingCost = JSON.parse(xhr.responseText).ongkos_kirim;
+      document.getElementById("shipping_cost").innerText = "Rp. " + shippingCost;
+      var subtotal = parseInt(document.getElementById("subtotal").innerText.replace("Rp ", ""));
+      var total = subtotal + parseInt(shippingCost);
+      document.getElementById("total").innerText = "Rp. " + total;
+    }
+  };
+  xhr.send(JSON.stringify({ weight: weight, city_id: cityId, courier: courier }));
+}
+
+  window.onload = getProvince;
+
+  document.getElementById("provinsi").addEventListener("change", getCity);
+  document.getElementById("kota_kabupaten").addEventListener("change", calculateShipping);
+  document.getElementById("courier").addEventListener("change", calculateShipping);  
+</script>
+
 
 <style>
   .product-card-title,
   .font-size-lg {
-      margin-left: 20px;
+    margin-left: 20px;
   }
 
   .cart-item-thumb {
-      display: block;
-      width: 10rem;
+    display: block;
+    width: 10rem;
   }
 
   .cart-item-thumb>img {
-      display: block;
-      width: 100%;
-      border-radius: 15px;
+    display: block;
+    width: 100%;
+    border-radius: 15px;
   }
 
   .product-card-title>a {
-      color: #222;
+    color: #222;
   }
 
   .font-weight-semibold {
-      font-weight: 600 !important;
+    font-weight: 600 !important;
   }
 
   .product-card-title {
-      display: block;
-      margin-bottom: .75rem;
-      padding-bottom: .875rem;
-      border-bottom: 1px dashed #e2e2e2;
-      font-size: 1rem;
-      font-weight: normal;
+    display: block;
+    margin-bottom: .75rem;
+    padding-bottom: .875rem;
+    border-bottom: 1px dashed #e2e2e2;
+    font-size: 1rem;
+    font-weight: normal;
   }
 
   .text-muted {
-      color: #888 !important;
+    color: #888 !important;
   }
 
   .bg-secondary {
-      background-color: #f7f7f7 !important;
+    background-color: #f7f7f7 !important;
   }
 
   .accordion .accordion-heading {
-      margin-bottom: 0;
-      font-size: 1rem;
-      font-weight: bold;
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: bold;
   }
 
   .font-weight-semibold {
-      font-weight: 600 !important;
+    font-weight: 600 !important;
   }
 </style>
