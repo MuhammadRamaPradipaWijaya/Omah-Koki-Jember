@@ -43,19 +43,15 @@
                 </div>
                 <div class="mb-3">
                   <label for="provinsi" class="form-label">Provinsi</label>
-                  <select class="form-select mb-3" id="provinsi" name="provinsi" required onchange="getCity()">
+                  <select class="form-select mb-3" id="provinsi" name="provinsi" required>
                     <option selected disabled>Pilih Provinsi</option>
                   </select>
                 </div>
                 <div class="mb-3">
                   <label for="kota_kabupaten" class="form-label">Kota/Kabupaten</label>
-                  <select class="form-select mb-3" id="kota_kabupaten" name="kota_kabupaten" required
-                    onchange="calculateShipping()">
+                  <select class="form-select mb-3" id="kota_kabupaten" name="kota_kabupaten" required>
                     <option selected disabled>Pilih Kota/Kabupaten</option>
                   </select>
-                </div>
-                <div class="mb-3">
-                  <input type="hidden" id="weight" value="1000" />
                 </div>
                 <div class="mb-3">
                   <label for="kode_pos" class="form-label">Kode Pos</label>
@@ -98,8 +94,7 @@
                 <hr style="border: none; height: 5px; background-color: #f33f3f" />
               </strong>
               <h6>Metode Pengirimian</h6>
-              <select class="form-select mb-3 mx-auto" name="courier" id="courier" onchange="calculateShipping()"
-                style="max-width: 250px; background-color: #dc3545; color:white;">
+              <select class="form-select mb-3 mx-auto" name="courier" id="courier" style="max-width: 250px; background-color: #dc3545; color:white;">
                 <option selected disabled>Pilih Kurir</option>
                 <option value="jne">JNE</option>
                 <option value="pos">POS Indonesia</option>
@@ -114,7 +109,7 @@
                   <p><strong>Total Produk : </strong></p>
                 </div>
                 <div class="mb-3">
-                  <p id="subtotal"><strong>Rp {{ subtotal }}</strong></p>
+                  <p id="subtotal"><strong>Rp 0</strong></p>
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between">
@@ -122,7 +117,7 @@
                   <p><strong>Total Pengiriman : </strong></p>
                 </div>
                 <div class="mb-3">
-                  <p id="shipping_cost"><strong>Rp. {{ shipping_cost }}</strong></p>
+                  <p id="shipping_cost"><strong>Rp. 0</strong></p>
                 </div>
               </div>
               <strong>
@@ -133,7 +128,7 @@
                   <p><strong>Total : </strong></p>
                 </div>
                 <div class="mb-3">
-                  <p id="total"><strong>Rp. {{ total }}</strong></p>
+                  <p id="total"><strong>Rp. 0</strong></p>
                 </div>
               </div>
               <strong>
@@ -175,78 +170,6 @@
 </div>
 
 {% include 'Footer.html' %}
-
-
-<script>
-  function getProvince() {
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "/get_province", true);
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState == 4 && xhr.status == 200) {
-        var provinces = JSON.parse(xhr.responseText);
-        var selectProvince = document.getElementById("provinsi");
-        selectProvince.innerHTML = "";
-        provinces.forEach(function (province) {
-          var option = document.createElement("option");
-          option.text = province.province;
-          option.value = province.province_id;
-          selectProvince.appendChild(option);
-        });
-      }
-    };
-    xhr.send();
-  }
-
-  function getCity() {
-    var provinceId = document.getElementById("provinsi").value;
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "/get_city/" + provinceId, true);
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState == 4 && xhr.status == 200) {
-        var cities = JSON.parse(xhr.responseText);
-        var selectCity = document.getElementById("kota_kabupaten");
-        selectCity.innerHTML = "";
-        cities.forEach(function (city) {
-          var option = document.createElement("option");
-          option.text = city.city_name;
-          option.value = city.city_id;
-          selectCity.appendChild(option);
-        });
-        calculateShipping();
-      }
-    };
-    xhr.send();
-  }
-
-function calculateShipping() {
-  var weight = document.getElementById("weight").value;
-  var cityId = document.getElementById("kota_kabupaten").value;
-  var courier = document.getElementById("courier").value;
-
-  if (!cityId || !courier) return;
-
-  var xhr = new XMLHttpRequest();
-  xhr.open("POST", "/calculate_shipping", true);
-  xhr.setRequestHeader("Content-Type", "application/json");
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-      var shippingCost = JSON.parse(xhr.responseText).ongkos_kirim;
-      document.getElementById("shipping_cost").innerText = "Rp. " + shippingCost;
-      var subtotal = parseInt(document.getElementById("subtotal").innerText.replace("Rp ", ""));
-      var total = subtotal + parseInt(shippingCost);
-      document.getElementById("total").innerText = "Rp. " + total;
-    }
-  };
-  xhr.send(JSON.stringify({ weight: weight, city_id: cityId, courier: courier }));
-}
-
-  window.onload = getProvince;
-
-  document.getElementById("provinsi").addEventListener("change", getCity);
-  document.getElementById("kota_kabupaten").addEventListener("change", calculateShipping);
-  document.getElementById("courier").addEventListener("change", calculateShipping);  
-</script>
-
 
 <style>
   .product-card-title,
