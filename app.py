@@ -649,8 +649,10 @@ def login():
         
         if user and jwt.decode(user['password'], SECRET_KEY, algorithms=['HS256'])['password'] == password:
             session['logged_in'] = True
-            session['username'] = user['nama']
+            session['nama'] = user['nama']
             session['user_id'] = str(user['_id'])
+            if 'image' in user:
+                session['image'] = user['image']            
             return redirect(url_for('home'))
         else:
             error = 'Email atau kata sandi salah. Silakan coba lagi.'
@@ -678,7 +680,7 @@ def register():
         }).inserted_id
         
         session['logged_in'] = True
-        session['username'] = nama
+        session['nama'] = nama
         session['user_id'] = str(user_id)
         
         return redirect(url_for('login'))
