@@ -111,6 +111,11 @@
               <strong>
                 <hr style="border: none; height: 5px; background-color: #f33f3f" />
               </strong>
+
+              {% for item in items_keranjang %}
+              <div class="font-size-lg pt-2" style="text-align: left;">Berat: {{ item['berat'] }} kg</div>
+              {% endfor %}
+              <br><br>
               <!-- Detail ringkasan belanja -->
               <div class="d-flex align-items-center justify-content-between">
                 <div class="mb-3">
