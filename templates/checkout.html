@@ -43,14 +43,21 @@
                 </div>
                 <div class="mb-3">
                   <label for="provinsi" class="form-label">Provinsi</label>
-                  <select class="form-select mb-3" id="provinsi" name="provinsi" required>
-                    <option selected disabled>Pilih Provinsi</option>
-                  </select>
+                  <input type="text" class="form-control" id="provinsi" name="provinsi" required />
                 </div>
                 <div class="mb-3">
                   <label for="kota_kabupaten" class="form-label">Kota/Kabupaten</label>
                   <select class="form-select mb-3" id="kota_kabupaten" name="kota_kabupaten" required>
                     <option selected disabled>Pilih Kota/Kabupaten</option>
+                    {% for pengiriman in pengiriman_list %}
+                    {% for zona, details in pengiriman.zona.items() %}
+                    {% if 'kota-kabupaten' in details %}
+                    {% for kota in details['kota-kabupaten'] %}
+                    <option value="{{ kota }}">{{ kota }}</option>
+                    {% endfor %}
+                    {% endif %}
+                    {% endfor %}
+                    {% endfor %}
                   </select>
                 </div>
                 <div class="mb-3">
@@ -94,11 +101,12 @@
                 <hr style="border: none; height: 5px; background-color: #f33f3f" />
               </strong>
               <h6>Metode Pengirimian</h6>
-              <select class="form-select mb-3 mx-auto" name="courier" id="courier" style="max-width: 250px; background-color: #dc3545; color:white;">
+              <select class="form-select mb-3 mx-auto" name="courier" id="courier"
+                style="max-width: 250px; background-color: #dc3545; color:white;">
                 <option selected disabled>Pilih Kurir</option>
-                <option value="jne">JNE</option>
-                <option value="pos">POS Indonesia</option>
-                <option value="tiki">TIKI</option>
+                {% for pengiriman in pengiriman_list %}
+                <option value="{{ pengiriman['jasa_kirim'] }}">{{ pengiriman['jasa_kirim'] }}</option>
+                {% endfor %}
               </select>
               <strong>
                 <hr style="border: none; height: 5px; background-color: #f33f3f" />
@@ -109,7 +117,7 @@
                   <p><strong>Total Produk : </strong></p>
                 </div>
                 <div class="mb-3">
-                  <p id="subtotal"><strong>Rp 0</strong></p>
+                  <p id="subtotal"><strong>Rp {{ subtotal }}</strong></p>
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between">
@@ -154,18 +162,22 @@
       </div>
       <a href="/pesanan" class="card">
         <div class="bg-light rounded p-4">
+          {% for pembayaran in pembayaran_list %}
           <div class="card w-80">
             <div class="card-body">
-              <p class="card-title"><strong>Nama Bank No. Rekening : 12345678910</strong></p>
-              <p class="card-text">AN : Pemilik</p>
+              <p class="card-title"><strong>{{ pembayaran['Nama_Bank'] }} No. Rekening : {{ pembayaran['No_Rek']
+                  }}</strong></p>
+              <p class="card-text">AN : {{ pembayaran['Pemilik_Rek'] }}</p>
               <p class="card-text">Lakukan transfer sesuai dengan nominal yang tertera. <br>
                 Ketika melakukan transfer diharapkan menambahkan kode pesanan pada nota transfer</p>
             </div>
           </div>
           <br>
+          {% endfor %}
         </div>
-      </a>
+        <br>
     </div>
+    </a>
   </div>
 </div>
 
