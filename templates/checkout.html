@@ -203,6 +203,29 @@
     xhr.open("GET", "/get_city/" + provinceId, true);
     xhr.onreadystatechange = function () {
       if (xhr.readyState == 4 && xhr.status == 200) {
+        var cities = JSON.parse(xhr.responseText);
+        var selectCity = document.getElementById("kota_kabupaten");
+        selectCity.innerHTML = "";
+        cities.forEach(function (city) {
+          var option = document.createElement("option");
+          option.text = city.city_name;
+          option.value = city.city_id;
+          selectCity.appendChild(option);
+        });
+        calculateShipping();
+      }
+    };
+    xhr.send();
+  }
+
+function calculateShipping() {
+  var weight = document.getElementById("weight").value;
+  var cityId = document.getElementById("kota_kabupaten").value;
+  var courier = document.getElementById("courier").value;
+
+  if (!cityId || !courier) return;
+
+  var xhr = new XMLHttpRequest();
   xhr.open("POST", "/calculate_shipping", true);
   xhr.setRequestHeader("Content-Type", "application/json");
   xhr.onreadystatechange = function () {
