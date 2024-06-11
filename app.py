@@ -496,12 +496,72 @@ def hapus_dari_keranjang(item_id):
 @app.route('/checkout', methods=['GET', 'POST'])
 def checkout():
     if 'logged_in' in session and session['logged_in']:
-        user_id = session['user_id']
-        items_keranjang = list(db.keranjang.find({'user_id': user_id}))
-        subtotal = sum(int(item['harga']) * int(item['jumlah']) for item in items_keranjang)
-        pengiriman_list = list(db.pengiriman.find({}))
-        pembayaran_list = list(db.pembayaran.find({}))
-        return render_template('checkout.html', items_keranjang=items_keranjang, subtotal=subtotal, pengiriman_list=pengiriman_list, pembayaran_list=pembayaran_list)
+        if request.method == 'POST':
+            user_id = session['user_id']
+            nama = session['nama']
+            email = session['email']
+            telepon = session['telepon']
+            
+            jalan = request.form.get('jalan')
+            rt_rw = request.form.get('rt_rw')
+            kelurahan_desa = request.form.get('kelurahan_desa')
+            kecamatan = request.form.get('kecamatan')
+            provinsi = request.form.get('provinsi')
+            kota_kabupaten = request.form.get('kota_kabupaten')
+            kode_pos = request.form.get('kode_pos')
+            alamat = f"{jalan}, RT/RW: {rt_rw}, Kel/Desa: {kelurahan_desa}, Kec: {kecamatan}, {kota_kabupaten}, {provinsi}, {kode_pos}"
+
+            metode_pengiriman = request.form.get('metode_pengiriman')
+            metode_pembayaran = request.form.get('metode_pembayaran')
+
+            items_keranjang = list(db.keranjang.find({'user_id': user_id}))
+            subtotal = sum(int(item['harga']) * int(item['jumlah']) for item in items_keranjang)
+            total_berat = sum(item['berat'] for item in items_keranjang)
+
+            pengiriman = db.pengiriman.find_one({'jasa_kirim': metode_pengiriman})
+            tarif_pengiriman = 0
+            estimasi_pengiriman = 0
+            if pengiriman:
+                for zona, details in pengiriman['zona'].items():
+                    if kota_kabupaten in details.get('kota-kabupaten', []):
+                        tarif_pengiriman = details['tarif']
+                        estimasi_pengiriman = details['estimasi']
+                        break
+
+            total_pengiriman = tarif_pengiriman * total_berat
+            total_semuanya = float(subtotal) + float(total_pengiriman)
+
+            ringkasan_belanja = [{'nama_produk': item['nama_produk'], 'jumlah': item['jumlah'], 'harga': item['harga']} for item in items_keranjang]
+
+            pesanan = {
+                'user_id': user_id,
+                'nama': nama,
+                'email': email,
+                'telepon': telepon,
+                'alamat': alamat,
+                'ringkasan_belanja': ringkasan_belanja,
+                'metode_pengiriman': metode_pengiriman,
+                'total_produk': float(subtotal),
+                'total_pengiriman': float(total_pengiriman),
+                'total_semuanya': float(total_semuanya),
+                'metode_pembayaran': metode_pembayaran,
+                'status': 'pending',
+                'estimasi_pengiriman': estimasi_pengiriman,
+                'tanggal_pesanan': datetime.now().strftime('%Y-%m-%d')
+            }
+
+            db.pesanan.insert_one(pesanan)
+            db.keranjang.delete_many({'user_id': user_id})
+
+            return redirect(url_for('pesanan'))
+        
+        else:
+            user_id = session['user_id']
+            items_keranjang = list(db.keranjang.find({'user_id': user_id}))
+            subtotal = sum(int(item['harga']) * int(item['jumlah']) for item in items_keranjang)
+            pengiriman_list = list(db.pengiriman.find({}))
+            pembayaran_list = list(db.pembayaran.find({}))
+            return render_template('checkout.html', items_keranjang=items_keranjang, subtotal=subtotal, pengiriman_list=pengiriman_list, pembayaran_list=pembayaran_list)
     else:
         return redirect(url_for('login'))
     

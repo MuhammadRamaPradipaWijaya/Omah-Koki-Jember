@@ -1,10 +1,10 @@
-{% include 'header.html' %} {% include 'navbar.html' %}
+{% include 'header.html' %}
+{% include 'navbar.html' %}
 
 <br /><br /><br />
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-xl-10 col-md-10">
-
       <div class="container-fluid pt-4 px-4">
         <h6 class="mb-6"><strong>CHECKOUT</strong></h6><br>
         <div class="row g-4">
@@ -22,7 +22,7 @@
               <strong>
                 <hr style="border: none; height: 5px; background-color: #f33f3f" />
               </strong>
-              <form method="POST" action="{{ url_for('checkout') }}">
+              <form id="checkoutForm" method="POST" action="{{ url_for('checkout') }}">
                 <div class="d-flex align-items-center justify-content-between">
                   <div class="mb-3">
                     <label for="jalan" class="form-label">Jalan</label>
@@ -64,6 +64,8 @@
                   <label for="kode_pos" class="form-label">Kode Pos</label>
                   <input type="text" class="form-control" id="kode_pos" name="kode_pos" required style="width: 30%;" />
                 </div>
+                <input type="hidden" name="metode_pengiriman" id="hidden_metode_pengiriman">
+                <input type="hidden" name="metode_pembayaran" id="hidden_metode_pembayaran">
               </form>
             </div>
           </div>
@@ -82,7 +84,7 @@
                       <div class="media-body pt-3">
                         <h3 class="product-card-title font-weight-semibold border-0 pb-0 ">
                           <a href="#"
-                            style="display: inline-block; width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left;">
+                            style="display: inline-block; width: 190px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left;">
                             {{ item['nama_produk'] }}
                           </a>
                         </h3>
@@ -157,33 +159,41 @@
 </div>
 
 <!-- modal metode pembayaran  -->
-<div class="modal fade" id="ModalMetodePembayaran" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="ModalMetodePembayaran" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Pilih Pembayaran</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <a href="/pesanan" class="card">
-        <div class="bg-light rounded p-4">
-          {% for pembayaran in pembayaran_list %}
-          <div class="card w-80">
-            <div class="card-body">
-              <p class="card-title"><strong>{{ pembayaran['Nama_Bank'] }} No. Rekening : {{ pembayaran['No_Rek']
-                  }}</strong></p>
-              <p class="card-text">AN : {{ pembayaran['Pemilik_Rek'] }}</p>
-              <p class="card-text">Lakukan transfer sesuai dengan nominal yang tertera. <br>
-                Ketika melakukan transfer diharapkan menambahkan kode pesanan pada nota transfer</p>
+      <div class="modal-body">
+        {% for pembayaran in pembayaran_list %}
+        <div class="card w-80" onclick="pilihMetodePembayaran('{{ pembayaran['Nama_Bank'] }}')">
+          <div class="card-body">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="metode_pembayaran" id="metode_{{ pembayaran['Nama_Bank'] }}"
+                value="{{ pembayaran['Nama_Bank'] }}" onclick="pilihMetodePembayaran('{{ pembayaran['Nama_Bank'] }}')">
+              <label class="form-check-label" for="metode_{{ pembayaran['Nama_Bank'] }}">
+                <strong>{{ pembayaran['Nama_Bank'] }} No. Rekening : {{ pembayaran['No_Rek'] }}</strong>
+              </label>
             </div>
+            <p class="card-text">AN : {{ pembayaran['Pemilik_Rek'] }}</p>
+            <p class="card-text">Lakukan transfer sesuai dengan nominal yang tertera. <br>
+              Ketika melakukan transfer diharapkan menambahkan kode pesanan pada nota transfer</p>
           </div>
-          <br>
-          {% endfor %}
         </div>
         <br>
+        {% endfor %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-danger" onclick="submitCheckout()">Checkout</button>
+      </div>
     </div>
-    </a>
   </div>
 </div>
+
 
 {% include 'Footer.html' %}
 
@@ -232,6 +242,28 @@
     kotaKabupatenSelect.addEventListener('change', calculateShippingCost);
     metodePengirimanSelect.addEventListener('change', calculateShippingCost);
   });
+
+  function pilihMetodePembayaran(metode) {
+    document.getElementById('hidden_metode_pembayaran').value = metode;
+  }
+
+  function submitCheckout() {
+    const metodePengiriman = document.getElementById('metode_pengiriman').value;
+    if (!metodePengiriman) {
+      alert('Silakan pilih metode pengiriman.');
+      return;
+    }
+
+    document.getElementById('hidden_metode_pengiriman').value = metodePengiriman;
+
+    const metodePembayaran = document.getElementById('hidden_metode_pembayaran').value;
+    if (!metodePembayaran) {
+      alert('Silakan pilih metode pembayaran.');
+      return;
+    }
+
+    document.getElementById('checkoutForm').submit();
+  }
 </script>
 
 <style>
