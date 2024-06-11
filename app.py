@@ -215,13 +215,13 @@ def adpengiriman():
 def tambah_pengiriman():
     if request.method == 'POST':
         jasa_kirim = request.form.get('jasa_kirim')
-        tarif_dalam_kota = request.form.get('tarif_dalam_kota')
+        tarif_dalam_kota = int(request.form.get('tarif_dalam_kota'))
         estimasi_dalam_kota = request.form.get('estimasi_dalam_kota')
-        tarif_luar_kota = request.form.get('tarif_luar_kota')
+        tarif_luar_kota = int(request.form.get('tarif_luar_kota'))
         estimasi_luar_kota = request.form.get('estimasi_luar_kota')
-        tarif_luar_provinsi = request.form.get('tarif_luar_provinsi')
+        tarif_luar_provinsi = int(request.form.get('tarif_luar_provinsi'))
         estimasi_luar_provinsi = request.form.get('estimasi_luar_provinsi')
-        tarif_luar_pulau = request.form.get('tarif_luar_pulau')
+        tarif_luar_pulau = int(request.form.get('tarif_luar_pulau'))
         estimasi_luar_pulau = request.form.get('estimasi_luar_pulau')
         
         db.pengiriman.insert_one({
@@ -252,7 +252,7 @@ def tambah_pengiriman():
 def tambah_kota():
     if request.method == 'POST':
         jasa_kirim = request.form.get('jasa_kirim')
-        zona_tarif = request.form.get('zona_tarif')
+        zona_tarif = int(request.form.get('zona_tarif'))
         nama_kota = request.form.get('nama_kota')
         
         db.pengiriman.update_one(
@@ -269,13 +269,13 @@ def tambah_kota():
 def editpengiriman(pengiriman_id):
     if request.method == 'POST':
         jasa_kirim = request.form.get('jasa_kirim')
-        tarif_dalam_kota = request.form.get('tarif_dalam_kota')
+        tarif_dalam_kota = int(request.form.get('tarif_dalam_kota'))
         estimasi_dalam_kota = request.form.get('estimasi_dalam_kota')
-        tarif_luar_kota = request.form.get('tarif_luar_kota')
+        tarif_luar_kota = int(request.form.get('tarif_luar_kota'))
         estimasi_luar_kota = request.form.get('estimasi_luar_kota')
-        tarif_luar_provinsi = request.form.get('tarif_luar_provinsi')
+        tarif_luar_provinsi = int(request.form.get('tarif_luar_provinsi'))
         estimasi_luar_provinsi = request.form.get('estimasi_luar_provinsi')
-        tarif_luar_pulau = request.form.get('tarif_luar_pulau')
+        tarif_luar_pulau = int(request.form.get('tarif_luar_pulau'))
         estimasi_luar_pulau = request.form.get('estimasi_luar_pulau')
 
         db.pengiriman.update_one({'_id': ObjectId(pengiriman_id)}, {
@@ -504,6 +504,35 @@ def checkout():
         return render_template('checkout.html', items_keranjang=items_keranjang, subtotal=subtotal, pengiriman_list=pengiriman_list, pembayaran_list=pembayaran_list)
     else:
         return redirect(url_for('login'))
+    
+@app.route('/get_shipping_cost', methods=['POST'])
+def get_shipping_cost():
+    if request.method == 'POST':
+        data = request.get_json()
+        kota_kabupaten = data.get('kota_kabupaten')
+        berat_total = data.get('berat_total')
+        metode_pengiriman = data.get('metode_pengiriman')
+
+        print(f"Received kota_kabupaten: {kota_kabupaten}, berat_total: {berat_total}, metode_pengiriman: {metode_pengiriman}")
+
+        pengiriman = db.pengiriman.find_one({'jasa_kirim': metode_pengiriman})
+        if pengiriman:
+            print(f"Found pengiriman: {pengiriman}")
+            tarif = 0
+            for zona, details in pengiriman['zona'].items():
+                print(f"Checking zona: {zona}, details: {details}")
+                if kota_kabupaten in details.get('kota-kabupaten', []):
+                    tarif = int(details['tarif'])
+                    print(f"Matched kota_kabupaten: {kota_kabupaten}, tarif: {tarif}")
+                    break
+            total_tarif = tarif * berat_total
+            print(f"Total tarif: {total_tarif}")
+            return jsonify({'tarif': total_tarif})
+        else:
+            print("No matching pengiriman found")
+
+    return jsonify({'tarif': 0})
+
 
 @app.route('/profil', methods=['GET', 'POST'])
 def profil():
