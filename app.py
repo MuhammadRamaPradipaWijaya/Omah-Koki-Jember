@@ -215,13 +215,13 @@ def adpengiriman():
 def tambah_pengiriman():
     if request.method == 'POST':
         jasa_kirim = request.form.get('jasa_kirim')
-        tarif_dalam_kota = int(request.form.get('tarif_dalam_kota'))
+        tarif_dalam_kota = float(request.form.get('tarif_dalam_kota'))
         estimasi_dalam_kota = request.form.get('estimasi_dalam_kota')
-        tarif_luar_kota = int(request.form.get('tarif_luar_kota'))
+        tarif_luar_kota = float(request.form.get('tarif_luar_kota'))
         estimasi_luar_kota = request.form.get('estimasi_luar_kota')
-        tarif_luar_provinsi = int(request.form.get('tarif_luar_provinsi'))
+        tarif_luar_provinsi = float(request.form.get('tarif_luar_provinsi'))
         estimasi_luar_provinsi = request.form.get('estimasi_luar_provinsi')
-        tarif_luar_pulau = int(request.form.get('tarif_luar_pulau'))
+        tarif_luar_pulau = float(request.form.get('tarif_luar_pulau'))
         estimasi_luar_pulau = request.form.get('estimasi_luar_pulau')
         
         db.pengiriman.insert_one({
@@ -252,7 +252,7 @@ def tambah_pengiriman():
 def tambah_kota():
     if request.method == 'POST':
         jasa_kirim = request.form.get('jasa_kirim')
-        zona_tarif = int(request.form.get('zona_tarif'))
+        zona_tarif = request.form.get('zona_tarif')
         nama_kota = request.form.get('nama_kota')
         
         db.pengiriman.update_one(
@@ -269,13 +269,13 @@ def tambah_kota():
 def editpengiriman(pengiriman_id):
     if request.method == 'POST':
         jasa_kirim = request.form.get('jasa_kirim')
-        tarif_dalam_kota = int(request.form.get('tarif_dalam_kota'))
+        tarif_dalam_kota = float(request.form.get('tarif_dalam_kota'))
         estimasi_dalam_kota = request.form.get('estimasi_dalam_kota')
-        tarif_luar_kota = int(request.form.get('tarif_luar_kota'))
+        tarif_luar_kota = float(request.form.get('tarif_luar_kota'))
         estimasi_luar_kota = request.form.get('estimasi_luar_kota')
-        tarif_luar_provinsi = int(request.form.get('tarif_luar_provinsi'))
+        tarif_luar_provinsi = float(request.form.get('tarif_luar_provinsi'))
         estimasi_luar_provinsi = request.form.get('estimasi_luar_provinsi')
-        tarif_luar_pulau = int(request.form.get('tarif_luar_pulau'))
+        tarif_luar_pulau = float(request.form.get('tarif_luar_pulau'))
         estimasi_luar_pulau = request.form.get('estimasi_luar_pulau')
 
         db.pengiriman.update_one({'_id': ObjectId(pengiriman_id)}, {
