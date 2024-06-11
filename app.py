@@ -601,6 +601,8 @@ def login():
         if user and jwt.decode(user['password'], SECRET_KEY, algorithms=['HS256'])['password'] == password:
             session['logged_in'] = True
             session['nama'] = user['nama']
+            session['email'] = user['email']
+            session['telepon'] = user['telepon']
             session['user_id'] = str(user['_id'])
             if 'image' in user:
                 session['image'] = user['image']            
@@ -632,6 +634,8 @@ def register():
         
         session['logged_in'] = True
         session['nama'] = nama
+        session['email'] = email
+        session['telepon'] = telepon
         session['user_id'] = str(user_id)
         
         return redirect(url_for('login'))
