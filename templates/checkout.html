@@ -101,7 +101,7 @@
                 <hr style="border: none; height: 5px; background-color: #f33f3f" />
               </strong>
               <h6>Metode Pengirimian</h6>
-              <select class="form-select mb-3 mx-auto" name="courier" id="courier"
+              <select class="form-select mb-3 mx-auto" name="metode_pengiriman" id="metode_pengiriman"
                 style="max-width: 250px; background-color: #dc3545; color:white;">
                 <option selected disabled>Pilih Kurir</option>
                 {% for pengiriman in pengiriman_list %}
@@ -141,7 +141,7 @@
                   <p><strong>Total : </strong></p>
                 </div>
                 <div class="mb-3">
-                  <p id="total"><strong>Rp. 0</strong></p>
+                  <p id="total"><strong>Rp. {{ subtotal }}</strong></p>
                 </div>
               </div>
               <strong>
@@ -187,6 +187,53 @@
 </div>
 
 {% include 'Footer.html' %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const kotaKabupatenSelect = document.getElementById('kota_kabupaten');
+    const metodePengirimanSelect = document.getElementById('metode_pengiriman');
+    const shippingCostElement = document.getElementById('shipping_cost');
+    const totalElement = document.getElementById('total');
+    const subtotal = parseInt(document.getElementById('subtotal').innerText.replace('Rp ', '').replace(/\./g, ''));
+
+    function calculateShippingCost() {
+      const kotaKabupaten = kotaKabupatenSelect.value;
+      const metodePengiriman = metodePengirimanSelect.value;
+      const beratTotal = {% for item in items_keranjang %}{{ item['berat'] }}{% if not loop.last %} + {% endif %}{% endfor %};
+
+      console.log(`Selected kota_kabupaten: ${kotaKabupaten}`);
+      console.log(`Selected metode_pengiriman: ${metodePengiriman}`);
+      console.log(`Calculated berat_total: ${beratTotal}`);
+
+      if (kotaKabupaten && metodePengiriman) {
+        fetch('/get_shipping_cost', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            kota_kabupaten: kotaKabupaten,
+            berat_total: beratTotal,
+            metode_pengiriman: metodePengiriman
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          const tarif = data.tarif;
+          console.log(`Received tarif: ${tarif}`);
+          shippingCostElement.innerHTML = `<strong>Rp ${tarif.toLocaleString()}</strong>`;
+          totalElement.innerHTML = `<strong>Rp ${(subtotal + tarif).toLocaleString()}</strong>`;
+        })
+        .catch(error => {
+          console.error('Error fetching shipping cost:', error);
+        });
+      }
+    }
+
+    kotaKabupatenSelect.addEventListener('change', calculateShippingCost);
+    metodePengirimanSelect.addEventListener('change', calculateShippingCost);
+  });
+</script>
 
 <style>
   .product-card-title,
