@@ -188,11 +188,30 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-        <button type="button" class="btn btn-danger" onclick="submitCheckout()">Checkout</button>
+        <button type="button" class="btn btn-danger" onclick="confirmCheckout()">Checkout</button>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  function confirmCheckout() {
+    Swal.fire({
+      title: 'Konfirmasi Checkout',
+      text: 'Anda yakin ingin melanjutkan proses pembayaran?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      cancelButtonText: 'Batal',
+      confirmButtonText: 'Ya, Lanjut!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        submitCheckout();
+      }
+    });
+  }
+</script>
 
 
 {% include 'Footer.html' %}
