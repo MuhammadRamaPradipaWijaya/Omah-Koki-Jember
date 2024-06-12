@@ -496,7 +496,13 @@ def kontak():
 
 @app.route('/pesanan')
 def pesanan():
-    return render_template('pesanan.html')
+    if 'logged_in' in session and session['logged_in']:
+        user_id = session['user_id']
+        pesanan_list = list(db.pesanan.find({'user_id': user_id}))
+
+        return render_template('pesanan.html', pesanan_list=pesanan_list)
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/keranjang')
 def keranjang():
