@@ -168,12 +168,12 @@
       </div>
       <div class="modal-body">
         {% for pembayaran in pembayaran_list %}
-        <div class="card w-80" onclick="pilihMetodePembayaran('{{ pembayaran['Nama_Bank'] }}')">
+        <div class="card w-80" onclick="pilihMetodePembayaran('{{ pembayaran['_id'] }}')">
           <div class="card-body">
             <div class="form-check">
-              <input class="form-check-input" type="radio" name="metode_pembayaran" id="metode_{{ pembayaran['Nama_Bank'] }}"
-                value="{{ pembayaran['Nama_Bank'] }}" onclick="pilihMetodePembayaran('{{ pembayaran['Nama_Bank'] }}')">
-              <label class="form-check-label" for="metode_{{ pembayaran['Nama_Bank'] }}">
+              <input class="form-check-input" type="radio" name="metode_pembayaran" id="metode_{{ pembayaran['_id'] }}"
+                value="{{ pembayaran['_id'] }}" onclick="pilihMetodePembayaran('{{ pembayaran['_id'] }}')">
+              <label class="form-check-label" for="metode_{{ pembayaran['_id'] }}">
                 <strong>{{ pembayaran['Nama_Bank'] }} No. Rekening : {{ pembayaran['No_Rek'] }}</strong>
               </label>
             </div>
@@ -192,6 +192,7 @@
     </div>
   </div>
 </div>
+
 
 <script>
   function confirmPaymentMethod() {

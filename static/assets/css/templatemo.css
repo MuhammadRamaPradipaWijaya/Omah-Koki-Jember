@@ -82,15 +82,15 @@ a.filled-button:hover {
 }
 
 .products-heading {
-	background-image: url(../images/products-heading.jpg);
+	background-image: url(../images/slide_01.jpg);
 }
 
 .about-heading {
-	background-image: url(../images/about-heading.jpg);
+	background-image: url(../images/slide_02.jpg);
 }
 
 .contact-heading {
-	background-image: url(../images/contact-heading.jpg);
+	background-image: url(../images/slide_03.jpg);
 }
 
 .page-heading {
@@ -324,7 +324,7 @@ header .navbar {
 
 .banner-item-01 {
 	padding: 250px 0px;
-	background-image: url(../images/slide_01.jpg);
+	background-image: url(../images/slide_fish1.jpg);
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center center;
@@ -332,7 +332,7 @@ header .navbar {
 
 .banner-item-02 {
 	padding: 250px 0px;
-	background-image: url(../images/slide_02.jpg);
+	background-image: url(../images/slide_fish2.jpg);
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center center;
@@ -340,7 +340,7 @@ header .navbar {
 
 .banner-item-03 {
 	padding: 250px 0px;
-	background-image: url(../images/slide_03.jpg);
+	background-image: url(../images/slide_fish3.jpg);
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center center;
