@@ -3,7 +3,7 @@
 {% include 'ad_sidebar.html' %}
 
 <div class="bg-light rounded h-100 p-4">
-  <h6 class="mb-4">Data Pesanan</h6>
+  <h6 class="mb-4">DATA PESANAN</h6>
   <div class="table-responsive">
     <table class="table table-bordered">
       <thead class="bg-danger text-white">
@@ -17,25 +17,28 @@
         </tr>
       </thead>
       <tbody>
+        {% for pesan in pesanan %} 
         <tr>
-          <th scope="row">1</th>
-          <td>10293810283</td>
-          <td>John Doe</td>
-          <td>20/05/2024</td>
+          <th scope="row">{{loop.index}}</th>
+          <td>{{pesan.nomor_pesanan}}</td>
+          <td>{{pesan.nama}}</td>
+          <td>{{pesan.tanggal_pesanan}}</td>
           <td><span class="bg-warning text-dark">Pending</span></td>
           <td class="text-center">
             <button class="btn btn-sm btn-danger rounded-pill">Batal</button>
-            <button class="btn btn-sm  btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#exampleModal">Detail</button>
+            <button class="btn btn-sm  btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#Detail">Detail</button>
             <button class="btn btn-sm btn-success rounded-pill">Lunas</button>
           </td>
         </tr>
+        {% endfor %}
+
       </tbody>
     </table>
   </div>
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="Detail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
