@@ -396,7 +396,8 @@ def adprofil():
 
             return redirect(url_for('adprofil'))
         else :
-            return render_template('ad_profil.html')
+            admin = db.admin.find_one({'_id' : ObjectId(session['user_id'])})
+            return render_template('ad_profil.html', admin=admin)
     else:
         return redirect(url_for('adlogin'))
 # BAGIAN ADMIN #
