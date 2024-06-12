@@ -34,8 +34,15 @@ def dashboard():
 
 @app.route('/adpesanan', methods=['GET', 'POST'])
 def adpesanan():
-    pesanan = list(db.pesanan.find({}))
-    return render_template('ad_pesanan.html', pesanan=pesanan)
+    list_pesanan = list(db.pesanan.find({}))
+    return render_template('ad_pesanan.html', list_pesanan=list_pesanan)
+
+@app.route('/detail_pesanan/<_id>', methods=['GET'])
+def detail_pesanan(_id):
+    list_pesanan = db.pesanan.find_one({'_id': ObjectId(_id)})
+    return render_template('ad_pesanan.html', list_pesanan=list_pesanan)
+
+
 
 @app.route('/order/confirmation')
 def order_confirmation():
