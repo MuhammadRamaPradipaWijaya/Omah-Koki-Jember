@@ -148,8 +148,7 @@
               <strong>
                 <hr style="border: none; height: 5px; background-color: black" />
               </strong>
-              <button type="button" class="btn btn-danger rounded-pill m-2" data-bs-toggle="modal"
-                data-bs-target="#ModalMetodePembayaran">Pilih Metode Pembayaran</button>
+              <button type="button" class="btn btn-danger rounded-pill m-2" onclick="confirmPaymentMethod()">Pilih Metode Pembayaran</button>
             </div>
           </div>
         </div>
@@ -195,6 +194,28 @@
 </div>
 
 <script>
+  function confirmPaymentMethod() {
+    const jalan = document.getElementById('jalan').value;
+    const rt_rw = document.getElementById('rt_rw').value;
+    const kelurahan_desa = document.getElementById('kelurahan_desa').value;
+    const kecamatan = document.getElementById('kecamatan').value;
+    const provinsi = document.getElementById('provinsi').value;
+    const kota_kabupaten = document.getElementById('kota_kabupaten').value;
+    const kode_pos = document.getElementById('kode_pos').value;
+    const metodePengiriman = document.getElementById('metode_pengiriman').value;
+
+    if (!jalan || !rt_rw || !kelurahan_desa || !kecamatan || !provinsi || !kota_kabupaten || !kode_pos || !metodePengiriman) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'Silakan isi semua bidang sebelum melanjutkan.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    } else {
+      $('#ModalMetodePembayaran').modal('show');
+    }
+  }
+
   function confirmCheckout() {
     Swal.fire({
       title: 'Konfirmasi Checkout',
@@ -210,6 +231,28 @@
         submitCheckout();
       }
     });
+  }
+
+  function pilihMetodePembayaran(metode) {
+    document.getElementById('hidden_metode_pembayaran').value = metode;
+  }
+
+  function submitCheckout() {
+    const metodePengiriman = document.getElementById('metode_pengiriman').value;
+    if (!metodePengiriman) {
+      alert('Silakan pilih metode pengiriman.');
+      return;
+    }
+
+    document.getElementById('hidden_metode_pengiriman').value = metodePengiriman;
+
+    const metodePembayaran = document.getElementById('hidden_metode_pembayaran').value;
+    if (!metodePembayaran) {
+      alert('Silakan pilih metode pembayaran.');
+      return;
+    }
+
+    document.getElementById('checkoutForm').submit();
   }
 </script>
 
@@ -260,28 +303,6 @@
     kotaKabupatenSelect.addEventListener('change', calculateShippingCost);
     metodePengirimanSelect.addEventListener('change', calculateShippingCost);
   });
-
-  function pilihMetodePembayaran(metode) {
-    document.getElementById('hidden_metode_pembayaran').value = metode;
-  }
-
-  function submitCheckout() {
-    const metodePengiriman = document.getElementById('metode_pengiriman').value;
-    if (!metodePengiriman) {
-      alert('Silakan pilih metode pengiriman.');
-      return;
-    }
-
-    document.getElementById('hidden_metode_pengiriman').value = metodePengiriman;
-
-    const metodePembayaran = document.getElementById('hidden_metode_pembayaran').value;
-    if (!metodePembayaran) {
-      alert('Silakan pilih metode pembayaran.');
-      return;
-    }
-
-    document.getElementById('checkoutForm').submit();
-  }
 </script>
 
 <style>
@@ -315,7 +336,7 @@
     padding-bottom: .875rem;
     border-bottom: 1px dashed #e2e2e2;
     font-size: 1rem;
-    font-weight: normal;
+    font-weight: normal.
   }
 
   .text-muted {

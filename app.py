@@ -8,6 +8,7 @@ from bson import ObjectId
 import jwt
 from datetime import datetime
 import requests
+import hashlib
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
@@ -462,6 +463,28 @@ def tambah_ke_keranjang():
             return jsonify({'status': 'gagal', 'pesan': 'Produk tidak ditemukan'})
     else:
         return redirect(url_for('login'))
+    
+@app.route('/update_keranjang', methods=['POST'])
+def update_keranjang():
+    if 'logged_in' in session and session['logged_in']:
+        user_id = session['user_id']
+        item_id = request.form.get('item_id')
+        jumlah = int(request.form.get('jumlah'))
+
+        if jumlah <= 0:
+            db.keranjang.delete_one({'_id': ObjectId(item_id), 'user_id': user_id})
+        else:
+            db.keranjang.update_one(
+                {'_id': ObjectId(item_id), 'user_id': user_id},
+                {'$set': {'jumlah': jumlah}}
+            )
+
+        items_keranjang = list(db.keranjang.find({'user_id': user_id}))
+        subtotal = sum(int(item['harga']) * int(item['jumlah']) for item in items_keranjang)
+
+        return jsonify({'status': 'success', 'subtotal': subtotal})
+
+    return jsonify({'status': 'error', 'message': 'Pengguna belum login'})
 
 @app.route('/tentang')
 def tentang():
@@ -492,6 +515,11 @@ def hapus_dari_keranjang(item_id):
         return redirect(url_for('keranjang'))
     else:
         return redirect(url_for('login'))
+
+def order_number(order_id):
+    hashed_order_id = hashlib.sha256(order_id.encode()).hexdigest()
+    short_order_number = hashed_order_id[:8]
+    return short_order_number
 
 @app.route('/checkout', methods=['GET', 'POST'])
 def checkout():
@@ -533,7 +561,12 @@ def checkout():
 
             ringkasan_belanja = [{'nama_produk': item['nama_produk'], 'jumlah': item['jumlah'], 'harga': item['harga']} for item in items_keranjang]
 
+            pesanan_id = str(ObjectId())
+            nomor_pesanan = order_number(pesanan_id)
+
             pesanan = {
+                '_id': pesanan_id,
+                'nomor_pesanan': nomor_pesanan,
                 'user_id': user_id,
                 'nama': nama,
                 'email': email,
