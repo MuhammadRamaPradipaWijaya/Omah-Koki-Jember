@@ -548,6 +548,14 @@ def checkout():
             metode_pengiriman = request.form.get('metode_pengiriman')
             metode_pembayaran = request.form.get('metode_pembayaran')
 
+            pembayaran = db.pembayaran.find_one({'_id': ObjectId(metode_pembayaran)})
+            if pembayaran:
+                metode_pembayaran = pembayaran['Nama_Bank']
+                no_rekening = pembayaran['No_Rek']
+                pemilik_rekening = pembayaran['Pemilik_Rek']
+            else:
+                return redirect(url_for('checkout'))
+
             items_keranjang = list(db.keranjang.find({'user_id': user_id}))
             subtotal = sum(int(item['harga']) * int(item['jumlah']) for item in items_keranjang)
             total_berat = sum(item['berat'] for item in items_keranjang)
@@ -584,6 +592,8 @@ def checkout():
                 'total_pengiriman': float(total_pengiriman),
                 'total_semuanya': float(total_semuanya),
                 'metode_pembayaran': metode_pembayaran,
+                'no_rek' : no_rekening,
+                'pemilik_rek' : pemilik_rekening,
                 'status': 'pending',
                 'estimasi_pengiriman': estimasi_pengiriman,
                 'tanggal_pesanan': datetime.now().strftime('%Y-%m-%d')
