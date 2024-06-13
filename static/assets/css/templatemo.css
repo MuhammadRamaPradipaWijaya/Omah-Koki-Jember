@@ -16,8 +16,6 @@ a {
 	text-decoration: none!important;
 }
 ul {
-	padding: 0;
-	margin: 0;
 	list-style: none;
 }
 
@@ -26,23 +24,20 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 ul.social-icons li {
-	display: inline-block;
-	margin-right: 3px;
+	display: block;
+	margin-bottom: 13px;
 }
 
 ul.social-icons li:last-child {
-	margin-right: 0px;
+	margin-bottom: 0px;
 }
 
 ul.social-icons li a {
-	width: 50px;
-	height: 50px;
-	display: inline-block;
-	line-height: 50px;
+	padding: 5px 15px;
+	border-radius: 8px;
 	background-color: #eee;
 	color: #121212;
 	font-size: 18px;
-	text-align: center;
 	transition: all .3s;
 }
 
