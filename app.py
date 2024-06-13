@@ -7,7 +7,6 @@ from pymongo import MongoClient
 from bson import ObjectId
 import jwt
 from datetime import datetime
-import requests
 import hashlib
 
 dotenv_path = join(dirname(__file__), '.env')
