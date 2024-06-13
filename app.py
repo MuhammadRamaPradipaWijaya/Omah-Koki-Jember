@@ -7,7 +7,6 @@ from pymongo import MongoClient
 from bson import ObjectId
 import jwt
 from datetime import datetime
-import requests
 import hashlib
 
 dotenv_path = join(dirname(__file__), '.env')
@@ -339,7 +338,10 @@ def hapus_kota(nama_kota):
 
 @app.route('/adpengguna')
 def adpengguna():
-    users = list(db.pembeli.find())
+    if (request.args.get('filter')):
+        users = list(db.pembeli.find({'nama': {"$regex": u""+ request.args.get('filter') +""}}))
+    else:
+        users = list(db.pembeli.find())
     return render_template('ad_pengguna.html', users=users)
 
 @app.route('/toggle-blokir/<id>', methods=['POST'])
@@ -785,8 +787,7 @@ def adlogin():
             session['email'] = user['email']
             session['telepon'] = user['telepon']
             session['tgl_registrasi'] = user['tgl_registrasi']
-            if 'avatar' in user:
-                session['avatar'] = user['avatar']
+            session['avatar'] = user['avatar']
             session['user_id'] = str(user['_id'])
             
             return redirect(url_for('dashboard'))
