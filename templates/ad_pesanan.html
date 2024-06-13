@@ -25,12 +25,15 @@
           <td>{{pesanan.tanggal_pesanan}}</td>
           <td><span class="bg-warning text-dark" id="status-{{pesanan._id}}">{{ pesanan.status }}</span></td>
           <td class="text-center">
-            {% if pesanan.status != "Dikirim" and pesanan.status != "Selesai" %}
+            {% if pesanan.status != "Dikirim" and pesanan.status != "Selesai" and pesanan.status != "Batal" %}
             <button class="btn btn-sm btn-danger rounded-pill batal-button" data-id="{{pesanan._id}}">Batal</button>
-            {% endif %}            <button class="btn btn-sm  btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#Detail{{pesanan._id}}">Detail</button>
-            {% if pesanan.status != "Selesai" %}
+            {% endif %}            
+            <button class="btn btn-sm  btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#Detail{{pesanan._id}}">Detail</button>
+            {% if pesanan.status != "Selesai" and pesanan.status != "Batal" %}
             <button class="btn btn-sm btn-success rounded-pill status-button" data-id="{{pesanan._id}}">
-              {% if pesanan.status == "Proses" %}
+              {% if pesanan.status == "pending" %}
+                Lunas
+              {% elif pesanan.status == "Proses" %}
                 Kirim
               {% elif pesanan.status == "Dikirim" %}
                 Selesai
