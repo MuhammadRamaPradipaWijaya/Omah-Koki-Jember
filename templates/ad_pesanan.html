@@ -18,16 +18,22 @@
       </thead>
       <tbody>
         {% for pesanan in list_pesanan %} 
-        <tr>
+        <tr id="pesanan-row-{{pesanan._id}}">
           <th scope="row">{{loop.index}}</th>
           <td>{{pesanan.nomor_pesanan}}</td>
           <td>{{pesanan.nama}}</td>
           <td>{{pesanan.tanggal_pesanan}}</td>
-          <td><span class="bg-warning text-dark">{{ pesanan.status }}</span></td>
+          <td><span class="bg-warning text-dark" id="status-{{pesanan._id}}">{{ pesanan.status }}</span></td>
           <td class="text-center">
-            <button class="btn btn-sm btn-danger rounded-pill">Batal</button>
+            <button class="btn btn-sm btn-danger rounded-pill batal-button" data-id="{{pesanan._id}}">Batal</button>
             <button class="btn btn-sm  btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#Detail{{pesanan._id}}">Detail</button>
-            <button class="btn btn-sm btn-success rounded-pill">Lunas</button>
+            <button class="btn btn-sm btn-success rounded-pill status-button" data-id="{{pesanan._id}}">
+              {% if pesanan.status == "Proses" %}
+                Kirim
+              {% else %}
+                Lunas
+              {% endif %}
+            </button>
           </td>
         </tr>
         {% endfor %}
@@ -116,7 +122,7 @@
           </div>
           <div class="col-lg-4">
             <h5>Status Pesanan</h5>
-            <div class="alert alert-warning py-2">Pending</div>
+            <div class="alert alert-warning py-2" id="modal-status-{{pesanan._id}}">{{ pesanan.status }}</div>
             <hr>
             <h5>Bukti Transfer</h5>
             <a href="../static/assets/images/client-01.png" data-lightbox="gambar" data-title="Gambar Status Pesanan">
@@ -136,3 +142,83 @@
 {% endfor %}
 
 {% include 'ad_footer.html' %}
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const statusButtons = document.querySelectorAll(".status-button");
+  
+    statusButtons.forEach(button => {
+      button.addEventListener("click", function() {
+        const pesananId = this.getAttribute("data-id");
+        const currentStatus = this.textContent.trim();
+        let newStatus = "";
+  
+        if (currentStatus === "Lunas") {
+          newStatus = "Proses";
+        } else if (currentStatus === "Kirim") {
+          newStatus = "Dikirim";
+        } else if (currentStatus === "Selesai") {
+          newStatus = "Selesai";
+        }
+  
+        fetch(`/update_status/${pesananId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status: newStatus }),
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            document.getElementById(`status-${pesananId}`).textContent = newStatus;
+            document.getElementById(`modal-status-${pesananId}`).textContent = newStatus;
+  
+            if (newStatus === "Proses") {
+              document.getElementById(`status-${pesananId}`).classList.remove("bg-warning");
+              document.getElementById(`status-${pesananId}`).classList.add("bg-info", "text-white");
+              document.getElementById(`modal-status-${pesananId}`).classList.remove("alert-warning");
+              document.getElementById(`modal-status-${pesananId}`).classList.add("alert-info");
+  
+              // Change button text to "Kirim"
+              this.textContent = "Kirim";
+              this.classList.remove("btn-success");
+              this.classList.add("btn-primary");
+  
+              // Show the "Batal" button
+              const batalButton = document.querySelector(`.batal-button[data-id="${pesananId}"]`);
+              if (batalButton) {
+                batalButton.style.display = 'inline-block'; // Make sure it's visible
+              }
+            } else if (newStatus === "Dikirim") {
+              document.getElementById(`status-${pesananId}`).classList.remove("bg-success");
+              document.getElementById(`status-${pesananId}`).classList.add("bg-info", "text-white");
+              document.getElementById(`modal-status-${pesananId}`).classList.remove("alert-success");
+              document.getElementById(`modal-status-${pesananId}`).classList.add("alert-info");
+  
+              // Change button text to "Selesai" and hide the "Batal" button
+              this.textContent = "Selesai";
+              this.classList.remove("btn-primary");
+              this.classList.add("btn-success");
+  
+              const batalButton = document.querySelector(`.batal-button[data-id="${pesananId}"]`);
+              if (batalButton) {
+                batalButton.style.display = 'none'; 
+              }
+            } else if (newStatus === "Selesai") {
+              document.getElementById(`status-${pesananId}`).classList.remove("bg-info");
+              document.getElementById(`status-${pesananId}`).classList.add("bg-success", "text-white");
+              document.getElementById(`modal-status-${pesananId}`).classList.remove("alert-success");
+              document.getElementById(`modal-status-${pesananId}`).classList.add("alert-success");
+
+              const statusButton = document.querySelector(`.status-button[data-id="${pesananId}"]`);
+              if (statusButton) {
+                statusButton.style.display = 'none'; 
+              }
+            }
+          }
+        });
+      });
+    });
+  });
+</script>

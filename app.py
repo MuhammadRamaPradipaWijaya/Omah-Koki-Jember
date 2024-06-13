@@ -36,6 +36,12 @@ def adpesanan():
     list_pesanan = list(db.pesanan.find({}))
     return render_template('ad_pesanan.html', list_pesanan=list_pesanan)
 
+@app.route('/update_status/<_id>', methods=['POST'])
+def update_status(_id):
+    data = request.get_json()
+    new_status = data.get('status')
+    return jsonify({'success': True})
+
 @app.route('/detail_pesanan/<_id>', methods=['GET'])
 def detail_pesanan(_id):
     list_pesanan = db.pesanan.find_one({'_id': ObjectId(_id)})
