@@ -326,7 +326,10 @@ def hapus_kota(nama_kota):
 
 @app.route('/adpengguna')
 def adpengguna():
-    users = list(db.pembeli.find())
+    if (request.args.get('filter')):
+        users = list(db.pembeli.find({'nama': {"$regex": u""+ request.args.get('filter') +""}}))
+    else:
+        users = list(db.pembeli.find())
     return render_template('ad_pengguna.html', users=users)
 
 @app.route('/toggle-blokir/<id>', methods=['POST'])
@@ -512,7 +515,7 @@ def login():
         
         if user and jwt.decode(user['password'], SECRET_KEY, algorithms=['HS256'])['password'] == password:
             session['logged_in'] = True
-            session['username'] = user['username']
+            session['nama'] = user['nama']
             session['user_id'] = str(user['_id'])
             return redirect(url_for('home'))
         else:
@@ -569,7 +572,7 @@ def adlogin():
             session['email'] = user['email']
             session['telepon'] = user['telepon']
             session['tgl_registrasi'] = user['tgl_registrasi']
-            session['avatar'] = user['avatar']
+            session['avatar'] = user['avatar'] if 'avatar' in user else None
             session['user_id'] = str(user['_id'])
             
             return redirect(url_for('dashboard'))
