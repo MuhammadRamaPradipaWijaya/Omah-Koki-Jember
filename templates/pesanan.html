@@ -11,12 +11,11 @@
             <div class="col-md-12">
                 <nav>
                     <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" id="nav-konfirmasi-tab" data-toggle="tab"
-                            href="#nav-konfirmasi" role="tab" aria-controls="nav-konfirmasi"
-                            aria-selected="true">Konfirmasi</a>
+                        <a class="nav-item nav-link active" id="nav-pending-tab" data-toggle="tab" href="#nav-pending"
+                            role="tab" aria-controls="nav-pending" aria-selected="true">Konfirmasi</a>
                         <a class="nav-item nav-link" id="nav-proses-tab" data-toggle="tab" href="#nav-proses" role="tab"
                             aria-controls="nav-proses" aria-selected="false">Proses</a>
-                        <a class="nav-item nav-link" id="nav-pengiriman-tab" data-toggle="tab" href="#nav-pengiriman"
+                        <a class="nav-item nav-link" id="nav-dikirim-tab" data-toggle="tab" href="#nav-dikirim"
                             role="tab" aria-controls="nav-pengiriman" aria-selected="false">Pengiriman</a>
                         <a class="nav-item nav-link" id="nav-selesai-tab" data-toggle="tab" href="#nav-selesai"
                             role="tab" aria-controls="nav-selesai" aria-selected="false">Selesai</a>
@@ -26,314 +25,70 @@
                 </nav><br>
 
                 <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="nav-konfirmasi" role="tabpanel"
-                        aria-labelledby="nav-konfirmasi-tab">
-                        {% for pesanan in pesanan_list if pesanan.status == 'pending' %}
+                    {% for status, status_name in [('pending', 'Konfirmasi'), ('proses', 'Proses Pengemasan'),
+                    ('dikirim', 'Pengiriman'), ('selesai', 'Selesai'), ('batal', 'Dibatalkan')] %}
+                    <div class="tab-pane fade {% if loop.first %}show active{% endif %}" id="nav-{{ status }}"
+                        role="tabpanel" aria-labelledby="nav-{{ status }}-tab">
+                        {% for pesanan in pesanan_list if pesanan.status == status %}
                         <div class="card mb-4">
                             <div class="card-body bg-light">
                                 <div class="row">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h3 class="h6">Nomor Pesanan</h3>
-                                            <span>{{ pesanan.nomor_pesanan }}</span>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="h6">Daftar Produk</h3>
-                                            <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                                {% for item in pesanan.ringkasan_belanja %}
-                                                {{ item.nama_produk }} ({{ item.jumlah }}x),
-                                                {% endfor %}
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="h6">Status Pesanan</h3>
-                                            <div class="alert alert-warning py-2">Menunggu Konfirmasi</div>
-                                        </div>
-                                        <hr>
+                                    <div class="col">
+                                        <h3 class="h6">Nomor Pesanan</h3>
+                                        <span>{{ pesanan.nomor_pesanan }}</span>
                                     </div>
+                                    <div class="col">
+                                        <h3 class="h6">Daftar Produk</h3>
+                                        <span class="d-inline-block text-truncate" style="max-width: 150px;">
+                                            {% for item in pesanan.ringkasan_belanja %}
+                                            {{ item.nama_produk }} ({{ item.jumlah }}x),
+                                            {% endfor %}
+                                        </span>
+                                    </div>
+                                    <div class="col">
+                                        <h3 class="h6">Status Pesanan</h3>
+                                        <div
+                                            class="alert {% if status == 'pending' %}alert-warning{% elif status == 'proses' %}alert-info{% elif status == 'dikirim' %}alert-primary{% elif status == 'selesai' %}alert-success{% elif status == 'batal' %}alert-danger{% endif %} py-2">
+                                            {{ status_name }}</div>
+                                    </div>
+                                    <hr>
+                                </div>
 
-                                    <div class="row">
-                                        <div class="col">
-                                            <h3 class="h6">Metode Pengiriman</h3>
-                                            <span class="d-inline-block" style="max-width: 150px;">
-                                                <span>{{ pesanan.metode_pengiriman }}</span>
-                                                <span>- {{ pesanan.estimasi_pengiriman }} hari</span>
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="h6">Metode Pembayaran</h3>
-                                            <span class="d-inline-block" style="max-width: 165px;">
-                                                <span>Nama Bank: {{ pesanan.metode_pembayaran }}</span>
-                                                <span>({{ pesanan.no_rek }})</span>
-                                                <span>An: {{ pesanan.pemilik_rek }}</span>
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="h6">Total Belanja</h3>
-                                            <span>Rp {{ "{:,.0f}".format(pesanan.total_semuanya).replace(",", ".")
-                                                }}</span>
-                                        </div>
-                                        <hr>
+                                <div class="row">
+                                    <div class="col">
+                                        <h3 class="h6">Metode Pengiriman</h3>
+                                        <span class="d-inline-block" style="max-width: 150px;">
+                                            <span>{{ pesanan.metode_pengiriman }}</span>
+                                            <span>- {{ pesanan.estimasi_pengiriman }} hari</span>
+                                        </span>
                                     </div>
+                                    <div class="col">
+                                        <h3 class="h6">Metode Pembayaran</h3>
+                                        <span class="d-inline-block" style="max-width: 165px;">
+                                            <span>Nama Bank: {{ pesanan.metode_pembayaran }}</span>
+                                            <span>({{ pesanan.no_rek }})</span>
+                                            <span>An: {{ pesanan.pemilik_rek }}</span>
+                                        </span>
+                                    </div>
+                                    <div class="col">
+                                        <h3 class="h6">Total Belanja</h3>
+                                        <span>Rp {{ "{:,.0f}".format(pesanan.total_semuanya).replace(",", ".") }}</span>
+                                    </div>
+                                    <hr>
+                                </div>
 
-                                    <div class="col-lg-6">
-                                        <button type="button" class="btn btn-primary m-2" data-bs-toggle="modal"
-                                            data-bs-target="#detailpesanan{{ pesanan._id }}"><i
-                                                class="fa fa-info me-2"></i>Detail Pesanan</button>
-                                        <button type="button" class="btn btn-outline-primary m-2"><i
-                                                class="fa fa-whatsapp me-2"></i>Whatsapp</button>
-                                    </div>
+                                <div class="col-lg-6">
+                                    <button type="button" class="btn btn-primary m-2" data-bs-toggle="modal"
+                                        data-bs-target="#detailpesanan{{ pesanan._id }}"><i
+                                            class="fa fa-info me-2"></i>Detail Pesanan</button>
+                                    <button type="button" class="btn btn-outline-primary m-2"><i
+                                            class="fa fa-whatsapp me-2"></i>Whatsapp</button>
                                 </div>
                             </div>
                         </div>
                         {% endfor %}
                     </div>
-
-                    <div class="tab-pane fade" id="nav-proses" role="tabpanel" aria-labelledby="nav-proses-tab">
-                        {% for pesanan in pesanan_list if pesanan.status == 'proses' %}
-                        <div class="card mb-4">
-                            <div class="card-body bg-light">
-                                <div class="row">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h3 class="h6">Nomor Pesanan</h3>
-                                            <span>{{ pesanan.nomor_pesanan }}</span>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="h6">Daftar Produk</h3>
-                                            <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                                {% for item in pesanan.ringkasan_belanja %}
-                                                {{ item.nama_produk }} ({{ item.jumlah }}x),
-                                                {% endfor %}
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="h6">Status Pesanan</h3>
-                                            <div class="alert alert-info py-2">Proses Pengemasan</div>
-                                        </div>
-                                        <hr>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col">
-                                            <h3 class="h6">Metode Pengiriman</h3>
-                                            <span class="d-inline-block" style="max-width: 150px;">
-                                                <span>{{ pesanan.metode_pengiriman }}</span>
-                                                <span>- {{ pesanan.estimasi_pengiriman }} hari</span>
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="h6">Metode Pembayaran</h3>
-                                            <span class="d-inline-block" style="max-width: 165px;">
-                                                <span>Nama Bank: {{ pesanan.metode_pembayaran }}</span>
-                                                <span>({{ pesanan.no_rek }})</span>
-                                                <span>An: {{ pesanan.pemilik_rek }}</span>
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="h6">Total Belanja</h3>
-                                            <span>Rp {{ "{:,.0f}".format(pesanan.total_semuanya).replace(",", ".")
-                                                }}</span>
-                                        </div>
-                                        <hr>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <button type="button" class="btn btn-primary m-2" data-bs-toggle="modal"
-                                            data-bs-target="#detailpesanan{{ pesanan._id }}"><i
-                                                class="fa fa-info me-2"></i>Detail Pesanan</button>
-                                        <button type="button" class="btn btn-outline-primary m-2"><i
-                                                class="fa fa-whatsapp me-2"></i>Whatsapp</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-
-                    <div class="tab-pane fade" id="nav-pengiriman" role="tabpanel" aria-labelledby="nav-pengiriman-tab">
-                        {% for pesanan in pesanan_list if pesanan.status == 'dikirim' %}
-                        <div class="card mb-4">
-                            <div class="card-body bg-light">
-                                <div class="row">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h3 class="h6">Nomor Pesanan</h3>
-                                            <span>{{ pesanan.nomor_pesanan }}</span>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="h6">Daftar Produk</h3>
-                                            <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                                {% for item in pesanan.ringkasan_belanja %}
-                                                {{ item.nama_produk }} ({{ item.jumlah }}x),
-                                                {% endfor %}
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="h6">Status Pesanan</h3>
-                                            <div class="alert alert-primary py-2">Pengiriman</div>
-                                        </div>
-                                        <hr>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col">
-                                            <h3 class="h6">Metode Pengiriman</h3>
-                                            <span class="d-inline-block" style="max-width: 150px;">
-                                                <span>{{ pesanan.metode_pengiriman }}</span>
-                                                <span>- {{ pesanan.estimasi_pengiriman }} hari</span>
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="h6">Metode Pembayaran</h3>
-                                            <span class="d-inline-block" style="max-width: 165px;">
-                                                <span>Nama Bank: {{ pesanan.metode_pembayaran }}</span>
-                                                <span>({{ pesanan.no_rek }})</span>
-                                                <span>An: {{ pesanan.pemilik_rek }}</span>
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="h6">Total Belanja</h3>
-                                            <span>Rp {{ "{:,.0f}".format(pesanan.total_semuanya).replace(",", ".")
-                                                }}</span>
-                                        </div>
-                                        <hr>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <button type="button" class="btn btn-primary m-2" data-bs-toggle="modal"
-                                            data-bs-target="#detailpesanan{{ pesanan._id }}"><i
-                                                class="fa fa-info me-2"></i>Detail Pesanan</button>
-                                        <button type="button" class="btn btn-outline-primary m-2"><i
-                                                class="fa fa-whatsapp me-2"></i>Whatsapp</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-
-                    <div class="tab-pane fade" id="nav-selesai" role="tabpanel" aria-labelledby="nav-selesai-tab">
-                        {% for pesanan in pesanan_list if pesanan.status == 'selesai' %}
-                        <div class="card mb-4">
-                            <div class="card-body bg-light">
-                                <div class="row">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h3 class="h6">Nomor Pesanan</h3>
-                                            <span>{{ pesanan.nomor_pesanan }}</span>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="h6">Daftar Produk</h3>
-                                            <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                                {% for item in pesanan.ringkasan_belanja %}
-                                                {{ item.nama_produk }} ({{ item.jumlah }}x),
-                                                {% endfor %}
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="h6">Status Pesanan</h3>
-                                            <div class="alert alert-success py-2">Selesai</div>
-                                        </div>
-                                        <hr>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col">
-                                            <h3 class="h6">Metode Pengiriman</h3>
-                                            <span class="d-inline-block" style="max-width: 150px;">
-                                                <span>{{ pesanan.metode_pengiriman }}</span>
-                                                <span>- {{ pesanan.estimasi_pengiriman }} hari</span>
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="h6">Metode Pembayaran</h3>
-                                            <span class="d-inline-block" style="max-width: 165px;">
-                                                <span>Nama Bank: {{ pesanan.metode_pembayaran }}</span>
-                                                <span>({{ pesanan.no_rek }})</span><br>
-                                                <span>An: {{ pesanan.pemilik_rek }}</span>
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="h6">Total Belanja</h3>
-                                            <span>Rp {{ "{:,.0f}".format(pesanan.total_semuanya).replace(",", ".")
-                                                }}</span>
-                                        </div>
-                                        <hr>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <button type="button" class="btn btn-primary m-2" data-bs-toggle="modal"
-                                            data-bs-target="#detailpesanan{{ pesanan._id }}"><i
-                                                class="fa fa-info me-2"></i>Detail Pesanan</button>
-                                        <button type="button" class="btn btn-outline-primary m-2"><i
-                                                class="fa fa-whatsapp me-2"></i>Whatsapp</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-
-                    <div class="tab-pane fade" id="nav-batal" role="tabpanel" aria-labelledby="nav-batal-tab">
-                        {% for pesanan in pesanan_list if pesanan.status == 'batal' %}
-                        <div class="card mb-4">
-                            <div class="card-body bg-light">
-                                <div class="row">
-                                    <div class="row">
-                                        <div class="col">
-                                            <h3 class="h6">Nomor Pesanan</h3>
-                                            <span>{{ pesanan.nomor_pesanan }}</span>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="h6">Daftar Produk</h3>
-                                            <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                                {% for item in pesanan.ringkasan_belanja %}
-                                                {{ item.nama_produk }} ({{ item.jumlah }}x),
-                                                {% endfor %}
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="h6">Status Pesanan</h3>
-                                            <div class="alert alert-danger py-2">Dibatalkan</div>
-                                        </div>
-                                        <hr>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col">
-                                            <h3 class="h6">Metode Pengiriman</h3>
-                                            <span class="d-inline-block" style="max-width: 150px;">
-                                                <span>{{ pesanan.metode_pengiriman }}</span>
-                                                <span>- {{ pesanan.estimasi_pengiriman }} hari</span>
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="h6">Metode Pembayaran</h3>
-                                            <span class="d-inline-block" style="max-width: 165px;">
-                                                <span>Nama Bank: {{ pesanan.metode_pembayaran }}</span>
-                                                <span>({{ pesanan.no_rek }})</span>
-                                                <span>An: {{ pesanan.pemilik_rek }}</span>
-                                            </span>
-                                        </div>
-                                        <div class="col">
-                                            <h3 class="h6">Total Belanja</h3>
-                                            <span>Rp {{ "{:,.0f}".format(pesanan.total_semuanya).replace(",", ".")
-                                                }}</span>
-                                        </div>
-                                        <hr>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <button type="button" class="btn btn-primary m-2" data-bs-toggle="modal"
-                                            data-bs-target="#detailpesanan{{ pesanan._id }}"><i class="fab fa-info me-2"></i>Detail Pesanan</button>
-                                        <button type="button" class="btn btn-outline-primary m-2"><i class="fab fa-whatsapp"></i></i>Whatsapp</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
