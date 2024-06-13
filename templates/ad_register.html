@@ -53,18 +53,20 @@
                                                 </div>
                                             </div>                                            
                                             <div class="col-12">
-                                                <div class="form-floating mb-3">
+                                                <div class="form-floating mb-3 position-relative">
                                                     <input type="password" class="form-control" name="password"
                                                         id="password" placeholder="Kata Sandi" required>
+                                                    <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"></span>
                                                 </div>
                                                 <div id="passwordAlert" class="alert alert-danger d-none" role="alert">
                                                     Kata sandi minimal 8 karakter.
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <div class="form-floating mb-3">
+                                                <div class="form-floating mb-3 position-relative">
                                                     <input type="password" class="form-control" name="confirm_password"
                                                         id="confirm_password" placeholder="Ulang Kata Sandi" required>
+                                                    <span toggle="#confirm_password-field" class="fa fa-fw fa-eye field-icon toggle-confirm-password position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"></span>
                                                 </div>
                                                 <div id="confirmPasswordAlert" class="alert alert-danger d-none" role="alert">
                                                     Konfirmasi kata sandi tidak cocok.
@@ -92,6 +94,31 @@
 {% include 'footer.html' %}
 
 <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var togglePassword = document.querySelectorAll('.toggle-password');
+        var toggleConfirmPassword = document.querySelectorAll('.toggle-confirm-password');
+        
+        togglePassword.forEach(function(element) {
+            element.addEventListener('click', function() {
+                var input = document.querySelector('#password');
+                var type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+        });
+
+        toggleConfirmPassword.forEach(function(element) {
+            element.addEventListener('click', function() {
+                var input = document.querySelector('#confirm_password');
+                var type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+        });
+    });
+
     $(document).ready(function() {
         var emailChecked = false;
         
@@ -148,3 +175,16 @@
         return emailRegex.test(email);
     }
 </script>
+
+<style>
+    .field-icon {
+        cursor: pointer;
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .form-floating {
+        position: relative;
+    }
+</style>

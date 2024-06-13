@@ -2,41 +2,41 @@
 {% include 'navbar.html' %}
 
 <div class="container" style="padding-top: 150px;">
-    <div class="card">
+    <div class="card">            
         <div class="card-body">
             <div class="row">
                 <div class="col-md-4">
-                    <div style="height: 200px; width: 200px; border-radius: 50%;" class="bg-secondary mx-auto mt-3"></div>
+                    <img src="../static/assets/profil_pembeli/{{pembeli.image}}" alt="" style="height: 200px; width: 200px; border-radius: 50%;" class="bg-secondary mt-3">
                 </div>
                 <div class="col-md-8">
-                    <h3 class="mb-4">Profil Diri</h3>
+                    <h3 class="mb-4">PROFIL ANDA</h3>
 
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <h5>Nama</h5>
-                                <p>John Doe</p>
+                                <p>{{pembeli.nama}}</p>
                             </div>
                             
                             <div class="mb-3">
                                 <h5>Tanggal Lahir</h5>
-                                <p>20/02/2024</p>
+                                <p>{{pembeli.tglLahir}}</p>
                             </div>
                             
                             <div class="mb-3">
                                 <h5>Jenis Kelamin</h5>
-                                <p>Laki-laki</p>
+                                <p>{{pembeli.gender}}</p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <h5>Email</h5>
-                                <p>lorem@gmail.com</p>
+                                <p>{{pembeli.email}}</p>
                             </div>
                             
                             <div class="mb-3">
                                 <h5>No. HP</h5>
-                                <p>08309128320</p>
+                                <p>{{pembeli.telepon}}</p>
                             </div>
                             
                             <div class="mb-3">
@@ -47,7 +47,7 @@
                     </div>
 
                     <div class="edit-button">
-                        <button type="button" class="btn btn-success m-2" data-bs-toggle="modal"
+                        <button type="button" class="btn btn-danger m-2" data-bs-toggle="modal"
                         data-bs-target="#profil">Edit Profil</button>
                     </div>
                 </div>
@@ -61,8 +61,10 @@
 
 <header>
     <!-- Modal -->
+    
 <div class="modal fade" id="profil" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
+        <form action="" method="POST" enctype="multipart/form-data">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">EDIT</h5>
@@ -71,37 +73,39 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <label for="formFile" class="form-label">Profil</label>
-                    <input class="form-control" type="file" id="formFile">
+                    <input class="form-control" type="file" id="formFile" name="image" accept=".jpeg, .png, .jpg">
                 </div>
                 <div class="mb-3">
                     <label for="bankName" class="form-label">Nama</label>
-                    <input type="text" class="form-control" id="bankName">
+                    <input type="text" class="form-control" id="bankName" name="nama" value="{{ pembeli.nama }}">
                 </div>
                 <div class="mb-3">
                     <label for="birthDate" class="form-label">Tanggal Lahir</label>
-                    <input type="date" class="form-control" id="birthDate">
+                    <input type="date" class="form-control" id="birthDate" name="tglLahir" value="{{ pembeli.tglLahir}}">
                 </div>
                 <div class="mb-3">
                     <label for="gender" class="form-label">Jenis Kelamin</label>
-                    <select class="form-select form-select-sm mb-3" aria-label=".form-select-sm example">
-                        <option value="1">Laki-laki</option>
-                        <option value="2">Perempuan</option>
+                    <select class="form-select form-select-sm mb-3" name="gender" aria-label=".form-select-sm example">
+                        <option value="" hidden>Pilih</option>
+                        <option value="Laki-Laki" {{ 'selected' if session['gender'] == 'Laki-laki' }}>Laki-laki</option>
+                        <option value="perempuan" {{ 'selected' if session['gender'] == 'Perempuan' }}>Perempuan</option>
                     </select>
                 </div>
                 <div class="mb-3">
                     <label for="phoneNumber" class="form-label">No HP</label>
-                    <input type="text" class="form-control" id="phoneNumber">
+                    <input type="text" class="form-control" id="phoneNumber" name="telepon" value="{{ pembeli.telepon }}">
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Kata Sandi</label>
-                    <input type="password" class="form-control" id="password">
+                    <input type="password" class="form-control" id="password" name="password">
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary rounded-pill m-2"
                     data-bs-dismiss="modal">Tutup</button>
-                <button type="button" class="btn btn-danger rounded-pill m-2">Simpan</button>
+                <button type="submit" class="btn btn-danger rounded-pill m-2">Simpan</button>
             </div>
+            </form>
         </div>
     </div>
 </div>

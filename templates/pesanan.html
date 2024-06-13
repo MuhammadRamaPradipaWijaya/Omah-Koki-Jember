@@ -26,23 +26,26 @@
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-konfirmasi" role="tabpanel"
                         aria-labelledby="nav-konfirmasi-tab">
+                        {% for pesanan in pesanan_list if pesanan.status == 'pending' %}
                         <div class="card mb-4">
                             <div class="card-body bg-light">
                                 <div class="row">
                                     <div class="row">
                                         <div class="col">
                                             <h3 class="h6">Nomor Pesanan</h3>
-                                            <span>01062004</span>
+                                            <span>{{ pesanan.nomor_pesanan }}</span>
                                         </div>
                                         <div class="col">
                                             <h3 class="h6">Daftar Produk</h3>
                                             <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                                This text is quite long, and will be truncated once displayed.
+                                                {% for item in pesanan.ringkasan_belanja %}
+                                                {{ item.nama_produk }} ({{ item.jumlah }}x),
+                                                {% endfor %}
                                             </span>
                                         </div>
                                         <div class="col">
                                             <h3 class="h6">Status Pesanan</h3>
-                                            <div class="alert alert-warning py-2">Pending</div>
+                                            <div class="alert alert-warning py-2">Menunggu Konfirmasi</div>
                                         </div>
                                         <hr>
                                     </div>
@@ -50,53 +53,61 @@
                                     <div class="row">
                                         <div class="col">
                                             <h3 class="h6">Metode Pengiriman</h3>
-                                            <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                                This text is quite long, and will be truncated once displayed.
+                                            <span class="d-inline-block" style="max-width: 150px;">
+                                                <span>{{ pesanan.metode_pengiriman }}</span>
+                                                <span>- {{ pesanan.estimasi_pengiriman }} hari</span>
                                             </span>
                                         </div>
                                         <div class="col">
                                             <h3 class="h6">Metode Pembayaran</h3>
-                                            <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                                This text is quite long, and will be truncated once displayed.
+                                            <span class="d-inline-block" style="max-width: 165px;">
+                                                <span>Nama Bank: {{ pesanan.metode_pembayaran }}</span>
+                                                <span>({{ pesanan.no_rek }})</span>
+                                                <span>An: {{ pesanan.pemilik_rek }}</span>
                                             </span>
                                         </div>
                                         <div class="col">
                                             <h3 class="h6">Total Belanja</h3>
-                                            <span>01062004</span>
+                                            <span>Rp {{ "{:,.0f}".format(pesanan.total_semuanya).replace(",", ".")
+                                                }}</span>
                                         </div>
                                         <hr>
                                     </div>
 
                                     <div class="col-lg-6">
                                         <button type="button" class="btn btn-primary m-2" data-bs-toggle="modal"
-                                            data-bs-target="#detailpesanan"><i class="fa fa-info me-2"></i>Detail
-                                            Pesanan</button>
+                                            data-bs-target="#detailpesanan{{ pesanan._id }}"><i
+                                                class="fa fa-info me-2"></i>Detail Pesanan</button>
                                         <button type="button" class="btn btn-outline-primary m-2"><i
                                                 class="fa fa-whatsapp me-2"></i>Whatsapp</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
 
                     <div class="tab-pane fade" id="nav-proses" role="tabpanel" aria-labelledby="nav-proses-tab">
+                        {% for pesanan in pesanan_list if pesanan.status == 'proses' %}
                         <div class="card mb-4">
                             <div class="card-body bg-light">
                                 <div class="row">
                                     <div class="row">
                                         <div class="col">
                                             <h3 class="h6">Nomor Pesanan</h3>
-                                            <span>01062004</span>
+                                            <span>{{ pesanan.nomor_pesanan }}</span>
                                         </div>
                                         <div class="col">
                                             <h3 class="h6">Daftar Produk</h3>
                                             <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                                This text is quite long, and will be truncated once displayed.
+                                                {% for item in pesanan.ringkasan_belanja %}
+                                                {{ item.nama_produk }} ({{ item.jumlah }}x),
+                                                {% endfor %}
                                             </span>
                                         </div>
                                         <div class="col">
                                             <h3 class="h6">Status Pesanan</h3>
-                                            <div class="alert alert-info py-2">Proses</div>
+                                            <div class="alert alert-info py-2">Proses Pengemasan</div>
                                         </div>
                                         <hr>
                                     </div>
@@ -104,53 +115,61 @@
                                     <div class="row">
                                         <div class="col">
                                             <h3 class="h6">Metode Pengiriman</h3>
-                                            <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                                This text is quite long, and will be truncated once displayed.
+                                            <span class="d-inline-block" style="max-width: 150px;">
+                                                <span>{{ pesanan.metode_pengiriman }}</span>
+                                                <span>- {{ pesanan.estimasi_pengiriman }} hari</span>
                                             </span>
                                         </div>
                                         <div class="col">
                                             <h3 class="h6">Metode Pembayaran</h3>
-                                            <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                                This text is quite long, and will be truncated once displayed.
+                                            <span class="d-inline-block" style="max-width: 165px;">
+                                                <span>Nama Bank: {{ pesanan.metode_pembayaran }}</span>
+                                                <span>({{ pesanan.no_rek }})</span>
+                                                <span>An: {{ pesanan.pemilik_rek }}</span>
                                             </span>
                                         </div>
                                         <div class="col">
                                             <h3 class="h6">Total Belanja</h3>
-                                            <span>01062004</span>
+                                            <span>Rp {{ "{:,.0f}".format(pesanan.total_semuanya).replace(",", ".")
+                                                }}</span>
                                         </div>
                                         <hr>
                                     </div>
 
                                     <div class="col-lg-6">
                                         <button type="button" class="btn btn-primary m-2" data-bs-toggle="modal"
-                                            data-bs-target="#detailpesanan"><i class="fa fa-info me-2"></i>Detail
-                                            Pesanan</button>
+                                            data-bs-target="#detailpesanan{{ pesanan._id }}"><i
+                                                class="fa fa-info me-2"></i>Detail Pesanan</button>
                                         <button type="button" class="btn btn-outline-primary m-2"><i
                                                 class="fa fa-whatsapp me-2"></i>Whatsapp</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
 
                     <div class="tab-pane fade" id="nav-pengiriman" role="tabpanel" aria-labelledby="nav-pengiriman-tab">
+                        {% for pesanan in pesanan_list if pesanan.status == 'dikirim' %}
                         <div class="card mb-4">
                             <div class="card-body bg-light">
                                 <div class="row">
                                     <div class="row">
                                         <div class="col">
                                             <h3 class="h6">Nomor Pesanan</h3>
-                                            <span>01062004</span>
+                                            <span>{{ pesanan.nomor_pesanan }}</span>
                                         </div>
                                         <div class="col">
                                             <h3 class="h6">Daftar Produk</h3>
                                             <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                                This text is quite long, and will be truncated once displayed.
+                                                {% for item in pesanan.ringkasan_belanja %}
+                                                {{ item.nama_produk }} ({{ item.jumlah }}x),
+                                                {% endfor %}
                                             </span>
                                         </div>
                                         <div class="col">
                                             <h3 class="h6">Status Pesanan</h3>
-                                            <div class="alert alert-primary py-2">Dikirim</div>
+                                            <div class="alert alert-primary py-2">Pengiriman</div>
                                         </div>
                                         <hr>
                                     </div>
@@ -158,48 +177,56 @@
                                     <div class="row">
                                         <div class="col">
                                             <h3 class="h6">Metode Pengiriman</h3>
-                                            <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                                This text is quite long, and will be truncated once displayed.
+                                            <span class="d-inline-block" style="max-width: 150px;">
+                                                <span>{{ pesanan.metode_pengiriman }}</span>
+                                                <span>- {{ pesanan.estimasi_pengiriman }} hari</span>
                                             </span>
                                         </div>
                                         <div class="col">
                                             <h3 class="h6">Metode Pembayaran</h3>
-                                            <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                                This text is quite long, and will be truncated once displayed.
+                                            <span class="d-inline-block" style="max-width: 165px;">
+                                                <span>Nama Bank: {{ pesanan.metode_pembayaran }}</span>
+                                                <span>({{ pesanan.no_rek }})</span>
+                                                <span>An: {{ pesanan.pemilik_rek }}</span>
                                             </span>
                                         </div>
                                         <div class="col">
                                             <h3 class="h6">Total Belanja</h3>
-                                            <span>01062004</span>
+                                            <span>Rp {{ "{:,.0f}".format(pesanan.total_semuanya).replace(",", ".")
+                                                }}</span>
                                         </div>
                                         <hr>
                                     </div>
 
                                     <div class="col-lg-6">
                                         <button type="button" class="btn btn-primary m-2" data-bs-toggle="modal"
-                                            data-bs-target="#detailpesanan"><i class="fa fa-info me-2"></i>Detail
-                                            Pesanan</button>
+                                            data-bs-target="#detailpesanan{{ pesanan._id }}"><i
+                                                class="fa fa-info me-2"></i>Detail Pesanan</button>
                                         <button type="button" class="btn btn-outline-primary m-2"><i
                                                 class="fa fa-whatsapp me-2"></i>Whatsapp</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
 
                     <div class="tab-pane fade" id="nav-selesai" role="tabpanel" aria-labelledby="nav-selesai-tab">
+                        {% for pesanan in pesanan_list if pesanan.status == 'selesai' %}
                         <div class="card mb-4">
                             <div class="card-body bg-light">
                                 <div class="row">
                                     <div class="row">
                                         <div class="col">
                                             <h3 class="h6">Nomor Pesanan</h3>
-                                            <span>01062004</span>
+                                            <span>{{ pesanan.nomor_pesanan }}</span>
                                         </div>
                                         <div class="col">
                                             <h3 class="h6">Daftar Produk</h3>
                                             <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                                This text is quite long, and will be truncated once displayed.
+                                                {% for item in pesanan.ringkasan_belanja %}
+                                                {{ item.nama_produk }} ({{ item.jumlah }}x),
+                                                {% endfor %}
                                             </span>
                                         </div>
                                         <div class="col">
@@ -212,53 +239,61 @@
                                     <div class="row">
                                         <div class="col">
                                             <h3 class="h6">Metode Pengiriman</h3>
-                                            <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                                This text is quite long, and will be truncated once displayed.
+                                            <span class="d-inline-block" style="max-width: 150px;">
+                                                <span>{{ pesanan.metode_pengiriman }}</span>
+                                                <span>- {{ pesanan.estimasi_pengiriman }} hari</span>
                                             </span>
                                         </div>
                                         <div class="col">
                                             <h3 class="h6">Metode Pembayaran</h3>
-                                            <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                                This text is quite long, and will be truncated once displayed.
+                                            <span class="d-inline-block" style="max-width: 165px;">
+                                                <span>Nama Bank: {{ pesanan.metode_pembayaran }}</span>
+                                                <span>({{ pesanan.no_rek }})</span><br>
+                                                <span>An: {{ pesanan.pemilik_rek }}</span>
                                             </span>
                                         </div>
                                         <div class="col">
                                             <h3 class="h6">Total Belanja</h3>
-                                            <span>01062004</span>
+                                            <span>Rp {{ "{:,.0f}".format(pesanan.total_semuanya).replace(",", ".")
+                                                }}</span>
                                         </div>
                                         <hr>
                                     </div>
 
                                     <div class="col-lg-6">
                                         <button type="button" class="btn btn-primary m-2" data-bs-toggle="modal"
-                                            data-bs-target="#detailpesanan"><i class="fa fa-info me-2"></i>Detail
-                                            Pesanan</button>
+                                            data-bs-target="#detailpesanan{{ pesanan._id }}"><i
+                                                class="fa fa-info me-2"></i>Detail Pesanan</button>
                                         <button type="button" class="btn btn-outline-primary m-2"><i
                                                 class="fa fa-whatsapp me-2"></i>Whatsapp</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
 
                     <div class="tab-pane fade" id="nav-batal" role="tabpanel" aria-labelledby="nav-batal-tab">
+                        {% for pesanan in pesanan_list if pesanan.status == 'batal' %}
                         <div class="card mb-4">
                             <div class="card-body bg-light">
                                 <div class="row">
                                     <div class="row">
                                         <div class="col">
                                             <h3 class="h6">Nomor Pesanan</h3>
-                                            <span>01062004</span>
+                                            <span>{{ pesanan.nomor_pesanan }}</span>
                                         </div>
                                         <div class="col">
                                             <h3 class="h6">Daftar Produk</h3>
                                             <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                                This text is quite long, and will be truncated once displayed.
+                                                {% for item in pesanan.ringkasan_belanja %}
+                                                {{ item.nama_produk }} ({{ item.jumlah }}x),
+                                                {% endfor %}
                                             </span>
                                         </div>
                                         <div class="col">
                                             <h3 class="h6">Status Pesanan</h3>
-                                            <div class="alert alert-danger py-2">Batal</div>
+                                            <div class="alert alert-danger py-2">Dibatalkan</div>
                                         </div>
                                         <hr>
                                     </div>
@@ -266,33 +301,38 @@
                                     <div class="row">
                                         <div class="col">
                                             <h3 class="h6">Metode Pengiriman</h3>
-                                            <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                                This text is quite long, and will be truncated once displayed.
+                                            <span class="d-inline-block" style="max-width: 150px;">
+                                                <span>{{ pesanan.metode_pengiriman }}</span>
+                                                <span>- {{ pesanan.estimasi_pengiriman }} hari</span>
                                             </span>
                                         </div>
                                         <div class="col">
                                             <h3 class="h6">Metode Pembayaran</h3>
-                                            <span class="d-inline-block text-truncate" style="max-width: 150px;">
-                                                This text is quite long, and will be truncated once displayed.
+                                            <span class="d-inline-block" style="max-width: 165px;">
+                                                <span>Nama Bank: {{ pesanan.metode_pembayaran }}</span>
+                                                <span>({{ pesanan.no_rek }})</span>
+                                                <span>An: {{ pesanan.pemilik_rek }}</span>
                                             </span>
                                         </div>
                                         <div class="col">
                                             <h3 class="h6">Total Belanja</h3>
-                                            <span>01062004</span>
+                                            <span>Rp {{ "{:,.0f}".format(pesanan.total_semuanya).replace(",", ".")
+                                                }}</span>
                                         </div>
                                         <hr>
                                     </div>
 
                                     <div class="col-lg-6">
                                         <button type="button" class="btn btn-primary m-2" data-bs-toggle="modal"
-                                            data-bs-target="#detailpesanan"><i class="fa fa-info me-2"></i>Detail
-                                            Pesanan</button>
+                                            data-bs-target="#detailpesanan{{ pesanan._id }}"><i
+                                                class="fa fa-info me-2"></i>Detail Pesanan</button>
                                         <button type="button" class="btn btn-outline-primary m-2"><i
                                                 class="fa fa-whatsapp me-2"></i>Whatsapp</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
@@ -303,33 +343,35 @@
 {% include 'Footer.html' %}
 
 <header>
-    <!-- Modal -->
-    <div class="modal fade" id="detailpesanan" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Modal Detail Pesanan -->
+    {% for pesanan in pesanan_list %}
+    <div class="modal fade" id="detailpesanan{{ pesanan._id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Detail Pesanan</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Detail Pesanan - {{ pesanan.nomor_pesanan }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div style="display: flex; justify-content: space-between;">
                         <span>Tanggal Pesanan</span>
-                        <span>02/06/2004</span>
+                        <span>{{ pesanan.tanggal_pesanan }}</span>
                     </div>
                     <hr>
                     <div style="display: flex; justify-content: space-between;">
                         <span>Tanggal Pengiriman</span>
-                        <span>-</span>
+                        <span>{{ pesanan.tanggal_kirim }}</span>
                     </div>
                     <hr>
                     <div style="display: flex; justify-content: space-between;">
                         <span>Tanggal Diterima</span>
-                        <span>-</span>
+                        <span>{{ pesanan.tanggal_terima }}</span>
                     </div>
                     <hr>
                     <div style="display: flex; justify-content: space-between;">
                         <span>Nama Penerima</span>
-                        <span>Lorem Ipsum Lorem Ipsum</span>
+                        <span>{{ pesanan.nama }}</span>
                     </div>
                     <hr>
                     <div style="display: flex; flex-direction: column;">
@@ -337,7 +379,7 @@
                             <span>Alamat</span>
                         </div>
                         <div>
-                            <span>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum</span>
+                            <span>{{ pesanan.alamat }}</span>
                         </div>
                     </div>
                     <hr>
@@ -346,30 +388,20 @@
                             <span>Daftar Barang</span>
                         </div><br>
                         <div>
-                            <div class="card">
+                            {% for item in pesanan.ringkasan_belanja %}
+                            <div class="card mb-3">
                                 <div class="card-body">
                                     <div style="display: flex; align-items: center;">
-                                        <img src="../static/assets/images/client-01.png" alt="Gambar Barang 1"
+                                        <img src="../static/assets/images/client-01.png" alt="Gambar Produk"
                                             style="width: 50px; height: 50px; margin-right: 10px;">
                                         <div>
-                                            <h6 class="card-title">Barang 1</h6>
-                                            <p class="card-text">Harga: $10 | Jumlah: 2</p>
+                                            <h6 class="card-title">{{ item.nama_produk }}</h6>
+                                            <p class="card-text">Harga: {{ item.harga }} | Jumlah: {{ item.jumlah }}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <div style="display: flex; align-items: center;">
-                                        <img src="./static/assets/images/client-01.png" alt="Gambar Barang 2"
-                                            style="width: 50px; height: 50px; margin-right: 10px;">
-                                        <div>
-                                            <h6 class="card-title">Barang 2</h6>
-                                            <p class="card-text">Harga: $20 | Jumlah: 1</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                     <hr>
@@ -381,20 +413,19 @@
                     </div><br>
                     <div style="display: flex; justify-content: space-between;">
                         <span>Total Produk</span>
-                        <span>Rp.15.000</span>
+                        <span>Rp. {{ "{:,.0f}".format(pesanan.total_produk).replace(",", ".") }}</span>
                     </div>
                     <hr>
                     <div style="display: flex; justify-content: space-between;">
                         <span>Total Pengiriman</span>
-                        <span>Rp.0</span>
+                        <span>Rp. {{ "{:,.0f}".format(pesanan.total_pengiriman).replace(",", ".") }}</span>
                     </div>
                     <hr>
                     <div style="display: flex; justify-content: space-between;">
                         <span>Total</span>
-                        <span>Rp.15.000</span>
+                        <span>Rp. {{ "{:,.0f}".format(pesanan.total_semuanya).replace(",", ".") }}</span>
                     </div>
                     <hr>
-
                     <div style="display: flex; justify-content: space-between;">
                         <div>
                             <span>Upload Bukti Transfer</span>
@@ -406,17 +437,22 @@
                                 style="width: 100%; height: 100%;">
                         </div>
                     </div><br>
+                    {% if pesanan.status == 'pending' %}
                     <div class="mb-3">
                         <input class="form-control" type="file" id="formFile">
                     </div>
+                    {% endif %}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    {% if pesanan.status == 'pending' %}
                     <button type="button" class="btn btn-primary">Simpan</button>
+                    {% endif %}
                 </div>
             </div>
         </div>
     </div>
+    {% endfor %}
 </header>
 
 <style>

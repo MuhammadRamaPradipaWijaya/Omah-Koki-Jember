@@ -20,20 +20,18 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <h5>Nama</h5>
-                                    <p>{{ session['username'] }}</p>
+                                    <p>{{admin.nama}}</p>
                                 </div>
 
                                 <div class="mb-3">
                                     <h5>No. HP</h5>
-                                    <p>{{ session['telepon'] }}</p>
+                                    <p>{{ admin.telepon }}</p>
                                 </div>
 
-                                {% if session['gender'] %}
                                 <div class="mb-3">
                                     <h5>Jenis Kelamin</h5>
-                                    <p>{{ session['gender'] }}</p>
+                                    <p>{{ admin.gender }}</p>
                                 </div>
-                                {% endif %}
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -41,12 +39,10 @@
                                     <p>{{ session['email'] }}</p>
                                 </div>
 
-                                {% if session['tgl_lahir'] %}
                                 <div class="mb-3">
                                     <h5>Tanggal Lahir</h5>
-                                    <p>{{ session['tgl_lahir'] }}</p>
+                                    <p>{{ admin.tgl_lahir }}</p>
                                 </div>
-                                {% endif %}
                                 
                                 <div class="mb-3">
                                     <h5>Tanggal Registrasi</h5>
@@ -87,7 +83,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="tgl_lahir" class="form-label">Tanggal Lahir</label>
-                                <input type="date" class="form-control" id="tgl_lahir" name="tgl_lahir" value="{{ session['tgl_lahir'] }}">
+                                <input type="date" class="form-control" id="tgl_lahir" name="tgl_lahir" value="{{ admin.tgl_lahir }}">
                             </div>
                             <div class="mb-3">
                                 <label for="gender" class="form-label">Jenis Kelamin</label>

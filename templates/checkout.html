@@ -1,20 +1,20 @@
-{% include 'header.html' %} {% include 'navbar.html' %}
+{% include 'header.html' %}
+{% include 'navbar.html' %}
 
 <br /><br /><br />
 <div class="container">
   <div class="row justify-content-center">
     <div class="col-xl-10 col-md-10">
-
       <div class="container-fluid pt-4 px-4">
         <h6 class="mb-6"><strong>CHECKOUT</strong></h6><br>
         <div class="row g-4">
           <div class="col-sm-12 col-xl-6">
             <div class="bg-light rounded p-4">
               <h6 class="mb-0">Informasi Pribadi</h6>
-              <p class="mb-0"><strong>Nama Pengguna</strong></p>
-              <p class="mb-0"><strong>lorem@gmail.com</strong></p>
+              <p class="mb-0"><strong>{{ session['nama'] }}</strong></p>
+              <p class="mb-0"><strong>{{ session['email'] }}</strong></p>
               <div class="d-flex align-items-center justify-content-between mb-4">
-                <p class="mb-0"><strong>0888899991222</strong></p>
+                <p class="mb-0"><strong>{{ session['telepon'] }}</strong></p>
                 <button type="button" class="btn btn-sm btn-danger rounded-pill m-2">
                   Ubah
                 </button>
@@ -22,87 +22,108 @@
               <strong>
                 <hr style="border: none; height: 5px; background-color: #f33f3f" />
               </strong>
-              <form>
+              <form id="checkoutForm" method="POST" action="{{ url_for('checkout') }}">
                 <div class="d-flex align-items-center justify-content-between">
                   <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Jalan</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                    <label for="jalan" class="form-label">Jalan</label>
+                    <input type="text" class="form-control" id="jalan" name="jalan" required />
                   </div>
                   <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">RT/RW</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                    <label for="rt_rw" class="form-label">RT/RW</label>
+                    <input type="text" class="form-control" id="rt_rw" name="rt_rw" required />
                   </div>
                 </div>
                 <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Kelurahan/Desa</label>
-                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                  <label for="kelurahan_desa" class="form-label">Kelurahan/Desa</label>
+                  <input type="text" class="form-control" id="kelurahan_desa" name="kelurahan_desa" required />
                 </div>
                 <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Kecamatan</label>
-                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                  <label for="kecamatan" class="form-label">Kecamatan</label>
+                  <input type="text" class="form-control" id="kecamatan" name="kecamatan" required />
                 </div>
                 <div class="mb-3">
-                  <label for="exampleInputEmail1" class="form-label">Kota/Kabupaten</label>
-                  <select class="form-select mb-3" aria-label="Default select example">
-                    <option selected>Pilih</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                  <label for="provinsi" class="form-label">Provinsi</label>
+                  <input type="text" class="form-control" id="provinsi" name="provinsi" required />
+                </div>
+                <div class="mb-3">
+                  <label for="kota_kabupaten" class="form-label">Kota/Kabupaten</label>
+                  <select class="form-select mb-3" id="kota_kabupaten" name="kota_kabupaten" required>
+                    <option selected disabled>Pilih Kota/Kabupaten</option>
+                    {% for pengiriman in pengiriman_list %}
+                    {% for zona, details in pengiriman.zona.items() %}
+                    {% if 'kota-kabupaten' in details %}
+                    {% for kota in details['kota-kabupaten'] %}
+                    <option value="{{ kota }}">{{ kota }}</option>
+                    {% endfor %}
+                    {% endif %}
+                    {% endfor %}
+                    {% endfor %}
                   </select>
                 </div>
-                <div class="d-flex align-items-center justify-content-between">
-                  <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Provinsi</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"  style="width: 290px;" />
-                  </div>
-                  <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Kode Pos</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
-                  </div>
+                <div class="mb-3">
+                  <label for="kode_pos" class="form-label">Kode Pos</label>
+                  <input type="text" class="form-control" id="kode_pos" name="kode_pos" required style="width: 30%;" />
                 </div>
+                <input type="hidden" name="metode_pengiriman" id="hidden_metode_pengiriman">
+                <input type="hidden" name="metode_pembayaran" id="hidden_metode_pembayaran">
               </form>
             </div>
           </div>
-          
+
           <div class="col-sm-13 col-xl-6">
             <div class="bg-light text-center rounded p-4">
               <h6>Ringkasan Belanja</h6>
-              <div class="card mb-3 bg-danger text-white rounded-card mx-auto" style="max-width: 400px; height: auto;">
-                <div class="row g-0">
-                  <div class="col-md-4 d-flex align-items-center justify-content-center">
-                    <img src="../static/ad_assets/img/testimonial-2.jpg" class="img-fluid rounded-start" alt="..." />
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body text-start">
-                      <h6 class="card-title text-md-start text-center">Lorem Ipsum</h6>
-                      <h6 class="card-title text-md-start text-center">Rp. 5000</h6>
+              {% for item in items_keranjang %}
+              <div class="card mb-4">
+                <div class="card-body">
+                  <div class="d-sm-flex justify-content-between">
+                    <div class="media d-block d-sm-flex text-center text-sm-left">
+                      <a class="cart-item-thumb mx-auto mr-sm-4" href="#"><img
+                          src="{{ url_for('static', filename='ad_assets/imgproduk/' ~ item.gambar) }}" alt="Product"
+                          style="object-fit: cover; max-width: 150px; max-height: 150px;"></a>
+                      <div class="media-body pt-3">
+                        <h3 class="product-card-title font-weight-semibold border-0 pb-0 ">
+                          <a href="#"
+                            style="display: inline-block; width: 190px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left;">
+                            {{ item['nama_produk'] }}
+                          </a>
+                        </h3>
+                        <div class="font-size-lg pt-2" style="text-align: left;">Rp {{ "{:,.0f}".format(item['harga']).replace(",", ".") }}</div>
+                        <div class="font-size-lg pt-2" style="text-align: left;">Jumlah: {{ item['jumlah'] }}</div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+              {% endfor %}
+              {% for item in items_keranjang %}
+              <div class="font-size-lg pt-2" style="text-align: left;">Berat: {{ item['berat'] }} kg</div>
+              {% endfor %}
             </div>
             <br>
             <div class="bg-light text-center rounded p-4">
               <strong>
                 <hr style="border: none; height: 5px; background-color: #f33f3f" />
               </strong>
-              <h6>Metode Pengirimian</h6>
-              <select class="form-select mb-3 mx-auto" aria-label="Default select example"
+              <h6>Metode Pengiriman</h6>
+              <select class="form-select mb-3 mx-auto" name="metode_pengiriman" id="metode_pengiriman"
                 style="max-width: 250px; background-color: #dc3545; color:white;">
-                <option selected>Pilih</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                <option selected disabled>Pilih Kurir</option>
+                {% for pengiriman in pengiriman_list %}
+                <option value="{{ pengiriman['jasa_kirim'] }}">{{ pengiriman['jasa_kirim'] }}</option>
+                {% endfor %}
               </select>
               <strong>
                 <hr style="border: none; height: 5px; background-color: #f33f3f" />
               </strong>
+              <br>
+              <!-- Detail ringkasan belanja -->
               <div class="d-flex align-items-center justify-content-between">
                 <div class="mb-3">
                   <p><strong>Total Produk : </strong></p>
                 </div>
                 <div class="mb-3">
-                  <p><strong>Rp. 15.000</strong></p>
+                  <p id="subtotal"><strong>Rp {{ "{:,.0f}".format(subtotal).replace(",", ".") }}</strong></p>
                 </div>
               </div>
               <div class="d-flex align-items-center justify-content-between">
@@ -110,7 +131,7 @@
                   <p><strong>Total Pengiriman : </strong></p>
                 </div>
                 <div class="mb-3">
-                  <p><strong>Rp. 0</strong></p>
+                  <p id="shipping_cost"><strong>Rp. {{ "{:,.0f}".format(0).replace(",", ".") }}</strong></p>
                 </div>
               </div>
               <strong>
@@ -121,13 +142,13 @@
                   <p><strong>Total : </strong></p>
                 </div>
                 <div class="mb-3">
-                  <p><strong>Rp. 15.000</strong></p>
+                  <p id="total"><strong>Rp. {{ "{:,.0f}".format(subtotal).replace(",", ".") }}</strong></p>
                 </div>
               </div>
               <strong>
                 <hr style="border: none; height: 5px; background-color: black" />
               </strong>
-              <button type="button" class="btn btn-danger rounded-pill m-2" data-bs-toggle="modal" data-bs-target="#ModalMetodePembayaran">Pilih Metode Pembayaran</button>
+              <button type="button" class="btn btn-danger rounded-pill m-2" onclick="confirmPaymentMethod()">Pilih Metode Pembayaran</button>
             </div>
           </div>
         </div>
@@ -137,55 +158,203 @@
 </div>
 
 <!-- modal metode pembayaran  -->
-<div class="modal fade" id="ModalMetodePembayaran" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="ModalMetodePembayaran" tabindex="-1" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
   <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Pilih Pembayaran</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <a href="/pesanan" class="card">
-          <div class="bg-light rounded p-4">
-            <div class="card w-80">
-              <div class="card-body">
-                <p class="card-title"><strong>Transfer Bank BNI No. Rekening : 12345678</strong></p>
-                <p class="card-text">AN : Omah Koki Jember</p>
-                <p class="card-text">Lakukan transfer sesuai dengan nominal yang tertera. <br>
-                Ketika melakukan transfer diharapkan menambahkan kode pesanan pada nota transfer</p>
-              </div>
-            </div>
-            <br>
-            <div class="card w-80">
-              <div class="card-body">
-                <p class="card-title"><strong>Transfer Bank BRI No. Rekening : 34567891</strong></p>
-                <p class="card-text">AN : Omah Koki Jember</p>
-                <p class="card-text">Lakukan transfer sesuai dengan nominal yang tertera. <br>
-                Ketika melakukan transfer diharapkan menambahkan kode pesanan pada nota transfer</p>
-              </div>
-            </div>
-            <br>
-            <div class="card w-80">
-              <div class="card-body">
-                <p class="card-title"><strong>Transfer Bank BCA No. Rekening : 45678912</strong></p>
-                <p class="card-text">AN : Omah Koki Jember</p>
-                <p class="card-text">Lakukan transfer sesuai dengan nominal yang tertera. <br>
-                Ketika melakukan transfer diharapkan menambahkan kode pesanan pada nota transfer</p>
-              </div>
-            </div>
-            <br>
-            <div class="card w-80">
-              <div class="card-body">
-                <p class="card-title"><strong>Transfer Bank Mandiri No. Rekening : 45678912</strong></p>
-                <p class="card-text">AN : Omah Koki Jember</p>
-                <p class="card-text">Lakukan transfer sesuai dengan nominal yang tertera. <br>
-                Ketika melakukan transfer diharapkan menambahkan kode pesanan pada nota transfer</p>
-              </div>
-            </div>
-          </div>
-        </a>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Pilih Pembayaran</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <div class="modal-body">
+        {% for pembayaran in pembayaran_list %}
+        <div class="card w-80" onclick="pilihMetodePembayaran('{{ pembayaran['_id'] }}')">
+          <div class="card-body">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="metode_pembayaran" id="metode_{{ pembayaran['_id'] }}"
+                value="{{ pembayaran['_id'] }}" onclick="pilihMetodePembayaran('{{ pembayaran['_id'] }}')">
+              <label class="form-check-label" for="metode_{{ pembayaran['_id'] }}">
+                <strong>{{ pembayaran['Nama_Bank'] }} No. Rekening : {{ pembayaran['No_Rek'] }}</strong>
+              </label>
+            </div>
+            <p class="card-text">AN : {{ pembayaran['Pemilik_Rek'] }}</p>
+            <p class="card-text">Lakukan transfer sesuai dengan nominal yang tertera. <br>
+              Ketika melakukan transfer diharapkan menambahkan kode pesanan pada nota transfer</p>
+          </div>
+        </div>
+        <br>
+        {% endfor %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-danger" onclick="confirmCheckout()">Checkout</button>
+      </div>
+    </div>
   </div>
 </div>
 
 
-      {% include 'Footer.html' %}
+<script>
+  function confirmPaymentMethod() {
+    const jalan = document.getElementById('jalan').value;
+    const rt_rw = document.getElementById('rt_rw').value;
+    const kelurahan_desa = document.getElementById('kelurahan_desa').value;
+    const kecamatan = document.getElementById('kecamatan').value;
+    const provinsi = document.getElementById('provinsi').value;
+    const kota_kabupaten = document.getElementById('kota_kabupaten').value;
+    const kode_pos = document.getElementById('kode_pos').value;
+    const metodePengiriman = document.getElementById('metode_pengiriman').value;
+
+    if (!jalan || !rt_rw || !kelurahan_desa || !kecamatan || !provinsi || !kota_kabupaten || !kode_pos || !metodePengiriman) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'Silakan isi semua bidang sebelum melanjutkan.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    } else {
+      $('#ModalMetodePembayaran').modal('show');
+    }
+  }
+
+  function confirmCheckout() {
+    Swal.fire({
+      title: 'Konfirmasi Checkout',
+      text: 'Anda yakin ingin melanjutkan proses pembayaran?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      cancelButtonText: 'Batal',
+      confirmButtonText: 'Ya, Lanjut!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        submitCheckout();
+      }
+    });
+  }
+
+  function pilihMetodePembayaran(metode) {
+    document.getElementById('hidden_metode_pembayaran').value = metode;
+  }
+
+  function submitCheckout() {
+    const metodePengiriman = document.getElementById('metode_pengiriman').value;
+    if (!metodePengiriman) {
+      alert('Silakan pilih metode pengiriman.');
+      return;
+    }
+
+    document.getElementById('hidden_metode_pengiriman').value = metodePengiriman;
+
+    const metodePembayaran = document.getElementById('hidden_metode_pembayaran').value;
+    if (!metodePembayaran) {
+      alert('Silakan pilih metode pembayaran.');
+      return;
+    }
+
+    document.getElementById('checkoutForm').submit();
+  }
+</script>
+
+{% include 'Footer.html' %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const kotaKabupatenSelect = document.getElementById('kota_kabupaten');
+    const metodePengirimanSelect = document.getElementById('metode_pengiriman');
+    const shippingCostElement = document.getElementById('shipping_cost');
+    const totalElement = document.getElementById('total');
+    const subtotal = parseInt(document.getElementById('subtotal').innerText.replace('Rp ', '').replace(/\./g, ''));
+
+    function calculateShippingCost() {
+      const kotaKabupaten = kotaKabupatenSelect.value;
+      const metodePengiriman = metodePengirimanSelect.value;
+      const beratTotal = {% for item in items_keranjang %}{{ item['berat'] }}{% if not loop.last %} + {% endif %}{% endfor %};
+
+      console.log(`Selected kota_kabupaten: ${kotaKabupaten}`);
+      console.log(`Selected metode_pengiriman: ${metodePengiriman}`);
+      console.log(`Calculated berat_total: ${beratTotal}`);
+
+      if (kotaKabupaten && metodePengiriman) {
+        fetch('/get_shipping_cost', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            kota_kabupaten: kotaKabupaten,
+            berat_total: beratTotal,
+            metode_pengiriman: metodePengiriman
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          const tarif = data.tarif;
+          console.log(`Received tarif: ${tarif}`);
+          shippingCostElement.innerHTML = `<strong>Rp ${tarif.toLocaleString()}</strong>`;
+          totalElement.innerHTML = `<strong>Rp ${(subtotal + tarif).toLocaleString()}</strong>`;
+        })
+        .catch(error => {
+          console.error('Error fetching shipping cost:', error);
+        });
+      }
+    }
+
+    kotaKabupatenSelect.addEventListener('change', calculateShippingCost);
+    metodePengirimanSelect.addEventListener('change', calculateShippingCost);
+  });
+</script>
+
+<style>
+  .product-card-title,
+  .font-size-lg {
+    margin-left: 20px;
+  }
+
+  .cart-item-thumb {
+    display: block;
+    width: 10rem;
+  }
+
+  .cart-item-thumb>img {
+    display: block;
+    width: 100%;
+    border-radius: 15px;
+  }
+
+  .product-card-title>a {
+    color: #222;
+  }
+
+  .font-weight-semibold {
+    font-weight: 600 !important;
+  }
+
+  .product-card-title {
+    display: block;
+    margin-bottom: .75rem;
+    padding-bottom: .875rem;
+    border-bottom: 1px dashed #e2e2e2;
+    font-size: 1rem;
+    font-weight: normal;
+  }
+
+  .text-muted {
+    color: #888 !important;
+  }
+
+  .bg-secondary {
+    background-color: #f7f7f7 !important;
+  }
+
+  .accordion .accordion-heading {
+    margin-bottom: 0;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  .font-weight-semibold {
+    font-weight: 600 !important;
+  }
+</style>

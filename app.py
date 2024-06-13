@@ -7,6 +7,8 @@ from pymongo import MongoClient
 from bson import ObjectId
 import jwt
 from datetime import datetime
+import requests
+import hashlib
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
@@ -32,7 +34,13 @@ def dashboard():
 
 @app.route('/adpesanan', methods=['GET', 'POST'])
 def adpesanan():
-    return render_template('ad_pesanan.html')
+    list_pesanan = list(db.pesanan.find({}))
+    return render_template('ad_pesanan.html', list_pesanan=list_pesanan)
+
+@app.route('/detail_pesanan/<_id>', methods=['GET'])
+def detail_pesanan(_id):
+    list_pesanan = db.pesanan.find_one({'_id': ObjectId(_id)})
+    return render_template('ad_pesanan.html', list_pesanan=list_pesanan)
 
 @app.route('/order/confirmation')
 def order_confirmation():
@@ -53,7 +61,7 @@ def addProduk():
         harga = float(request.form.get('harga'))
         deskripsi = request.form.get('deskripsi')
         kondisi = request.form.get('kondisi')
-        berat = request.form.get('berat')
+        berat = float(request.form.get('berat'))
         kategori = request.form.get('kategori')
         panjang = request.form.get('panjang')
         lebar = request.form.get('lebar')
@@ -93,7 +101,7 @@ def editProduk(_id):
         harga = float(request.form.get('harga'))
         deskripsi = request.form.get('deskripsi')
         kondisi = request.form.get('kondisi')
-        berat = request.form.get('berat')
+        berat = float(request.form.get('berat'))
         kategori = request.form.get('kategori')
         panjang = request.form.get('panjang')
         lebar = request.form.get('lebar')
@@ -200,7 +208,6 @@ def editPembayaran(_id):
     pembayaran =list(db.pembayaran.find({'_id': id}))
     return render_template('ad_pembayaran.html', pembayaran=pembayaran)
 
-
 @app.route('/deletePembayaran/<_id>',methods=['GET','POST'])
 def deletePembayaran(_id):
     db.pembayaran.delete_one({'_id': ObjectId(_id)})
@@ -215,13 +222,13 @@ def adpengiriman():
 def tambah_pengiriman():
     if request.method == 'POST':
         jasa_kirim = request.form.get('jasa_kirim')
-        tarif_dalam_kota = request.form.get('tarif_dalam_kota')
+        tarif_dalam_kota = float(request.form.get('tarif_dalam_kota'))
         estimasi_dalam_kota = request.form.get('estimasi_dalam_kota')
-        tarif_luar_kota = request.form.get('tarif_luar_kota')
+        tarif_luar_kota = float(request.form.get('tarif_luar_kota'))
         estimasi_luar_kota = request.form.get('estimasi_luar_kota')
-        tarif_luar_provinsi = request.form.get('tarif_luar_provinsi')
+        tarif_luar_provinsi = float(request.form.get('tarif_luar_provinsi'))
         estimasi_luar_provinsi = request.form.get('estimasi_luar_provinsi')
-        tarif_luar_pulau = request.form.get('tarif_luar_pulau')
+        tarif_luar_pulau = float(request.form.get('tarif_luar_pulau'))
         estimasi_luar_pulau = request.form.get('estimasi_luar_pulau')
         
         db.pengiriman.insert_one({
@@ -269,13 +276,13 @@ def tambah_kota():
 def editpengiriman(pengiriman_id):
     if request.method == 'POST':
         jasa_kirim = request.form.get('jasa_kirim')
-        tarif_dalam_kota = request.form.get('tarif_dalam_kota')
+        tarif_dalam_kota = float(request.form.get('tarif_dalam_kota'))
         estimasi_dalam_kota = request.form.get('estimasi_dalam_kota')
-        tarif_luar_kota = request.form.get('tarif_luar_kota')
+        tarif_luar_kota = float(request.form.get('tarif_luar_kota'))
         estimasi_luar_kota = request.form.get('estimasi_luar_kota')
-        tarif_luar_provinsi = request.form.get('tarif_luar_provinsi')
+        tarif_luar_provinsi = float(request.form.get('tarif_luar_provinsi'))
         estimasi_luar_provinsi = request.form.get('estimasi_luar_provinsi')
-        tarif_luar_pulau = request.form.get('tarif_luar_pulau')
+        tarif_luar_pulau = float(request.form.get('tarif_luar_pulau'))
         estimasi_luar_pulau = request.form.get('estimasi_luar_pulau')
 
         db.pengiriman.update_one({'_id': ObjectId(pengiriman_id)}, {
@@ -299,18 +306,18 @@ def hapus_pengiriman(pengiriman_id):
     db.pengiriman.delete_one({'_id': ObjectId(pengiriman_id)})
     return redirect(url_for('adpengiriman'))
 
-@app.route('/edit_kota/<pengiriman_id>/<kota_kabupaten_id>', methods=['POST'])
-def edit_kota(pengiriman_id, kota_kabupaten_id):
+@app.route('/edit_kota/<nama_kota>', methods=['POST'])
+def edit_kota(nama_kota):
     if request.method == 'POST':
-        new_city_name = request.form.get('nama_kota')
-        # Lakukan pembaruan nama kota
-        db.pengiriman.update_one(
-            {'_id': ObjectId(pengiriman_id), 'zona.kota-kabupaten': kota_kabupaten_id},
-            {'$set': {'zona.$[z].kota-kabupaten': new_city_name}},
-            array_filters=[{'z.kota-kabupaten': kota_kabupaten_id}]
-        )
+        nama_baru = request.form['nama_baru']
+        for item in db.pengiriman.find({}):
+            for zona, detail_zona in item['zona'].items():
+                if nama_kota in detail_zona.get('kota-kabupaten', []):
+                    db.pengiriman.update_one(
+                        {'_id': item['_id'], 'zona.' + zona + '.kota-kabupaten': nama_kota},
+                        {'$set': {'zona.' + zona + '.kota-kabupaten.$': nama_baru}}
+                    )
         return redirect(url_for('adpengiriman'))
-
 
 @app.route('/hapus_kota/<nama_kota>', methods=['POST'])
 def hapus_kota(nama_kota):
@@ -365,7 +372,7 @@ def adprofil():
             mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
             
             admin_img = request.files.get('profil')
-            filename = admin['avatar']
+            filename = admin.get('avatar', '')
 
             if (admin_img) :
                 extension = admin_img.filename.split('.')[-1]
@@ -398,7 +405,8 @@ def adprofil():
 
             return redirect(url_for('adprofil'))
         else :
-            return render_template('ad_profil.html')
+            admin = db.admin.find_one({'_id' : ObjectId(session['user_id'])})
+            return render_template('ad_profil.html', admin=admin)
     else:
         return redirect(url_for('adlogin'))
 # BAGIAN ADMIN #
@@ -437,7 +445,7 @@ def tambah_ke_keranjang():
     if 'logged_in' in session and session['logged_in']:
         user_id = session['user_id']
         produk_id = request.form.get('produk_id')
-        jumlah = request.form.get('jumlah')
+        jumlah = int(request.form.get('jumlah'))
 
         produk = db.adproduk.find_one({'_id': ObjectId(produk_id)})
 
@@ -445,7 +453,9 @@ def tambah_ke_keranjang():
             existing_item = db.keranjang.find_one({'user_id': user_id, 'produk_id': produk_id})
 
             if existing_item:
-                db.keranjang.update_one({'_id': existing_item['_id']}, {'$set': {'jumlah': jumlah}})
+                total_jumlah = existing_item['jumlah'] + jumlah
+                total_berat = total_jumlah * produk['berat']
+                db.keranjang.update_one({'_id': existing_item['_id']}, {'$set': {'jumlah': total_jumlah, 'berat': total_berat}})
                 return redirect(url_for('keranjang'))
             else:
                 item_keranjang = {
@@ -454,6 +464,7 @@ def tambah_ke_keranjang():
                     'jumlah': jumlah,
                     'nama_produk': produk['nama_produk'],
                     'harga': produk['harga'],
+                    'berat': (jumlah * produk['berat']),
                     'gambar': produk['gambar']
                 }
                 db.keranjang.insert_one(item_keranjang)
@@ -462,6 +473,28 @@ def tambah_ke_keranjang():
             return jsonify({'status': 'gagal', 'pesan': 'Produk tidak ditemukan'})
     else:
         return redirect(url_for('login'))
+    
+@app.route('/update_keranjang', methods=['POST'])
+def update_keranjang():
+    if 'logged_in' in session and session['logged_in']:
+        user_id = session['user_id']
+        item_id = request.form.get('item_id')
+        jumlah = int(request.form.get('jumlah'))
+
+        if jumlah <= 0:
+            db.keranjang.delete_one({'_id': ObjectId(item_id), 'user_id': user_id})
+        else:
+            db.keranjang.update_one(
+                {'_id': ObjectId(item_id), 'user_id': user_id},
+                {'$set': {'jumlah': jumlah}}
+            )
+
+        items_keranjang = list(db.keranjang.find({'user_id': user_id}))
+        subtotal = sum(int(item['harga']) * int(item['jumlah']) for item in items_keranjang)
+
+        return jsonify({'status': 'success', 'subtotal': subtotal})
+
+    return jsonify({'status': 'error', 'message': 'Pengguna belum login'})
 
 @app.route('/tentang')
 def tentang():
@@ -473,7 +506,13 @@ def kontak():
 
 @app.route('/pesanan')
 def pesanan():
-    return render_template('pesanan.html')
+    if 'logged_in' in session and session['logged_in']:
+        user_id = session['user_id']
+        pesanan_list = list(db.pesanan.find({'user_id': user_id}))
+
+        return render_template('pesanan.html', pesanan_list=pesanan_list)
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/keranjang')
 def keranjang():
@@ -493,14 +532,179 @@ def hapus_dari_keranjang(item_id):
     else:
         return redirect(url_for('login'))
 
-@app.route('/checkout')
-def checkout():
-    return render_template('checkout.html')
+def order_number(order_id):
+    hashed_order_id = hashlib.sha256(order_id.encode()).hexdigest()
+    short_order_number = hashed_order_id[:8]
+    return short_order_number
 
-@app.route('/profil')
+@app.route('/checkout', methods=['GET', 'POST'])
+def checkout():
+    if 'logged_in' in session and session['logged_in']:
+        if request.method == 'POST':
+            user_id = session['user_id']
+            nama = session['nama']
+            email = session['email']
+            telepon = session['telepon']
+            
+            jalan = request.form.get('jalan')
+            rt_rw = request.form.get('rt_rw')
+            kelurahan_desa = request.form.get('kelurahan_desa')
+            kecamatan = request.form.get('kecamatan')
+            provinsi = request.form.get('provinsi')
+            kota_kabupaten = request.form.get('kota_kabupaten')
+            kode_pos = request.form.get('kode_pos')
+            alamat = f"{jalan}, RT/RW: {rt_rw}, Kel/Desa: {kelurahan_desa}, Kec: {kecamatan}, {kota_kabupaten}, {provinsi}, {kode_pos}"
+
+            metode_pengiriman = request.form.get('metode_pengiriman')
+            metode_pembayaran = request.form.get('metode_pembayaran')
+
+            pembayaran = db.pembayaran.find_one({'_id': ObjectId(metode_pembayaran)})
+            if pembayaran:
+                metode_pembayaran = pembayaran['Nama_Bank']
+                no_rekening = pembayaran['No_Rek']
+                pemilik_rekening = pembayaran['Pemilik_Rek']
+            else:
+                return redirect(url_for('checkout'))
+
+            items_keranjang = list(db.keranjang.find({'user_id': user_id}))
+            subtotal = sum(int(item['harga']) * int(item['jumlah']) for item in items_keranjang)
+            total_berat = sum(item['berat'] for item in items_keranjang)
+
+            pengiriman = db.pengiriman.find_one({'jasa_kirim': metode_pengiriman})
+            tarif_pengiriman = 0
+            estimasi_pengiriman = 0
+            if pengiriman:
+                for zona, details in pengiriman['zona'].items():
+                    if kota_kabupaten in details.get('kota-kabupaten', []):
+                        tarif_pengiriman = details['tarif']
+                        estimasi_pengiriman = details['estimasi']
+                        break
+
+            total_pengiriman = tarif_pengiriman * total_berat
+            total_semuanya = float(subtotal) + float(total_pengiriman)
+
+            ringkasan_belanja = [{'nama_produk': item['nama_produk'], 'jumlah': item['jumlah'], 'harga': item['harga']} for item in items_keranjang]
+
+            pesanan_id = str(ObjectId())
+            nomor_pesanan = order_number(pesanan_id)
+
+            pesanan = {
+                '_id': pesanan_id,
+                'nomor_pesanan': nomor_pesanan,
+                'user_id': user_id,
+                'nama': nama,
+                'email': email,
+                'telepon': telepon,
+                'alamat': alamat,
+                'ringkasan_belanja': ringkasan_belanja,
+                'metode_pengiriman': metode_pengiriman,
+                'total_produk': float(subtotal),
+                'total_pengiriman': float(total_pengiriman),
+                'total_semuanya': float(total_semuanya),
+                'metode_pembayaran': metode_pembayaran,
+                'no_rek' : no_rekening,
+                'pemilik_rek' : pemilik_rekening,
+                'status': 'pending',
+                'estimasi_pengiriman': estimasi_pengiriman,
+                'tanggal_pesanan': datetime.now().strftime('%Y-%m-%d')
+            }
+
+            db.pesanan.insert_one(pesanan)
+            db.keranjang.delete_many({'user_id': user_id})
+
+            return redirect(url_for('pesanan'))
+        
+        else:
+            user_id = session['user_id']
+            items_keranjang = list(db.keranjang.find({'user_id': user_id}))
+            subtotal = sum(int(item['harga']) * int(item['jumlah']) for item in items_keranjang)
+            pengiriman_list = list(db.pengiriman.find({}))
+            pembayaran_list = list(db.pembayaran.find({}))
+            return render_template('checkout.html', items_keranjang=items_keranjang, subtotal=subtotal, pengiriman_list=pengiriman_list, pembayaran_list=pembayaran_list)
+    else:
+        return redirect(url_for('login'))
+    
+@app.route('/get_shipping_cost', methods=['POST'])
+def get_shipping_cost():
+    if request.method == 'POST':
+        data = request.get_json()
+        kota_kabupaten = data.get('kota_kabupaten')
+        berat_total = data.get('berat_total')
+        metode_pengiriman = data.get('metode_pengiriman')
+
+        print(f"Received kota_kabupaten: {kota_kabupaten}, berat_total: {berat_total}, metode_pengiriman: {metode_pengiriman}")
+
+        pengiriman = db.pengiriman.find_one({'jasa_kirim': metode_pengiriman})
+        if pengiriman:
+            print(f"Found pengiriman: {pengiriman}")
+            tarif = 0
+            for zona, details in pengiriman['zona'].items():
+                print(f"Checking zona: {zona}, details: {details}")
+                if kota_kabupaten in details.get('kota-kabupaten', []):
+                    tarif = int(details['tarif'])
+                    print(f"Matched kota_kabupaten: {kota_kabupaten}, tarif: {tarif}")
+                    break
+            total_tarif = tarif * berat_total
+            print(f"Total tarif: {total_tarif}")
+            return jsonify({'tarif': total_tarif})
+        else:
+            print("No matching pengiriman found")
+
+    return jsonify({'tarif': 0})
+
+
+@app.route('/profil', methods=['GET', 'POST'])
 def profil():
-    return render_template('profil.html')
+    if 'logged_in' in session and session['logged_in']:
+        if request.method == 'POST':
+            pembeli = db.pembeli.find_one({'_id': ObjectId(session['user_id'])})
+
+            nama = request.form['nama']
+            tglLahir = request.form['tglLahir']
+            gender = request.form['gender']
+            telepon = request.form['telepon']
+
+            today = datetime.now()
+            mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+
+            pembeli_img = request.files['image']
+            filename = pembeli.get('image', '')
+            if pembeli_img:
+                extension = pembeli_img.filename.split('.')[-1]
+                filename = f'pembeli-{mytime}.{extension}'
+                save_to = os.path.join('static/assets/profil_pembeli', filename)
+                pembeli_img.save(save_to)
+            
+            doc = {
+                'nama': nama,
+                'tglLahir': tglLahir,
+                'gender': gender,
+                'telepon': telepon,
+                'image': filename
+            }
+
+            if request.form['password']:
+                doc['password'] = jwt.encode({'password': request.form['password']}, SECRET_KEY, algorithm='HS256')
+
+            db.pembeli.update_one(
+                {'_id': ObjectId(session['user_id'])},
+                {'$set': doc}
+            )
+
+            session['nama'] = nama
+            session['tglLahir'] = tglLahir
+            session['gender'] = gender
+            session['telepon'] = telepon
+            session['image'] = filename
+
+            return redirect(url_for('profil'))
+        else:
+            pembeli = db.pembeli.find_one({'_id': ObjectId(session['user_id'])})
+            return render_template('profil.html', pembeli=pembeli)
+    else:
+        return redirect(url_for('login'))
 # BAGIAN USER #
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -516,7 +720,11 @@ def login():
         if user and jwt.decode(user['password'], SECRET_KEY, algorithms=['HS256'])['password'] == password:
             session['logged_in'] = True
             session['nama'] = user['nama']
+            session['email'] = user['email']
+            session['telepon'] = user['telepon']
             session['user_id'] = str(user['_id'])
+            if 'image' in user:
+                session['image'] = user['image']            
             return redirect(url_for('home'))
         else:
             error = 'Email atau kata sandi salah. Silakan coba lagi.'
@@ -544,10 +752,12 @@ def register():
         }).inserted_id
         
         session['logged_in'] = True
-        session['username'] = nama
+        session['nama'] = nama
+        session['email'] = email
+        session['telepon'] = telepon
         session['user_id'] = str(user_id)
         
-        return redirect(url_for('home'))
+        return redirect(url_for('login'))
     return render_template('register.html')
 
 @app.route('/cek_email_pembeli', methods=['POST'])
@@ -572,7 +782,7 @@ def adlogin():
             session['email'] = user['email']
             session['telepon'] = user['telepon']
             session['tgl_registrasi'] = user['tgl_registrasi']
-            session['avatar'] = user['avatar'] if 'avatar' in user else None
+            session['avatar'] = user['avatar']
             session['user_id'] = str(user['_id'])
             
             return redirect(url_for('dashboard'))
