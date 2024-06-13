@@ -29,9 +29,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <div class="form-floating mb-3">
+                                                <div class="form-floating mb-3 position-relative">
                                                     <input type="password" class="form-control" name="password"
                                                         id="password" value="" placeholder="Kata Sandi" required>
+                                                    <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password position-absolute" style="right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"></span>
                                                 </div>
                                             </div>
                                             <br>
@@ -61,3 +62,31 @@
 </section>
 
 {% include 'footer.html' %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var togglePassword = document.querySelector('.toggle-password');
+        var passwordField = document.querySelector('#password');
+
+        togglePassword.addEventListener('click', function() {
+            var type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    });
+</script>
+
+<style>
+    .field-icon {
+        cursor: pointer;
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .form-floating {
+        position: relative;
+    }
+</style>
