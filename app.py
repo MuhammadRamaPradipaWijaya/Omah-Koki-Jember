@@ -42,8 +42,6 @@ def detail_pesanan(_id):
     list_pesanan = db.pesanan.find_one({'_id': ObjectId(_id)})
     return render_template('ad_pesanan.html', list_pesanan=list_pesanan)
 
-
-
 @app.route('/order/confirmation')
 def order_confirmation():
     name = request.args.get('name')
