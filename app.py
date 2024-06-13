@@ -40,7 +40,19 @@ def adpesanan():
 def update_status(_id):
     data = request.get_json()
     new_status = data.get('status')
-    return jsonify({'success': True})
+    
+    if new_status is None:
+        return jsonify({'success': False, 'message': 'Status not provided'}), 400
+
+    result = db.pesanan.update_one(
+        {'_id': _id},
+        {'$set': {'status': new_status}}
+    )
+
+    if result.matched_count == 0:
+        return jsonify({'success': False, 'message': 'Record not found'}), 404
+
+    return jsonify({'success': True, 'message': 'Status updated successfully'})
 
 @app.route('/detail_pesanan/<_id>', methods=['GET'])
 def detail_pesanan(_id):
