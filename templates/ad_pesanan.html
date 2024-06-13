@@ -180,15 +180,13 @@
               document.getElementById(`modal-status-${pesananId}`).classList.remove("alert-warning");
               document.getElementById(`modal-status-${pesananId}`).classList.add("alert-info");
   
-              // Change button text to "Kirim"
               this.textContent = "Kirim";
               this.classList.remove("btn-success");
               this.classList.add("btn-primary");
   
-              // Show the "Batal" button
               const batalButton = document.querySelector(`.batal-button[data-id="${pesananId}"]`);
               if (batalButton) {
-                batalButton.style.display = 'inline-block'; // Make sure it's visible
+                batalButton.style.display = 'inline-block'; 
               }
             } else if (newStatus === "Dikirim") {
               document.getElementById(`status-${pesananId}`).classList.remove("bg-success");
@@ -196,7 +194,6 @@
               document.getElementById(`modal-status-${pesananId}`).classList.remove("alert-success");
               document.getElementById(`modal-status-${pesananId}`).classList.add("alert-info");
   
-              // Change button text to "Selesai" and hide the "Batal" button
               this.textContent = "Selesai";
               this.classList.remove("btn-primary");
               this.classList.add("btn-success");
@@ -208,17 +205,75 @@
             } else if (newStatus === "Selesai") {
               document.getElementById(`status-${pesananId}`).classList.remove("bg-info");
               document.getElementById(`status-${pesananId}`).classList.add("bg-success", "text-white");
-              document.getElementById(`modal-status-${pesananId}`).classList.remove("alert-success");
+              document.getElementById(`modal-status-${pesananId}`).classList.remove("alert-info");
               document.getElementById(`modal-status-${pesananId}`).classList.add("alert-success");
-
+  
+              this.style.display = 'none';
+            } else if (newStatus === "Batal") {
+              document.getElementById(`status-${pesananId}`).textContent = "Batal";
+              document.getElementById(`status-${pesananId}`).classList.remove("bg-warning", "bg-success", "bg-info");
+              document.getElementById(`status-${pesananId}`).classList.add("bg-secondary", "text-white");
+  
+              const modalStatus = document.getElementById(`modal-status-${pesananId}`);
+              if (modalStatus) {
+                modalStatus.textContent = "Batal";
+                modalStatus.classList.remove("alert-warning", "alert-success", "alert-info");
+                modalStatus.classList.add("alert-secondary");
+              }
+  
+              const batalButton = document.querySelector(`.batal-button[data-id="${pesananId}"]`);
+              if (batalButton) {
+                batalButton.style.display = 'none';
+              }
+  
               const statusButton = document.querySelector(`.status-button[data-id="${pesananId}"]`);
               if (statusButton) {
-                statusButton.style.display = 'none'; 
+                statusButton.textContent = "Kirim";
+                statusButton.classList.remove("btn-warning", "btn-success");
+                statusButton.classList.add("btn-primary");
               }
             }
           }
         });
       });
     });
+  
+    const batalButtons = document.querySelectorAll(".batal-button");
+  
+    batalButtons.forEach(button => {
+      button.addEventListener("click", function() {
+        const pesananId = this.getAttribute("data-id");
+  
+        fetch(`/update_status/${pesananId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status: "Batal" }), 
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            document.getElementById(`status-${pesananId}`).textContent = "Batal";
+            document.getElementById(`status-${pesananId}`).classList.remove("bg-warning", "bg-success", "bg-info");
+            document.getElementById(`status-${pesananId}`).classList.add("bg-secondary", "text-white");
+  
+            const modalStatus = document.getElementById(`modal-status-${pesananId}`);
+            if (modalStatus) {
+              modalStatus.textContent = "Batal";
+              modalStatus.classList.remove("alert-warning", "alert-success", "alert-info");
+              modalStatus.classList.add("alert-secondary");
+            }
+            const statusButton = document.querySelector(`.status-button[data-id="${pesananId}"]`);
+            if (statusButton) {
+              statusButton.style.display = 'none';
+            }
+  
+            this.style.display = 'none';
+  
+          }
+        });
+      });
+    });
   });
-</script>
+  </script>
