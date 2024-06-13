@@ -343,7 +343,7 @@
 {% include 'Footer.html' %}
 
 <header>
-    <!-- Modal -->
+    <!-- Modal Detail Pesanan -->
     {% for pesanan in pesanan_list %}
     <div class="modal fade" id="detailpesanan{{ pesanan._id }}" tabindex="-1" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -356,22 +356,22 @@
                 <div class="modal-body">
                     <div style="display: flex; justify-content: space-between;">
                         <span>Tanggal Pesanan</span>
-                        <span>02/06/2004</span>
+                        <span>{{ pesanan.tanggal_pesanan }}</span>
                     </div>
                     <hr>
                     <div style="display: flex; justify-content: space-between;">
                         <span>Tanggal Pengiriman</span>
-                        <span>-</span>
+                        <span>{{ pesanan.tanggal_kirim }}</span>
                     </div>
                     <hr>
                     <div style="display: flex; justify-content: space-between;">
                         <span>Tanggal Diterima</span>
-                        <span>-</span>
+                        <span>{{ pesanan.tanggal_terima }}</span>
                     </div>
                     <hr>
                     <div style="display: flex; justify-content: space-between;">
                         <span>Nama Penerima</span>
-                        <span>Lorem Ipsum Lorem Ipsum</span>
+                        <span>{{ pesanan.nama }}</span>
                     </div>
                     <hr>
                     <div style="display: flex; flex-direction: column;">
@@ -379,7 +379,7 @@
                             <span>Alamat</span>
                         </div>
                         <div>
-                            <span>Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum</span>
+                            <span>{{ pesanan.alamat }}</span>
                         </div>
                     </div>
                     <hr>
@@ -388,30 +388,20 @@
                             <span>Daftar Barang</span>
                         </div><br>
                         <div>
-                            <div class="card">
+                            {% for item in pesanan.ringkasan_belanja %}
+                            <div class="card mb-3">
                                 <div class="card-body">
                                     <div style="display: flex; align-items: center;">
-                                        <img src="../static/assets/images/client-01.png" alt="Gambar Barang 1"
+                                        <img src="../static/assets/images/client-01.png" alt="Gambar Produk"
                                             style="width: 50px; height: 50px; margin-right: 10px;">
                                         <div>
-                                            <h6 class="card-title">Barang 1</h6>
-                                            <p class="card-text">Harga: $10 | Jumlah: 2</p>
+                                            <h6 class="card-title">{{ item.nama_produk }}</h6>
+                                            <p class="card-text">Harga: {{ item.harga }} | Jumlah: {{ item.jumlah }}</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <div style="display: flex; align-items: center;">
-                                        <img src="./static/assets/images/client-01.png" alt="Gambar Barang 2"
-                                            style="width: 50px; height: 50px; margin-right: 10px;">
-                                        <div>
-                                            <h6 class="card-title">Barang 2</h6>
-                                            <p class="card-text">Harga: $20 | Jumlah: 1</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endfor %}
                         </div>
                     </div>
                     <hr>
@@ -423,17 +413,17 @@
                     </div><br>
                     <div style="display: flex; justify-content: space-between;">
                         <span>Total Produk</span>
-                        <span>Rp.15.000</span>
+                        <span>Rp. {{ "{:,.0f}".format(pesanan.total_produk).replace(",", ".") }}</span>
                     </div>
                     <hr>
                     <div style="display: flex; justify-content: space-between;">
                         <span>Total Pengiriman</span>
-                        <span>Rp.0</span>
+                        <span>Rp. {{ "{:,.0f}".format(pesanan.total_pengiriman).replace(",", ".") }}</span>
                     </div>
                     <hr>
                     <div style="display: flex; justify-content: space-between;">
                         <span>Total</span>
-                        <span>Rp.15.000</span>
+                        <span>Rp. {{ "{:,.0f}".format(pesanan.total_semuanya).replace(",", ".") }}</span>
                     </div>
                     <hr>
                     <div style="display: flex; justify-content: space-between;">
@@ -447,13 +437,17 @@
                                 style="width: 100%; height: 100%;">
                         </div>
                     </div><br>
+                    {% if pesanan.status == 'pending' %}
                     <div class="mb-3">
                         <input class="form-control" type="file" id="formFile">
                     </div>
+                    {% endif %}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    {% if pesanan.status == 'pending' %}
                     <button type="button" class="btn btn-primary">Simpan</button>
+                    {% endif %}
                 </div>
             </div>
         </div>
