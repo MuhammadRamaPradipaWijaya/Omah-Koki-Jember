@@ -23,7 +23,7 @@
           <td>{{pesanan.nomor_pesanan}}</td>
           <td>{{pesanan.nama}}</td>
           <td>{{pesanan.tanggal_pesanan}}</td>
-          <td><span class="bg-warning text-dark">Pending</span></td>
+          <td><span class="bg-warning text-dark">{{ pesanan.status }}</span></td>
           <td class="text-center">
             <button class="btn btn-sm btn-danger rounded-pill">Batal</button>
             <button class="btn btn-sm  btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#Detail{{pesanan._id}}">Detail</button>
@@ -128,7 +128,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
       </div>
     </div>
   </div>
