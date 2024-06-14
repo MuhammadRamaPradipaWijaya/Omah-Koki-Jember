@@ -138,9 +138,10 @@
             <div class="alert alert-warning py-2" id="modal-status-{{pesanan._id}}">{{ pesanan.status }}</div>
             <hr>
             <h5>Bukti Transfer</h5>
-            <a href="{{ url_for('static', filename='assets/bukti_transfer/' ~ pesanan.bukti_transfer) }}" data-lightbox="gambar" data-title="Gambar Status Pesanan">
-              <img src="{{ url_for('static', filename='assets/bukti_transfer/' ~ pesanan.bukti_transfer) }}" alt="Gambar Status Pesanan"
-                style="max-width: 100%; height: auto; display: block;">
+            <a href="{{ url_for('static', filename='assets/bukti_transfer/' ~ pesanan.bukti_transfer) }}"
+              data-lightbox="gambar" data-title="Gambar Status Pesanan">
+              <img src="{{ url_for('static', filename='assets/bukti_transfer/' ~ pesanan.bukti_transfer) }}"
+                alt="Gambar Status Pesanan" style="max-width: 50%; height: auto; display: block;">
             </a>
           </div>
 
@@ -174,67 +175,67 @@
           newStatus = "selesai";
         }
 
-      fetch(`/update_status/${pesananId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ status: newStatus }),
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.success) {
-            document.getElementById(`status-${pesananId}`).textContent = newStatus;
-            document.getElementById(`modal-status-${pesananId}`).textContent = newStatus;
+        fetch(`/update_status/${pesananId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status: newStatus }),
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              document.getElementById(`status-${pesananId}`).textContent = newStatus;
+              document.getElementById(`modal-status-${pesananId}`).textContent = newStatus;
 
-            const statusElement = document.getElementById(`status-${pesananId}`);
-            statusElement.className = `alert py-2`;
-            if (newStatus === "pending") {
-              statusElement.classList.add("alert-warning");
-            } else if (newStatus === "proses") {
-              statusElement.classList.add("alert-info");
-            } else if (newStatus === "dikirim") {
-              statusElement.classList.add("alert-primary");
-            } else if (newStatus === "selesai") {
-              statusElement.classList.add("alert-success");
-            } else if (newStatus === "batal") {
-              statusElement.classList.add("alert-danger");
-            }
+              const statusElement = document.getElementById(`status-${pesananId}`);
+              statusElement.className = `alert py-2`;
+              if (newStatus === "pending") {
+                statusElement.classList.add("alert-warning");
+              } else if (newStatus === "proses") {
+                statusElement.classList.add("alert-info");
+              } else if (newStatus === "dikirim") {
+                statusElement.classList.add("alert-primary");
+              } else if (newStatus === "selesai") {
+                statusElement.classList.add("alert-success");
+              } else if (newStatus === "batal") {
+                statusElement.classList.add("alert-danger");
+              }
 
-            if (newStatus === "proses") {
-              
-              this.textContent = "Kirim";
-              const batalButton = document.querySelector(`.batal-button[data-id="${pesananId}"]`);
-              if (batalButton) {
-                batalButton.style.display = 'inline-block';
-              }
-            } else if (newStatus === "dikirim") {
-              
-              this.textContent = "Selesai";
-              const batalButton = document.querySelector(`.batal-button[data-id="${pesananId}"]`);
-              if (batalButton) {
-                batalButton.style.display = 'none';
-              }
-            } else if (newStatus === "selesai") {
-              
-              this.style.display = 'none';
-            } else if (newStatus === "batal") {
-              
-              const modalStatus = document.getElementById(`modal-status-${pesananId}`);
-              if (modalStatus) {
-                modalStatus.textContent = "Batal";
-              }
-              const batalButton = document.querySelector(`.batal-button[data-id="${pesananId}"]`);
-              if (batalButton) {
-                batalButton.style.display = 'none';
-              }
-              const statusButton = document.querySelector(`.status-button[data-id="${pesananId}"]`);
-              if (statusButton) {
-                statusButton.textContent = "Kirim";
+              if (newStatus === "proses") {
+
+                this.textContent = "Kirim";
+                const batalButton = document.querySelector(`.batal-button[data-id="${pesananId}"]`);
+                if (batalButton) {
+                  batalButton.style.display = 'inline-block';
+                }
+              } else if (newStatus === "dikirim") {
+
+                this.textContent = "Selesai";
+                const batalButton = document.querySelector(`.batal-button[data-id="${pesananId}"]`);
+                if (batalButton) {
+                  batalButton.style.display = 'none';
+                }
+              } else if (newStatus === "selesai") {
+
+                this.style.display = 'none';
+              } else if (newStatus === "batal") {
+
+                const modalStatus = document.getElementById(`modal-status-${pesananId}`);
+                if (modalStatus) {
+                  modalStatus.textContent = "Batal";
+                }
+                const batalButton = document.querySelector(`.batal-button[data-id="${pesananId}"]`);
+                if (batalButton) {
+                  batalButton.style.display = 'none';
+                }
+                const statusButton = document.querySelector(`.status-button[data-id="${pesananId}"]`);
+                if (statusButton) {
+                  statusButton.textContent = "Kirim";
+                }
               }
             }
-          }
-        });
+          });
       });
     });
 

@@ -51,8 +51,7 @@
                                             class="alert {% if status == 'pending' %}alert-warning{% elif status == 'proses' %}alert-info{% elif status == 'dikirim' %}alert-primary{% elif status == 'selesai' %}alert-success{% elif status == 'batal' %}alert-danger{% endif %} py-2">
                                             {{ status_name }}</div>
                                     </div>
-                                    <hr>
-                                </div>
+                                </div><hr>
 
                                 <div class="row">
                                     <div class="col">
@@ -74,8 +73,7 @@
                                         <h3 class="h6">Total Belanja</h3>
                                         <span>Rp {{ "{:,.0f}".format(pesanan.total_semuanya).replace(",", ".") }}</span>
                                     </div>
-                                    <hr>
-                                </div>
+                                </div><hr>
 
                                 <div class="col-lg-6">
                                     <button type="button" class="btn btn-primary m-2" data-bs-toggle="modal"
