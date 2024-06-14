@@ -521,6 +521,19 @@ def tentang():
 def kontak():
     return render_template('kontak.html')
 
+@app.context_processor
+def inject_has_items_and_orders():
+    if 'logged_in' in session and session['logged_in']:
+        user_id = session['user_id']
+        items_keranjang = list(db.keranjang.find({'user_id': user_id}))
+        has_items = len(items_keranjang) > 0
+
+        pesanan_list = list(db.pesanan.find({'user_id': user_id, 'status': {'$nin': ['selesai', 'batal']}}))
+        has_orders = len(pesanan_list) > 0
+
+        return dict(has_items=has_items, has_orders=has_orders)
+    return dict(has_items=False, has_orders=False)
+
 @app.route('/upload_file', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
