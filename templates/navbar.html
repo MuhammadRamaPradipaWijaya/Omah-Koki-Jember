@@ -27,13 +27,19 @@
 
           {% if session.get('logged_in') %}
           <li class="nav-item">
-            <a href="/keranjang" class="btn btn-sm btn-danger m-2" title="Keranjang Belanja">
-              <i class="fa fa-cart-arrow-down"></i>
+            <a href="/keranjang" class="btn btn-sm btn-danger m-2" title="Keranjang Belanja" style="position: relative;">
+                <i class="fa fa-cart-arrow-down"></i>
+                {% if has_items %}
+                <span style="position: absolute; top: -5px; right: -5px; height: 10px; width: 10px; background-color: red; border-radius: 50%;"></span>
+                {% endif %}
             </a>
-            <a href="/pesanan" class="btn btn-sm btn-danger m-2" title="Pesanan Saya">
-              <i class="fa fa-list-alt"></i>
+            <a href="/pesanan" class="btn btn-sm btn-danger m-2" title="Pesanan Saya" style="position: relative;">
+                <i class="fa fa-list-alt"></i>
+                {% if has_orders %}
+                <span style="position: absolute; top: -5px; right: -5px; height: 10px; width: 10px; background-color: red; border-radius: 50%;"></span>
+                {% endif %}
             </a>
-          </li>
+        </li>                  
           
           <li class="nav-item dropdown">
             <a href="#" class="d-block nav-link text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
