@@ -138,8 +138,8 @@
             <div class="alert alert-warning py-2" id="modal-status-{{pesanan._id}}">{{ pesanan.status }}</div>
             <hr>
             <h5>Bukti Transfer</h5>
-            <a href="../static/assets/images/client-01.png" data-lightbox="gambar" data-title="Gambar Status Pesanan">
-              <img src="../static/assets/images/client-01.png" alt="Gambar Status Pesanan"
+            <a href="{{ url_for('static', filename='assets/bukti_transfer/' ~ pesanan.bukti_transfer) }}" data-lightbox="gambar" data-title="Gambar Status Pesanan">
+              <img src="{{ url_for('static', filename='assets/bukti_transfer/' ~ pesanan.bukti_transfer) }}" alt="Gambar Status Pesanan"
                 style="max-width: 100%; height: auto; display: block;">
             </a>
           </div>
