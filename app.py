@@ -600,7 +600,7 @@ def checkout():
             total_pengiriman = tarif_pengiriman * total_berat
             total_semuanya = float(subtotal) + float(total_pengiriman)
 
-            ringkasan_belanja = [{'nama_produk': item['nama_produk'], 'jumlah': item['jumlah'], 'harga': item['harga']} for item in items_keranjang]
+            ringkasan_belanja = [{'id_produk': str(item['produk_id']), 'nama_produk': item['nama_produk'], 'jumlah': item['jumlah'], 'harga': item['harga']} for item in items_keranjang]
 
             pesanan_id = str(ObjectId())
             nomor_pesanan = order_number(pesanan_id)
@@ -640,7 +640,7 @@ def checkout():
             return render_template('checkout.html', items_keranjang=items_keranjang, subtotal=subtotal, pengiriman_list=pengiriman_list, pembayaran_list=pembayaran_list)
     else:
         return redirect(url_for('login'))
-    
+
 @app.route('/get_shipping_cost', methods=['POST'])
 def get_shipping_cost():
     if request.method == 'POST':
