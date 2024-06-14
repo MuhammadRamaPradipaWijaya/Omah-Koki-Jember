@@ -420,10 +420,10 @@ header .navbar {
 }
 
 .product-item {
-    border: 1px solid #8f8d8d;
+    border: 1px solid black; /* ubah */
     margin-bottom: 30px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* tambah */
+	border-radius: 10px; /* tambah */
 }
 
 .product-item .down-content {
