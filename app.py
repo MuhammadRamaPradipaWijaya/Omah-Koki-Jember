@@ -521,6 +521,25 @@ def tentang():
 def kontak():
     return render_template('kontak.html')
 
+@app.route('/upload_file', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        pesanan_id = request.form.get('pesanan_id')
+        if pesanan_id:
+            today = datetime.now()
+            mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+
+            formFile = request.files['formFile']
+
+            extension = formFile.filename.split('.')[-1]
+            filename = f'buktiTransfer-{mytime}.{extension}'
+            save_to = os.path.join('static/assets/bukti_transfer', filename)        
+            formFile.save(save_to)
+
+            db.pesanan.update_one({'_id': pesanan_id}, {'$set': {'bukti_transfer': filename}})
+        return redirect(url_for('pesanan'))
+
+
 @app.route('/pesanan')
 def pesanan():
     if 'logged_in' in session and session['logged_in']:
