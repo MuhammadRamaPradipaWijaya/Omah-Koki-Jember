@@ -33,11 +33,13 @@ ul.social-icons li:last-child {
 }
 
 ul.social-icons li a {
-	padding: 5px 15px;
+	padding: 10px 15px;
 	border-radius: 8px;
 	background-color: #eee;
 	color: #121212;
 	font-size: 18px;
+	display: flex;
+	align-items: center;
 	transition: all .3s;
 }
 
