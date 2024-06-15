@@ -638,7 +638,17 @@ def checkout():
             total_pengiriman = tarif_pengiriman * total_berat
             total_semuanya = float(subtotal) + float(total_pengiriman)
 
-            ringkasan_belanja = [{'id_produk': str(item['produk_id']), 'nama_produk': item['nama_produk'], 'jumlah': item['jumlah'], 'harga': item['harga']} for item in items_keranjang]
+            ringkasan_belanja = []
+            for item in items_keranjang:
+                produk = db.adproduk.find_one({'_id': ObjectId(item['produk_id'])})
+                if produk:
+                    ringkasan_belanja.append({
+                        'id_produk': str(item['produk_id']),
+                        'nama_produk': item['nama_produk'],
+                        'jumlah': item['jumlah'],
+                        'harga': item['harga'],
+                        'gambar': produk['gambar']
+                    })
 
             pesanan_id = str(ObjectId())
             nomor_pesanan = order_number(pesanan_id)
@@ -657,8 +667,8 @@ def checkout():
                 'total_pengiriman': float(total_pengiriman),
                 'total_semuanya': float(total_semuanya),
                 'metode_pembayaran': metode_pembayaran,
-                'no_rek' : no_rekening,
-                'pemilik_rek' : pemilik_rekening,
+                'no_rek': no_rekening,
+                'pemilik_rek': pemilik_rekening,
                 'status': 'pending',
                 'estimasi_pengiriman': estimasi_pengiriman,
                 'tanggal_pesanan': datetime.now().strftime('%Y-%m-%d')

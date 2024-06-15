@@ -80,11 +80,10 @@
                     <div class="media d-block d-sm-flex text-center text-sm-left">
                       <a class="cart-item-thumb mx-auto mr-sm-4" href="#"><img
                           src="{{ url_for('static', filename='ad_assets/imgproduk/' ~ item.gambar) }}" alt="Product"
-                          style="object-fit: cover; max-width: 150px; max-height: 150px;"></a>
+                          style="object-fit: cover; max-width: 110px; max-height: 110px;"></a>
                       <div class="media-body pt-3">
                         <h3 class="product-card-title font-weight-semibold border-0 pb-0 ">
-                          <a href="#"
-                            style="display: inline-block; width: 190px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left;">
+                          <a style="display: inline-block; width: 190px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left;">
                             {{ item['nama_produk'] }}
                           </a>
                         </h3>
@@ -97,7 +96,7 @@
               </div>
               {% endfor %}
               {% for item in items_keranjang %}
-              <div class="font-size-lg pt-2" style="text-align: left;">Berat: {{ item['berat'] }} kg</div>
+              <div class="font-size-lg pt-2" style="text-align: left; display: none;">Berat: {{ item['berat'] }} kg</div>
               {% endfor %}
             </div>
             <br>
