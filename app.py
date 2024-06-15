@@ -6,7 +6,7 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for, s
 from pymongo import MongoClient
 from bson import ObjectId
 import jwt
-from datetime import datetime
+from datetime import datetime, timedelta
 import hashlib
 
 dotenv_path = join(dirname(__file__), '.env')
@@ -592,6 +592,12 @@ def order_number(order_id):
     short_order_number = hashed_order_id[:8]
     return short_order_number
 
+def parse_estimasi_pengiriman(estimasi):
+    if '-' in estimasi:
+        _, end = map(int, estimasi.split('-'))
+        return end 
+    return int(estimasi)
+
 @app.route('/checkout', methods=['GET', 'POST'])
 def checkout():
     if 'logged_in' in session and session['logged_in']:
@@ -632,7 +638,7 @@ def checkout():
                 for zona, details in pengiriman['zona'].items():
                     if kota_kabupaten in details.get('kota-kabupaten', []):
                         tarif_pengiriman = details['tarif']
-                        estimasi_pengiriman = details['estimasi']
+                        estimasi_pengiriman = parse_estimasi_pengiriman(details['estimasi'])
                         break
 
             total_pengiriman = tarif_pengiriman * total_berat
@@ -653,6 +659,10 @@ def checkout():
             pesanan_id = str(ObjectId())
             nomor_pesanan = order_number(pesanan_id)
 
+            tanggal_pesanan = datetime.now()
+            estimasi_tgl_kirim = tanggal_pesanan
+            estimasi_tgl_terima = estimasi_tgl_kirim + timedelta(days=estimasi_pengiriman)
+
             pesanan = {
                 '_id': pesanan_id,
                 'nomor_pesanan': nomor_pesanan,
@@ -671,7 +681,9 @@ def checkout():
                 'pemilik_rek': pemilik_rekening,
                 'status': 'pending',
                 'estimasi_pengiriman': estimasi_pengiriman,
-                'tanggal_pesanan': datetime.now().strftime('%Y-%m-%d')
+                'tanggal_pesanan': tanggal_pesanan.strftime('%Y-%m-%d'),
+                'estimasi_tgl_kirim': estimasi_tgl_kirim.strftime('%Y-%m-%d'),
+                'estimasi_tgl_terima': estimasi_tgl_terima.strftime('%Y-%m-%d')
             }
 
             db.pesanan.insert_one(pesanan)
