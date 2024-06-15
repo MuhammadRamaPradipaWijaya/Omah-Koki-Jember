@@ -10,7 +10,13 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="text-center">
-                            <img src="../static/ad_assets/profil_admin/{{ session['avatar'] }}" alt="" style="height: 200px; width: 200px; border-radius: 50%;" class="bg-secondary mt-3">
+                            {% if session['avatar'] %}
+                            <img src="../static/ad_assets/profil_admin/{{ session['avatar'] }}" alt="Avatar Admin"
+                                style="height: 200px; width: 200px; border-radius: 50%;" class="bg-secondary mt-3" />
+                            {% else %}
+                            <img src="../static/ad_assets/profil_admin/default_photo.jpg" alt="Default Avatar"
+                                style="height: 200px; width: 200px; border-radius: 50%;" class="bg-secondary mt-3" />
+                            {% endif %}
                         </div>
                     </div>
                     <div class="col-md-8">
@@ -24,14 +30,14 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <h5>No. HP</h5>
-                                    <p>{{ admin.telepon }}</p>
+                                    <h5>Tanggal Lahir</h5>
+                                    <p>{{ admin.tgl_lahir if admin.tgl_lahir else '-' }}</p>
                                 </div>
-
+                                
                                 <div class="mb-3">
                                     <h5>Jenis Kelamin</h5>
-                                    <p>{{ admin.gender }}</p>
-                                </div>
+                                    <p>{{ admin.gender if admin.gender else '-' }}</p>
+                                </div>                                
                             </div>
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -40,13 +46,13 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <h5>Tanggal Lahir</h5>
-                                    <p>{{ admin.tgl_lahir }}</p>
+                                    <h5>No. HP</h5>
+                                    <p>{{ admin.telepon }}</p>
                                 </div>
-                                
+
                                 <div class="mb-3">
-                                    <h5>Tanggal Registrasi</h5>
-                                    <p>{{ session['tgl_registrasi'] }}</p>
+                                    <h5>Kata Sandi</h5>
+                                    <p>********</p>
                                 </div>
                             </div>
                         </div>
@@ -56,7 +62,7 @@
                                 data-bs-target="#adprofil">Edit Profil</button>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -75,27 +81,33 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="formFile" class="form-label">Profil</label>
-                                <input class="form-control" type="file" id="formFile" name="profil" accept=".jpeg, .png, .jpg">
+                                <input class="form-control" type="file" id="formFile" name="profil"
+                                    accept=".jpeg, .png, .jpg">
                             </div>
                             <div class="mb-3">
                                 <label for="username" class="form-label">Nama</label>
-                                <input type="text" class="form-control" id="username" name="username" value="{{ session['username'] }}">
+                                <input type="text" class="form-control" id="username" name="username"
+                                    value="{{ session['username'] }}">
                             </div>
                             <div class="mb-3">
                                 <label for="tgl_lahir" class="form-label">Tanggal Lahir</label>
-                                <input type="date" class="form-control" id="tgl_lahir" name="tgl_lahir" value="{{ admin.tgl_lahir }}">
+                                <input type="date" class="form-control" id="tgl_lahir" name="tgl_lahir"
+                                    value="{{ admin.tgl_lahir }}">
                             </div>
                             <div class="mb-3">
                                 <label for="gender" class="form-label">Jenis Kelamin</label>
-                                <select class="form-select form-select-sm mb-3" name="gender" aria-label=".form-select-sm example">
-                                    <option value="" hidden>Pilih</option>
-                                    <option value="Laki-laki" {{ 'selected' if session['gender'] == 'Laki-laki' }}>Laki-laki</option>
-                                    <option value="Perempuan" {{ 'selected' if session['gender'] == 'Perempuan' }}>Perempuan</option>
+                                <select class="form-select form-select-sm mb-3" name="gender"
+                                    aria-label=".form-select-sm example">
+                                    <option value="Laki-laki" {{ 'selected' if session['gender']=='Laki-laki' }}>
+                                        Laki-laki</option>
+                                    <option value="Perempuan" {{ 'selected' if session['gender']=='Perempuan' }}>
+                                        Perempuan</option>
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="telepon" class="form-label">No HP</label>
-                                <input type="text" class="form-control" id="telepon" name="telepon" value="{{ session['telepon'] }}">
+                                <input type="text" class="form-control" id="telepon" name="telepon"
+                                    value="{{ session['telepon'] }}">
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Kata Sandi</label>

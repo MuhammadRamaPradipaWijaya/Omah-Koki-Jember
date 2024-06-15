@@ -6,7 +6,7 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for, s
 from pymongo import MongoClient
 from bson import ObjectId
 import jwt
-from datetime import datetime
+from datetime import datetime, timedelta
 import hashlib
 
 dotenv_path = join(dirname(__file__), '.env')
@@ -40,7 +40,19 @@ def adpesanan():
 def update_status(_id):
     data = request.get_json()
     new_status = data.get('status')
-    return jsonify({'success': True})
+    
+    if new_status is None:
+        return jsonify({'success': False, 'message': 'Status not provided'}), 400
+
+    result = db.pesanan.update_one(
+        {'_id': _id},
+        {'$set': {'status': new_status}}
+    )
+
+    if result.matched_count == 0:
+        return jsonify({'success': False, 'message': 'Record not found'}), 404
+
+    return jsonify({'success': True, 'message': 'Status updated successfully'})
 
 @app.route('/detail_pesanan/<_id>', methods=['GET'])
 def detail_pesanan(_id):
@@ -551,6 +563,38 @@ def tentang():
 def kontak():
     return render_template('kontak.html')
 
+@app.context_processor
+def inject_has_items_and_orders():
+    if 'logged_in' in session and session['logged_in']:
+        user_id = session['user_id']
+        items_keranjang = list(db.keranjang.find({'user_id': user_id}))
+        has_items = len(items_keranjang) > 0
+
+        pesanan_list = list(db.pesanan.find({'user_id': user_id, 'status': {'$nin': ['selesai', 'batal']}}))
+        has_orders = len(pesanan_list) > 0
+
+        return dict(has_items=has_items, has_orders=has_orders)
+    return dict(has_items=False, has_orders=False)
+
+@app.route('/upload_file', methods=['GET', 'POST'])
+def upload_file():
+    if request.method == 'POST':
+        pesanan_id = request.form.get('pesanan_id')
+        if pesanan_id:
+            today = datetime.now()
+            mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
+
+            formFile = request.files['formFile']
+
+            extension = formFile.filename.split('.')[-1]
+            filename = f'buktiTransfer-{mytime}.{extension}'
+            save_to = os.path.join('static/assets/bukti_transfer', filename)        
+            formFile.save(save_to)
+
+            db.pesanan.update_one({'_id': pesanan_id}, {'$set': {'bukti_transfer': filename}})
+        return redirect(url_for('pesanan'))
+
+
 @app.route('/pesanan')
 def pesanan():
     if 'logged_in' in session and session['logged_in']:
@@ -566,6 +610,12 @@ def keranjang():
     if 'logged_in' in session and session['logged_in']:
         user_id = session['user_id']
         items_keranjang = list(db.keranjang.find({'user_id': user_id}))
+        
+        for item in items_keranjang:
+            produk = db.adproduk.find_one({'_id': ObjectId(item['produk_id'])})
+            if produk:
+                item['stok'] = produk['stock']
+        
         subtotal = sum(int(item['harga']) * int(item['jumlah']) for item in items_keranjang)
         return render_template('keranjang.html', items_keranjang=items_keranjang, subtotal=subtotal)
     else:
@@ -583,6 +633,12 @@ def order_number(order_id):
     hashed_order_id = hashlib.sha256(order_id.encode()).hexdigest()
     short_order_number = hashed_order_id[:8]
     return short_order_number
+
+def parse_estimasi_pengiriman(estimasi):
+    if '-' in estimasi:
+        _, end = map(int, estimasi.split('-'))
+        return end 
+    return int(estimasi)
 
 @app.route('/checkout', methods=['GET', 'POST'])
 def checkout():
@@ -624,16 +680,30 @@ def checkout():
                 for zona, details in pengiriman['zona'].items():
                     if kota_kabupaten in details.get('kota-kabupaten', []):
                         tarif_pengiriman = details['tarif']
-                        estimasi_pengiriman = details['estimasi']
+                        estimasi_pengiriman = parse_estimasi_pengiriman(details['estimasi'])
                         break
 
             total_pengiriman = tarif_pengiriman * total_berat
             total_semuanya = float(subtotal) + float(total_pengiriman)
 
-            ringkasan_belanja = [{'nama_produk': item['nama_produk'], 'jumlah': item['jumlah'], 'harga': item['harga']} for item in items_keranjang]
+            ringkasan_belanja = []
+            for item in items_keranjang:
+                produk = db.adproduk.find_one({'_id': ObjectId(item['produk_id'])})
+                if produk:
+                    ringkasan_belanja.append({
+                        'id_produk': str(item['produk_id']),
+                        'nama_produk': item['nama_produk'],
+                        'jumlah': item['jumlah'],
+                        'harga': item['harga'],
+                        'gambar': produk['gambar']
+                    })
 
             pesanan_id = str(ObjectId())
             nomor_pesanan = order_number(pesanan_id)
+
+            tanggal_pesanan = datetime.now()
+            estimasi_tgl_kirim = tanggal_pesanan
+            estimasi_tgl_terima = estimasi_tgl_kirim + timedelta(days=estimasi_pengiriman)
 
             pesanan = {
                 '_id': pesanan_id,
@@ -649,11 +719,13 @@ def checkout():
                 'total_pengiriman': float(total_pengiriman),
                 'total_semuanya': float(total_semuanya),
                 'metode_pembayaran': metode_pembayaran,
-                'no_rek' : no_rekening,
-                'pemilik_rek' : pemilik_rekening,
+                'no_rek': no_rekening,
+                'pemilik_rek': pemilik_rekening,
                 'status': 'pending',
                 'estimasi_pengiriman': estimasi_pengiriman,
-                'tanggal_pesanan': datetime.now().strftime('%Y-%m-%d')
+                'tanggal_pesanan': tanggal_pesanan.strftime('%Y-%m-%d'),
+                'estimasi_tgl_kirim': estimasi_tgl_kirim.strftime('%Y-%m-%d'),
+                'estimasi_tgl_terima': estimasi_tgl_terima.strftime('%Y-%m-%d')
             }
 
             db.pesanan.insert_one(pesanan)
@@ -670,7 +742,7 @@ def checkout():
             return render_template('checkout.html', items_keranjang=items_keranjang, subtotal=subtotal, pengiriman_list=pengiriman_list, pembayaran_list=pembayaran_list)
     else:
         return redirect(url_for('login'))
-    
+
 @app.route('/get_shipping_cost', methods=['POST'])
 def get_shipping_cost():
     if request.method == 'POST':
@@ -885,6 +957,7 @@ def logout():
     session.pop('tgl_registrasi', None)
     session.pop('avatar', None)
     session.pop('user_id', None)
+    session.pop('image', None)
     return redirect(url_for('home'))
 
 if __name__ == '__main__':

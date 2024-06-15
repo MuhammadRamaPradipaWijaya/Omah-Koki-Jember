@@ -33,11 +33,13 @@ ul.social-icons li:last-child {
 }
 
 ul.social-icons li a {
-	padding: 5px 15px;
+	padding: 10px 15px;
 	border-radius: 8px;
 	background-color: #eee;
 	color: #121212;
 	font-size: 18px;
+	display: flex;
+	align-items: center;
 	transition: all .3s;
 }
 
@@ -418,8 +420,10 @@ header .navbar {
 }
 
 .product-item {
-	border: 1px solid #eee;
-	margin-bottom: 30px;
+    border: 1px solid black; /* ubah */
+    margin-bottom: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* tambah */
+	border-radius: 10px; /* tambah */
 }
 
 .product-item .down-content {

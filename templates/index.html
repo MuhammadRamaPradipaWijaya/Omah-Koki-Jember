@@ -33,7 +33,7 @@
       <div class="col-md-12">
         <div class="section-heading">
           <h2>Produk Terbaru</h2>
-          <a href="/produk">Liat Semua Produk <i class="fa fa-angle-right"></i></a>
+          <a href="/produk">Lihat Semua Produk <i class="fa fa-angle-right"></i></a>
         </div>
       </div>
 
@@ -42,7 +42,7 @@
         <div class="product-item">
           <a href="/detailproduk/{{ produk._id }}">
             <img src="{{ url_for('static', filename='ad_assets/imgproduk/' ~ produk.gambar) }}" alt=""
-              style="width: 100%; height: 200px; object-fit: cover;">
+              style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px;">
           </a>
           <div class="down-content">
             <a href="/detailproduk/{{ produk._id }}">
