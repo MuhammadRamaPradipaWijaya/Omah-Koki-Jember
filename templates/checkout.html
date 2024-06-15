@@ -10,15 +10,10 @@
         <div class="row g-4">
           <div class="col-sm-12 col-xl-6">
             <div class="bg-light rounded p-4">
-              <h6 class="mb-0">Informasi Pribadi</h6>
-              <p class="mb-0"><strong>{{ session['nama'] }}</strong></p>
-              <p class="mb-0"><strong>{{ session['email'] }}</strong></p>
-              <div class="d-flex align-items-center justify-content-between mb-4">
-                <p class="mb-0"><strong>{{ session['telepon'] }}</strong></p>
-                <button type="button" class="btn btn-sm btn-danger rounded-pill m-2">
-                  Ubah
-                </button>
-              </div>
+              <h6 class="mb-3">Informasi Pribadi</h6>
+              <p class="mb-2"><strong>{{ session['nama'] }}</strong>
+              <p class="mb-2"><strong>{{ session['email'] }}</strong></p>
+              <p class="mb-0"><strong>{{ session['telepon'] }}</strong></p>
               <strong>
                 <hr style="border: none; height: 5px; background-color: #f33f3f" />
               </strong>
