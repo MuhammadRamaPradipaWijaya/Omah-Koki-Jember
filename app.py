@@ -915,6 +915,7 @@ def logout():
     session.pop('tgl_registrasi', None)
     session.pop('avatar', None)
     session.pop('user_id', None)
+    session.pop('image', None)
     return redirect(url_for('home'))
 
 if __name__ == '__main__':

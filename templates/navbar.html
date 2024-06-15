@@ -27,23 +27,33 @@
 
           {% if session.get('logged_in') %}
           <li class="nav-item">
-            <a href="/keranjang" class="btn btn-sm btn-danger m-2" title="Keranjang Belanja" style="position: relative;">
-                <i class="fa fa-cart-arrow-down"></i>
-                {% if has_items %}
-                <span style="position: absolute; top: -5px; right: -5px; height: 10px; width: 10px; background-color: red; border-radius: 50%;"></span>
-                {% endif %}
+            <a href="/keranjang" class="btn btn-sm btn-danger m-2" title="Keranjang Belanja"
+              style="position: relative;">
+              <i class="fa fa-cart-arrow-down"></i>
+              {% if has_items %}
+              <span
+                style="position: absolute; top: -5px; right: -5px; height: 10px; width: 10px; background-color: red; border-radius: 50%;"></span>
+              {% endif %}
             </a>
             <a href="/pesanan" class="btn btn-sm btn-danger m-2" title="Pesanan Saya" style="position: relative;">
-                <i class="fa fa-list-alt"></i>
-                {% if has_orders %}
-                <span style="position: absolute; top: -5px; right: -5px; height: 10px; width: 10px; background-color: red; border-radius: 50%;"></span>
-                {% endif %}
+              <i class="fa fa-list-alt"></i>
+              {% if has_orders %}
+              <span
+                style="position: absolute; top: -5px; right: -5px; height: 10px; width: 10px; background-color: red; border-radius: 50%;"></span>
+              {% endif %}
             </a>
-        </li>                  
-          
+          </li>
+
           <li class="nav-item dropdown">
-            <a href="#" class="d-block nav-link text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-              <img src="../static/assets/profil_pembeli/{{ session['image'] }}" alt="" width="32" height="32" class="rounded-circle">
+            <a href="#" class="d-block nav-link text-decoration-none dropdown-toggle" id="dropdownUser1"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              {% if session['image'] %}
+              <img src="../static/assets/profil_pembeli/{{ session['image'] }}" alt="" width="32" height="32"
+                class="rounded-circle">
+              {% else %}
+              <img src="../static/assets/profil_pembeli/default_photo.jpg" alt="Default Photo" width="32"
+                height="32" class="rounded-circle">
+              {% endif %}
               <span class="d-none d-lg-inline-flex username-text" style="color: white;">{{ session['nama'] }}</span>
             </a>
             <ul class="dropdown-menu text-small dropdown-menu-center" aria-labelledby="dropdownUser1">
@@ -69,8 +79,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body d-flex align-items-center justify-content-center">
-                <a href="/adlogin" class="btn btn-outline-danger btn-lg me-2" style="width: 50%;"><i class="fa fa-user me-2"></i>Admin</a>
-                <a href="/login" class="btn btn-outline-danger btn-lg" style="width: 50%;"><i class="fa fa-users me-2"></i>Pembeli</a>
+                <a href="/adlogin" class="btn btn-outline-danger btn-lg me-2" style="width: 50%;"><i
+                    class="fa fa-user me-2"></i>Admin</a>
+                <a href="/login" class="btn btn-outline-danger btn-lg" style="width: 50%;"><i
+                    class="fa fa-users me-2"></i>Pembeli</a>
               </div>
             </div>
           </div>

@@ -88,7 +88,6 @@
                             <div class="mb-3">
                                 <label for="gender" class="form-label">Jenis Kelamin</label>
                                 <select class="form-select form-select-sm mb-3" name="gender" aria-label=".form-select-sm example">
-                                    <option value="" hidden>Pilih</option>
                                     <option value="Laki-laki" {{ 'selected' if session['gender'] == 'Laki-laki' }}>Laki-laki</option>
                                     <option value="Perempuan" {{ 'selected' if session['gender'] == 'Perempuan' }}>Perempuan</option>
                                 </select>
