@@ -143,6 +143,10 @@
               <img src="{{ url_for('static', filename='assets/bukti_transfer/' ~ pesanan.bukti_transfer) }}"
                 alt="Gambar Status Pesanan" style="max-width: 50%; height: auto; display: block;">
             </a>
+            <hr>
+            <p>Estimasi Pengiriman : {{pesanan.estimasi_tgl_kirim}} <br>
+              Estimasi Penerimaan : {{pesanan.estimasi_tgl_terima}}
+            </p>
           </div>
 
         </div>
