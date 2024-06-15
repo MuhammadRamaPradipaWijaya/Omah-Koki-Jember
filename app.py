@@ -160,19 +160,61 @@ def adpelanggan():
 
 @app.route('/adlpenjualan')
 def adlpenjualan():
-    return render_template('ad_lpenjualan.html')
+    mulai_str = request.args.get('start')
+    akhir_str = request.args.get('end')
+
+    penjualan = None
+
+    if (mulai_str and akhir_str):
+        mulai = datetime.strptime(mulai_str, '%Y-%m-%d')
+        akhir = datetime.strptime(akhir_str, '%Y-%m-%d')
+
+        penjualan = db.pesanan.find({
+            'tanggal_pesanan': {
+                '$gte': mulai,
+                '$lte': akhir
+            }
+        })
+    else:
+        penjualan = db.pesanan.find()
+
+    return render_template('ad_lpenjualan.html', penjualan=penjualan)
 
 @app.route('/adlpenjualan/cetak')
-def cetakLaporanPenjualan():
-    return render_template('cetak_laporan_penjualan.html')
+def cetakLaporanPenjualan():    
+    mulai_str = request.args.get('start')
+    akhir_str = request.args.get('end')
+
+    penjualan = None
+
+    if (mulai_str and akhir_str):
+        mulai = datetime.strptime(mulai_str, '%Y-%m-%d')
+        akhir = datetime.strptime(akhir_str, '%Y-%m-%d')
+
+        query = {
+            'tanggal_pesanan': {
+                '$gte': mulai,
+                '$lte': akhir,
+            }
+        }
+
+        penjualan = db.pesanan.find(query)
+    else :
+        penjualan = db.pesanan.find()
+
+    return render_template('cetak_laporan_penjualan.html', penjualan=penjualan)
 
 @app.route('/adlproduk')
 def adlproduk():
-    return render_template('ad_lproduk.html')
+    produk = db.adproduk.find()
+
+    return render_template('ad_lproduk.html', produk=produk)
 
 @app.route('/adlproduk/cetak')
 def cetakLaporanProduk():
-    return render_template('cetak_laporan_produk.html')
+    produk = db.adproduk.find()
+
+    return render_template('cetak_laporan_produk.html', produk=produk)
 
 @app.route('/adpembayaran')
 def adpembayaran():

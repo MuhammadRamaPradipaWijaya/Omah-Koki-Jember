@@ -1,65 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Print Penjualan</title>
-    
+
     <!-- Customized Bootstrap Stylesheet -->
     <link href="../static/ad_assets/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Template Stylesheet -->
     <link href="../static/ad_assets/css/style.css" rel="stylesheet" />
-</head>
-<body>
+  </head>
+  <body>
     <h3>Laporan Penjualan</h3>
-    <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>No. Pesanan</th>
-            <th>Tanggal Pesanan</th>
-            <th>Nama Pelanggan</th>
-            <th>Total Pesanan</th>
-            <th>Total Penjualan</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>01928301923</td>
-            <td>20/05/2024</td>
-            <td>John Doe</td>
-            <td>4</td>
-            <td>Rp. 930000</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>01928301923</td>
-            <td>20/05/2024</td>
-            <td>John Doe</td>
-            <td>4</td>
-            <td>Rp. 930000</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>01928301923</td>
-            <td>20/05/2024</td>
-            <td>John Doe</td>
-            <td>4</td>
-            <td>Rp. 930000</td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <th colspan="5" class="text-end">Total Penjualan</th>
-            <td>Rp. 999000000</td>
-          </tr>
-        </tfoot>
-      </table>
-    
+    <table class="table">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>No. Pesanan</th>
+          <th>Tanggal Pesanan</th>
+          <th>Nama Pelanggan</th>
+          <th>Total Pesanan</th>
+          <th>Total Penjualan</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in penjualan %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ item.nomor_pesanan }}</td>
+          <td>{{ item.tanggal_pesanan }}</td>
+          <td>{{ item.nama }}</td>
+          <td>{{ 0 }}</td>
+          <td>Rp. {{ "{:,.0f}".format(item.total_semuanya).replace(",", ".") }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="5" class="text-end">Total Penjualan</th>
+          <td>Rp. 999000000</td>
+        </tr>
+      </tfoot>
+    </table>
+
     <script>
-        window.print()
+      window.print();
     </script>
-</body>
+  </body>
 </html>
