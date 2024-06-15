@@ -568,6 +568,12 @@ def keranjang():
     if 'logged_in' in session and session['logged_in']:
         user_id = session['user_id']
         items_keranjang = list(db.keranjang.find({'user_id': user_id}))
+        
+        for item in items_keranjang:
+            produk = db.adproduk.find_one({'_id': ObjectId(item['produk_id'])})
+            if produk:
+                item['stok'] = produk['stock']
+        
         subtotal = sum(int(item['harga']) * int(item['jumlah']) for item in items_keranjang)
         return render_template('keranjang.html', items_keranjang=items_keranjang, subtotal=subtotal)
     else:
