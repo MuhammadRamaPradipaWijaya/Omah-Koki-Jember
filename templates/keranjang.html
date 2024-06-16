@@ -156,6 +156,40 @@
     }    
 </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkoutButton = document.getElementById('checkoutButton');
+        const itemsKeranjang = {{ items_keranjang|length }};
+        
+        if (itemsKeranjang === 0) {
+            checkoutButton.classList.add('disabled');
+            checkoutButton.href = "#";
+        }
+    });
+
+    function updateJumlah(itemId) {
+        const jumlah = document.getElementById('quantity_' + itemId).value;
+        fetch('/update_keranjang', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `item_id=${itemId}&jumlah=${jumlah}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                document.getElementById('subtotal').innerHTML = `<strong>Rp ${data.subtotal.toLocaleString('id-ID')}</strong>`;
+                location.reload();
+            } else {
+                console.error('Error:', data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>
+
+
 <style>
     .product-card-title,
     .font-size-lg {
