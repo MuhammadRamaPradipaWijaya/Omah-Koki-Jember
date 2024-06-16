@@ -50,8 +50,17 @@
                             <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left" style="max-width: 10rem;">
                                 <div class="form-group mb-2">
                                     <label for="quantity_{{ item._id }}">Jumlah</label>
-                                    <input class="form-control form-control-sm" type="number" id="quantity_{{ item._id }}" name="jumlah" value="{{ item.jumlah }}" min="1" max="{{ item.stok }}" onchange="updateJumlah('{{ item._id }}')">
+                                    <div style="display: flex; align-items: center;">
+                                        <a href="#" style="text-decoration: none; color: #333; border: 1px solid #ccc; border-radius: 4px; padding: 5px; margin-right: 5px;" onclick="decrementValue('quantity_{{ item._id }}');">
+                                            <i class="fas fa-minus"></i>
+                                        </a>
+                                        <input class="form-control form-control-sm" type="number" id="quantity_{{ item._id }}" name="jumlah" value="{{ item.jumlah }}" min="1" max="{{ item.stok }}" onchange="updateJumlah('{{ item._id }}', this.value)" style="width: 60px; text-align: center;">
+                                        <a href="#" style="text-decoration: none; color: #333; border: 1px solid #ccc; border-radius: 4px; padding: 5px; margin-left: 5px;" onclick="incrementValue('quantity_{{ item._id }}');">
+                                            <i class="fas fa-plus"></i>
+                                        </a>
+                                    </div>
                                 </div>
+                                
                                 <form action="{{ url_for('hapus_dari_keranjang', item_id=item._id) }}" method="POST">
                                     <button class="btn btn-outline-danger btn-sm btn-block mb-2" type="submit">
                                         <i class="fa fa-trash-o" aria-hidden="true"></i> Hapus
@@ -80,26 +89,48 @@
         }
     });
 
-    function updateJumlah(itemId) {
-        const jumlah = document.getElementById('quantity_' + itemId).value;
+    function updateJumlah(itemId, newValue) {
         fetch('/update_keranjang', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            body: `item_id=${itemId}&jumlah=${jumlah}`
+            body: `item_id=${itemId}&jumlah=${newValue}`
         })
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success') {
                 document.getElementById('subtotal').innerHTML = `<strong>Rp ${data.subtotal.toLocaleString('id-ID')}</strong>`;
-                location.reload();
+                // Optional: Update local data without reloading the page
             } else {
                 console.error('Error:', data.message);
             }
         })
         .catch(error => console.error('Error:', error));
+    }    
+
+    function incrementValue(id) {
+        var inputElement = document.getElementById(id);
+        var currentValue = parseInt(inputElement.value);
+        var maxValue = parseInt(inputElement.getAttribute('max'));
+    
+        if (currentValue < maxValue) {
+            var newValue = currentValue + 1;
+            inputElement.value = newValue;
+            updateJumlah(id.split('_')[1], newValue);
+        }
     }
+    
+    function decrementValue(id) {
+        var inputElement = document.getElementById(id);
+        var currentValue = parseInt(inputElement.value);
+    
+        if (currentValue > 1) {
+            var newValue = currentValue - 1;
+            inputElement.value = newValue;
+            updateJumlah(id.split('_')[1], newValue);
+        }
+    }    
 </script>
 
 <style>
