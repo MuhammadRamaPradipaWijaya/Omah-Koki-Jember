@@ -27,7 +27,11 @@ app.secret_key = SECRET_KEY
 @app.route('/dashboard')
 def dashboard():
     if 'logged_in' in session and session['logged_in']:
-        return render_template('ad_index.html')
+        pesanan = list(db.pesanan.find({'status': 'selesai'}))
+        jumlah_produk = db.adproduk.count_documents({})
+        jumlah_pengguna = db.pembeli.count_documents({})
+        jumlah_pesanan_selesai = db.pesanan.count_documents({'status': 'selesai'})
+        return render_template('ad_index.html', pesanan=pesanan, jumlah_produk=jumlah_produk, jumlah_pengguna=jumlah_pengguna, jumlah_pesanan_selesai=jumlah_pesanan_selesai)
     else:
         return redirect(url_for('adlogin'))
 
