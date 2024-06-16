@@ -27,7 +27,7 @@ app.secret_key = SECRET_KEY
 @app.route('/dashboard')
 def dashboard():
     if 'logged_in' in session and session['logged_in']:
-        pesanan = list(db.pesanan.find({'status': 'selesai'}))
+        pesanan = list(db.pesanan.find({}))
         jumlah_produk = db.adproduk.count_documents({})
         jumlah_pengguna = db.pembeli.count_documents({})
         jumlah_pesanan_selesai = db.pesanan.count_documents({'status': 'selesai'})
