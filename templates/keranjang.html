@@ -27,50 +27,57 @@
             </div>
 
             <!-- Produk -->
-            <div class="col-xl-7 col-md-8"><br>
+            <div class="col-xl-7 col-md-8">
+                <br>
                 <h2 class="h6 d-flex justify-content-between align-items-center px-4 py-3 bg-secondary">
                     <span>Produk</span><a class="font-size-sm" href="/produk">< Kembali Belanja</a>
                 </h2>
 
-                {% for item in items_keranjang %}
-                <!-- Item Produk -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <div class="d-sm-flex justify-content-between">
-                            <a class="cart-item-thumb mx-auto mr-sm-4" href="#">
-                                <img src="{{ url_for('static', filename='ad_assets/imgproduk/' ~ item.gambar) }}" alt="Product" style="object-fit: cover; max-width: 150px; max-height: 150px;">
-                            </a>
-                            <div class="media-body pt-3">
-                                <h3 class="product-card-title">
-                                    <a href="#" style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #1a6692;">{{ item.nama_produk }}</a>
-                                </h3>
-                                <div class="font-size-lg pt-2">Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</div>
-                                <div class="font-size-lg pt-2">Stok: {{ item.stok }}</div>
-                            </div>
-                            <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left" style="max-width: 10rem;">
-                                <div class="form-group mb-2">
-                                    <label for="quantity_{{ item._id }}">Jumlah</label>
-                                    <div style="display: flex; align-items: center;">
-                                        <a href="#" style="text-decoration: none; color: #333; border: 1px solid #ccc; border-radius: 4px; padding: 5px; margin-right: 5px;" onclick="decrementValue('quantity_{{ item._id }}');">
-                                            <i class="fas fa-minus"></i>
-                                        </a>
-                                        <input class="form-control form-control-sm" type="number" id="quantity_{{ item._id }}" name="jumlah" value="{{ item.jumlah }}" min="1" max="{{ item.stok }}" onchange="updateJumlah('{{ item._id }}', this.value)" style="width: 60px; text-align: center;">
-                                        <a href="#" style="text-decoration: none; color: #333; border: 1px solid #ccc; border-radius: 4px; padding: 5px; margin-left: 5px;" onclick="incrementValue('quantity_{{ item._id }}');">
-                                            <i class="fas fa-plus"></i>
-                                        </a>
-                                    </div>
+                {% if items_keranjang %}
+                    {% for item in items_keranjang %}
+                    <!-- Item Produk -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="d-sm-flex justify-content-between">
+                                <a class="cart-item-thumb mx-auto mr-sm-4" href="#">
+                                    <img src="{{ url_for('static', filename='ad_assets/imgproduk/' ~ item.gambar) }}" alt="Product" style="object-fit: cover; max-width: 150px; max-height: 150px;">
+                                </a>
+                                <div class="media-body pt-3">
+                                    <h3 class="product-card-title">
+                                        <a href="#" style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #1a6692;">{{ item.nama_produk }}</a>
+                                    </h3>
+                                    <div class="font-size-lg pt-2">Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</div>
+                                    <div class="font-size-lg pt-2">Stok: {{ item.stok }}</div>
                                 </div>
-                                
-                                <form action="{{ url_for('hapus_dari_keranjang', item_id=item._id) }}" method="POST">
-                                    <button class="btn btn-outline-danger btn-sm btn-block mb-2" type="submit">
-                                        <i class="fa fa-trash-o" aria-hidden="true"></i> Hapus
-                                    </button>
-                                </form>
+                                <div class="pt-2 pt-sm-0 pl-sm-3 mx-auto mx-sm-0 text-center text-sm-left" style="max-width: 10rem;">
+                                    <div class="form-group mb-2">
+                                        <label for="quantity_{{ item._id }}">Jumlah</label>
+                                        <div style="display: flex; align-items: center;">
+                                            <a href="#" style="text-decoration: none; color: #333; border: 1px solid #ccc; border-radius: 4px; padding: 5px; margin-right: 5px;" onclick="decrementValue('quantity_{{ item._id }}');">
+                                                <i class="fas fa-minus"></i>
+                                            </a>
+                                            <input class="form-control form-control-sm" type="number" id="quantity_{{ item._id }}" name="jumlah" value="{{ item.jumlah }}" min="1" max="{{ item.stok }}" onchange="updateJumlah('{{ item._id }}', this.value)" style="width: 60px; text-align: center;">
+                                            <a href="#" style="text-decoration: none; color: #333; border: 1px solid #ccc; border-radius: 4px; padding: 5px; margin-left: 5px;" onclick="incrementValue('quantity_{{ item._id }}');">
+                                                <i class="fas fa-plus"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    
+                                    <form action="{{ url_for('hapus_dari_keranjang', item_id=item._id) }}" method="POST">
+                                        <button class="btn btn-outline-danger btn-sm btn-block mb-2" type="submit">
+                                            <i class="fa fa-trash-o" aria-hidden="true"></i> Hapus
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                {% endfor %}
+                    {% endfor %}
+                {% else %}
+                    <div class="text-center mt-4"><br>
+                        <h5>Keranjang Anda kosong!</h5>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -101,7 +108,6 @@
         .then(data => {
             if (data.status === 'success') {
                 document.getElementById('subtotal').innerHTML = `<strong>Rp ${data.subtotal.toLocaleString('id-ID')}</strong>`;
-                // Optional: Update local data without reloading the page
             } else {
                 console.error('Error:', data.message);
             }
