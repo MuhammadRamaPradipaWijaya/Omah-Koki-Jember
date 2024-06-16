@@ -74,7 +74,7 @@ def adproduk():
 def addProduk():
     if request.method == 'POST':
         produk = request.form.get('namaProduk')
-        stock = request.form.get('stock')
+        stock = int(request.form.get('stock'))
         harga = float(request.form.get('harga'))
         deskripsi = request.form.get('deskripsi')
         kondisi = request.form.get('kondisi')
@@ -114,7 +114,7 @@ def addProduk():
 def editProduk(_id):
     if request.method == 'POST':
         produk = request.form.get('namaProduk')
-        stock = request.form.get('stock')
+        stock = int(request.form.get('stock'))
         harga = float(request.form.get('harga'))
         deskripsi = request.form.get('deskripsi')
         kondisi = request.form.get('kondisi')
@@ -688,6 +688,14 @@ def checkout():
             }
 
             db.pesanan.insert_one(pesanan)
+
+             # Update stock
+            for item in items_keranjang:
+                db.adproduk.update_one(
+                    {'_id': ObjectId(item['produk_id'])},
+                    {'$inc': {'stock': -int(item['jumlah'])}}
+                )
+
             db.keranjang.delete_many({'user_id': user_id})
 
             return redirect(url_for('pesanan'))
