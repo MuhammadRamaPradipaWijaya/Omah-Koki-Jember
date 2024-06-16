@@ -155,7 +155,7 @@
                                                 style="object-fit: cover; width: 60px; height: 60px; margin-right: 10px;">
                                             <div>
                                                 <h6 class="card-title">{{ item.nama_produk }}</h6>
-                                                <p class="card-text">Harga: {{ item.harga }} | Jumlah: {{ item.jumlah }}
+                                                <p class="card-text">Harga: Rp {{ "{:,.0f}".format(item.harga).replace(",", ".") }} | Jumlah: {{ item.jumlah }}
                                                 </p>
                                             </div>
                                         </div>
@@ -193,12 +193,16 @@
                         </div><br>
                         <div style="display: flex; justify-content: space-between;">
                             <div style="width: 100px; height: 100px;">
-                                <a data-fancybox="gallery"
-                                    href="{{ url_for('static', filename='assets/bukti_transfer/' ~ pesanan.bukti_transfer) }}">
-                                    <img src="{{ url_for('static', filename='assets/bukti_transfer/' ~ pesanan.bukti_transfer) }}"
-                                        alt="Bukti transfer" style="width: 100%; height: 100%;">
-                                </a>
-                            </div>
+                                {% if pesanan.bukti_transfer %}
+                                    <a data-fancybox="gallery"
+                                        href="{{ url_for('static', filename='assets/bukti_transfer/' ~ pesanan.bukti_transfer) }}">
+                                        <img src="{{ url_for('static', filename='assets/bukti_transfer/' ~ pesanan.bukti_transfer) }}"
+                                            alt="Bukti transfer" style="width: 100%; height: 100%;">
+                                    </a>
+                                {% else %}
+                                    <span style="font-size: 16px; color: red;">Gambar tidak tersedia</span>
+                                {% endif %}
+                            </div>                            
                         </div>
                         <br>
                         {% if pesanan.status == 'pending' %}
