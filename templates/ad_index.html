@@ -110,18 +110,25 @@
           <h6 class="mb-0">STATUS PESANAN</h6>
         </div>
         {% for pesanan in pesanan %}
+        {% if pesanan.status in ['pending', 'proses', 'dikirim'] %}
         <div class="card mb-3 bg-danger text-white rounded-card">
           <div class="row g-0">
             <div class="col-md-8 d-flex align-items-center">
               <div class="card-body">
-                <p class="card-title text-md-start text-center">{{pesanan.nomor_pesanan}} - {{ pesanan.nama }}</p>
+                <p class="card-title text-md-start text-center">{{ pesanan.nomor_pesanan }} - {{ pesanan.nama }}</p>
                 <p class="card-text text-md-start text-center">
-                  <small><i>{{pesanan.tanggal_pesanan}}</i></small>
+                  <small><i>{{ pesanan.tanggal_pesanan }}</i></small>
                 </p>
               </div>
             </div>
             <div class="col-md-4 d-flex align-items-center justify-content-end justify-content-center">
+              {% if pesanan.status == 'pending' %}
               <a class="btn btn-warning btn-sm me-2">{{ pesanan.status }}</a>
+              {% elif pesanan.status == 'proses' %}
+              <a class="btn btn-info btn-sm me-2">{{ pesanan.status }}</a>
+              {% elif pesanan.status == 'dikirim' %}
+              <a class="btn btn-primary btn-sm me-2">{{ pesanan.status }}</a>
+              {% endif %}
               <div style="border-left: 1px solid white; height: 24px"></div>
               <!-- Tombol Lihat -->
               <a href="/adpesanan" class="btn btn-sm btn-light rounded-pill ms-md-2 ms-0 mt-md-0 mt-2"
@@ -129,6 +136,7 @@
             </div>
           </div>
         </div>
+        {% endif %}
         {% endfor %}
 
       </div>
