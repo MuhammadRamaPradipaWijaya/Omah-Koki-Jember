@@ -33,20 +33,19 @@ ul.social-icons li:last-child {
 }
 
 ul.social-icons li a {
-	padding: 10px 15px;
+	padding: 10px 10px;
 	border-radius: 8px;
-	background-color: #eee;
 	color: #121212;
-	font-size: 18px;
+	font-size: 25px;
 	display: flex;
 	align-items: center;
 	transition: all .3s;
 }
 
-ul.social-icons li a:hover {
+/* ul.social-icons li a:hover {
 	background-color: #f33f3f;
 	color: #fff;
-}
+} */
 
 a.filled-button {
 	background-color: #f33f3f;
@@ -67,7 +66,7 @@ a.filled-button:hover {
 
 .section-heading {
 	text-align: left;
-	margin-bottom: 60px;
+	margin-bottom: 30px;
 	border-bottom: 1px solid #eee;
 }
 

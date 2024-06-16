@@ -168,7 +168,8 @@ def deleteProduk(_id):
 
 @app.route('/adpelanggan')
 def adpelanggan():
-    return render_template('ad_pelanggan.html')
+    pelanggans = list(db.pembeli.find())
+    return render_template('ad_pelanggan.html', pelanggans=pelanggans)
 
 @app.route('/adlpenjualan')
 def adlpenjualan():

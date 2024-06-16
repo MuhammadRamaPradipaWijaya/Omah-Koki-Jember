@@ -2,7 +2,6 @@
 {% include 'ad_navbar.html' %}
 {% include 'ad_sidebar.html' %}
 
-
 <div class="container-fluid pt-4 px-4">
     <h6 class="mb-4">PELANGGAN</h6>
     <div class="row g-4">
@@ -22,26 +21,25 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Fajar</td>
-                                <td>8-12-2023</td>
-                                <td>08124414303</td>
-                                <td>fajar@email.com</td>
-                                <td>sangat bagus</td>
-                                <td><button type="button" class="btn btn-info rounded-pill m-2" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModal">Detail</button></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>mark@email.com</td>
-                                <td>UK</td>
-                                <td>456</td>
-                                <td><button type="button" class="btn btn-info rounded-pill m-2" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">Detail</button></td>
-                            </tr>
+                            {% if pelanggans %}
+                                {% for pelanggan in pelanggans %}
+                                <tr>
+                                    <th scope="row">{{ loop.index }}</th>
+                                    <td>{{ pelanggan.nama }}</td>
+                                    <td>{{ pelanggan.tgl_registrasi }}</td>
+                                    <td>{{ pelanggan.telepon }}</td>
+                                    <td>{{ pelanggan.email }}</td>
+                                    <td class="col-2 text-truncate">{{ pelanggan.masukan if pelanggan.masukan else '-' }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-info rounded-pill m-2" data-bs-toggle="modal" data-bs-target="#detailModal-{{ pelanggan.id }}">Detail</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="7">Tidak ada data pelanggan.</td>
+                                </tr>
+                            {% endif %}
                         </tbody>
                     </table>
                 </div>
@@ -50,8 +48,9 @@
     </div>
 </div>
 
+{% for pelanggan in pelanggans %}
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="detailModal-{{ pelanggan['id'] }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -61,17 +60,17 @@
             <div class="modal-body">
                 <div class="detail-pelanggan d-flex">
                     <div class="profile-pic me-3">
-                        <img src="./static/ad_assets/img/user.jpg" alt="..." style="width: 100px; height: auto;">
+                        <img id="modalFoto" src="../static/assets/profil_pembeli/{{ pelanggan.image }}" alt="Foto Pembeli" class="img-fluid rounded mx-auto d-block" style="width: 150px; height: 150px;">
                     </div>
                     <div class="info">
-                        <p><strong>Nama:</strong> <span id="modal-nama"></span></p>
-                        <p><strong>Email:</strong> <span id="modal-email"></span></p>
-                        <p><strong>Tanggal Lahir:</strong> <span id="modal-tanggal"></span></p>
-                        <p><strong>No HP:</strong> <span id="modal-hp"></span></p>
-                        <p><strong>Jenis Kelamin:</strong> <span id="modal-kelamin"></span></p>
+                        <p><strong>Nama:</strong> {{ pelanggan['nama'] }}</p>
+                        <p><strong>Email:</strong> {{ pelanggan['email'] }}</p>
+                        <p><strong>Tanggal Lahir:</strong> {{ pelanggan['tglLahir'] }}</p>
+                        <p><strong>No HP:</strong> {{ pelanggan['telepon'] }}</p>
+                        <p><strong>Jenis Kelamin:</strong> {{ pelanggan['gender'] }}</p>
                     </div>
                 </div>
-                <button class="btn btn-success rounded-pill m-2">Whatsapp</button>
+                <a href="https://wa.me/{{ pelanggan['no_hp'] }}" class="btn btn-outline-success rounded-pill m-2"><i class="fa fa-whatsapp me-2"></i>Whatsapp</a>
                 <hr>
                 <div class="masukan-pelanggan">
                     <p>Masukan Pelanggan:</p>
@@ -80,7 +79,7 @@
                             <i class="fa fa-commenting-o"></i>
                             <div class="row">
                                 <div class="col">
-                                    <p id="modal-masukan">Hello World</p>
+                                    <p>{{ pelanggan['masukan'] }}</p>
                                 </div>
                             </div>
                         </div>
@@ -93,6 +92,6 @@
         </div>
     </div>
 </div>
-
+{% endfor %}
 
 {% include 'ad_footer.html' %}
