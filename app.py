@@ -370,7 +370,6 @@ def blokir(id):
     diblokir = False
     user = db.pembeli.find_one({'_id': ObjectId(id)})
 
-
     if "diblokir" in user :
         if user['diblokir'] == True :
             diblokir = False
@@ -526,8 +525,21 @@ def update_keranjang():
 def tentang():
     return render_template('tentang.html')
 
-@app.route('/kontak')
+@app.route('/kontak', methods=['GET', 'POST'])
 def kontak():
+    if request.method == 'POST':
+        masukan = request.form['masukan']
+        tanggal_masukan = datetime.now().strftime('%Y-%m-%d')
+        
+        if 'logged_in' in session and session['logged_in']:
+            user_id = session['user_id']
+            db.pembeli.update_one(
+                {'_id': ObjectId(user_id)},
+                {'$push': {'masukan': {'teks': masukan, 'tanggal': tanggal_masukan}}}
+            )
+            return redirect(url_for('kontak'))
+        else:
+            return redirect(url_for('login'))
     return render_template('kontak.html')
 
 @app.context_processor
