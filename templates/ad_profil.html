@@ -101,6 +101,7 @@
                                 <label for="gender" class="form-label">Jenis Kelamin</label>
                                 <select class="form-select form-select-sm mb-3" name="gender"
                                     aria-label=".form-select-sm example">
+                                    <option value="" hidden>Pilih</option>
                                     <option value="Laki-laki" {{ 'selected' if session['gender']=='Laki-laki' }}>
                                         Laki-laki</option>
                                     <option value="Perempuan" {{ 'selected' if session['gender']=='Perempuan' }}>
@@ -137,7 +138,7 @@
 
             if (passwordField.type === "password") {
                 passwordField.type = "text";
-                passwordText.textContent = "{{ password }}"; // Ganti dengan variabel yang berisi kata sandi
+                passwordText.textContent = "{{ password }}";
                 icon.classList.remove('fa-eye');
                 icon.classList.add('fa-eye-slash');
             } else {
