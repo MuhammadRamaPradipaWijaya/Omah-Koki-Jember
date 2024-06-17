@@ -385,7 +385,7 @@ def blokir(id):
 @app.route('/adprofil', methods=['GET', 'POST'])
 def adprofil():
     if 'logged_in' in session and session['logged_in']:
-        if request.method == 'POST' :
+        if request.method == 'POST':
             admin = db.admin.find_one({'_id': ObjectId(session['user_id'])})
 
             nama = request.form['username']
@@ -395,22 +395,22 @@ def adprofil():
 
             today = datetime.now()
             mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
-            
+
             admin_img = request.files.get('profil')
             filename = admin.get('avatar', '')
 
-            if (admin_img) :
+            if admin_img:
                 extension = admin_img.filename.split('.')[-1]
                 filename = f'admin-{mytime}.{extension}'
-                save_to = os.path.join('static/ad_assets/profil_admin', filename)        
+                save_to = os.path.join('static/ad_assets/profil_admin', filename)
                 admin_img.save(save_to)
 
             data = {
-                'nama' : nama,
-                'telepon' : telepon,
-                'gender' : gender,
-                'tgl_lahir' : tgl_lahir,
-                'avatar' : filename
+                'nama': nama,
+                'telepon': telepon,
+                'gender': gender,
+                'tgl_lahir': tgl_lahir,
+                'avatar': filename
             }
 
             if request.form['password']:
@@ -420,7 +420,6 @@ def adprofil():
                 {'_id': ObjectId(session['user_id'])},
                 {'$set': data}
             )
-            
 
             session['username'] = nama
             session['telepon'] = telepon
@@ -429,9 +428,10 @@ def adprofil():
             session['avatar'] = filename
 
             return redirect(url_for('adprofil'))
-        else :
-            admin = db.admin.find_one({'_id' : ObjectId(session['user_id'])})
-            return render_template('ad_profil.html', admin=admin)
+        else:
+            admin = db.admin.find_one({'_id': ObjectId(session['user_id'])})
+            password_decoded = jwt.decode(admin['password'], SECRET_KEY, algorithms=['HS256'])['password']
+            return render_template('ad_profil.html', admin=admin, password=password_decoded)
     else:
         return redirect(url_for('adlogin'))
 # BAGIAN ADMIN #
@@ -773,15 +773,16 @@ def profil():
             today = datetime.now()
             mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
 
-            pembeli_img = request.files['image']
+            pembeli_img = request.files.get('image')
             filename = pembeli.get('image', '')
+
             if pembeli_img:
                 extension = pembeli_img.filename.split('.')[-1]
                 filename = f'pembeli-{mytime}.{extension}'
                 save_to = os.path.join('static/assets/profil_pembeli', filename)
                 pembeli_img.save(save_to)
-            
-            doc = {
+
+            data = {
                 'nama': nama,
                 'tglLahir': tglLahir,
                 'gender': gender,
@@ -790,11 +791,11 @@ def profil():
             }
 
             if request.form['password']:
-                doc['password'] = jwt.encode({'password': request.form['password']}, SECRET_KEY, algorithm='HS256')
+                data['password'] = jwt.encode({'password': request.form['password']}, SECRET_KEY, algorithm='HS256')
 
             db.pembeli.update_one(
                 {'_id': ObjectId(session['user_id'])},
-                {'$set': doc}
+                {'$set': data}
             )
 
             session['nama'] = nama
@@ -806,7 +807,8 @@ def profil():
             return redirect(url_for('profil'))
         else:
             pembeli = db.pembeli.find_one({'_id': ObjectId(session['user_id'])})
-            return render_template('profil.html', pembeli=pembeli)
+            password_decoded = jwt.decode(pembeli['password'], SECRET_KEY, algorithms=['HS256'])['password']
+            return render_template('profil.html', pembeli=pembeli, password=password_decoded)
     else:
         return redirect(url_for('login'))
 # BAGIAN USER #

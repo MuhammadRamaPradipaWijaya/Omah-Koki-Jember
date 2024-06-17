@@ -26,7 +26,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <h5>Nama</h5>
-                                    <p>{{admin.nama}}</p>
+                                    <p>{{ admin.nama }}</p>
                                 </div>
 
                                 <div class="mb-3">
@@ -52,8 +52,11 @@
 
                                 <div class="mb-3">
                                     <h5>Kata Sandi</h5>
-                                    <p>********</p>
-                                </div>
+                                    <div class="password-field">
+                                        <span id="passwordText">********</span>
+                                        <i class="far fa-eye" style="margin-left: 5px; cursor: pointer;" onclick="togglePasswordVisibility(this)"></i>
+                                    </div>
+                                </div>                                
                             </div>
                         </div>
 
@@ -111,7 +114,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Kata Sandi</label>
-                                <input type="password" class="form-control" id="password" name="password">
+                                <input type="password" class="form-control" id="password" name="password" value="{{ password }}">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -126,3 +129,23 @@
     </header>
 
     {% include 'ad_footer.html' %}
+    
+    <script>
+        function togglePasswordVisibility(icon) {
+            var passwordField = document.getElementById('password');
+            var passwordText = document.getElementById('passwordText');
+
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                passwordText.textContent = "{{ password }}"; // Ganti dengan variabel yang berisi kata sandi
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = "password";
+                passwordText.textContent = "********";
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+    </script>
+</div>
