@@ -573,16 +573,20 @@ def home():
 @app.route('/produk', methods=['GET'])
 def produk():
     filter_kategori = request.args.get('kategori')
+    filter_keyword = request.args.get('filter', '')
     page = int(request.args.get('page', 1))
     per_page = 9
 
+    query = {}
     if filter_kategori:
-        produk_count = db.adproduk.count_documents({"kategori": filter_kategori})
-        produk_list = list(db.adproduk.find({"kategori": filter_kategori}).skip((page - 1) * per_page).limit(per_page))
-    else:
-        produk_count = db.adproduk.count_documents({})
-        produk_list = list(db.adproduk.find({}).skip((page - 1) * per_page).limit(per_page))
-
+        query['kategori'] = filter_kategori
+    if filter_keyword:
+        query['$or'] = [
+            {'nama_produk': {'$regex': filter_keyword, '$options': 'i'}},
+            {'deskripsi': {'$regex': filter_keyword, '$options': 'i'}}
+        ]
+    produk_count = db.adproduk.count_documents(query)
+    produk_list = list(db.adproduk.find(query).skip((page - 1) * per_page).limit(per_page))
     total_pages = (produk_count + per_page - 1) // per_page
 
     subtotal = 0
