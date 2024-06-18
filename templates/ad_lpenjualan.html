@@ -47,7 +47,7 @@
         <tr>
           <td>{{ loop.index }}</td>
           <td>{{ item.nomor_pesanan }}</td>
-          <td>{{ item.tanggal_pesanan }}</td>
+          <td>{{ item.tanggal_pesanan.strftime('%Y-%m-%d') }}</td>
           <td>{{ item.nama }}</td>
           <td>{{ item.ringkasan_belanja | length }}</td>
           <td>Rp. {{ "{:,.0f}".format(item.total_semuanya).replace(",", ".") }}</td>
