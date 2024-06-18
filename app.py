@@ -184,7 +184,16 @@ def deleteProduk(_id):
 
 @app.route('/adpelanggan')
 def adpelanggan():
-    pelanggans = list(db.pembeli.find())
+    filter = request.args.get('filter')
+
+    if filter:
+        pelanggans = list(db.pembeli.find({'$or': [
+            {'nama': {'$regex': filter, '$options': 'i'}},
+            {'telepon': {'$regex': filter, '$options': 'i'}},
+            {'email': {'$regex': filter, '$options': 'i'}},
+        ]}))
+    else:
+        pelanggans = list(db.pembeli.find())
     return render_template('ad_pelanggan.html', pelanggans=pelanggans)
 
 @app.route('/adlpenjualan')
