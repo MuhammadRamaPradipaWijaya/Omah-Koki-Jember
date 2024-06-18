@@ -219,7 +219,10 @@ def adlpenjualan():
 
     penjualan = db.pesanan.find(query)
 
-    return render_template('ad_lpenjualan.html', penjualan=list(penjualan))
+    pesanan_selesai = db.pesanan.find({'status': 'selesai'})
+    total_semuanya = sum(pesanan['total_semuanya'] for pesanan in pesanan_selesai)
+
+    return render_template('ad_lpenjualan.html', total_semuanya=total_semuanya, penjualan=list(penjualan))
 
 @app.route('/adlpenjualan/cetak')
 def cetakLaporanPenjualan():    
@@ -241,7 +244,11 @@ def cetakLaporanPenjualan():
 
     penjualan = db.pesanan.find(query)
 
-    return render_template('cetak_laporan_penjualan.html', penjualan=list(penjualan))
+    pesanan_selesai = db.pesanan.find({'status': 'selesai'})
+    total_semuanya = sum(pesanan['total_semuanya'] for pesanan in pesanan_selesai)
+
+
+    return render_template('cetak_laporan_penjualan.html', total_semuanya=total_semuanya, penjualan=list(penjualan))
 
 @app.route('/adlproduk')
 def adlproduk():
