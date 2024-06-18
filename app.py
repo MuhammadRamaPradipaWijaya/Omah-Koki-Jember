@@ -359,11 +359,12 @@ def hapus_kota(nama_kota):
 
 @app.route('/adpengguna')
 def adpengguna():
-    if (request.args.get('filter')):
-        users = list(db.pembeli.find({'nama': {"$regex": u""+ request.args.get('filter') +""}}))
-    else:
-        users = list(db.pembeli.find())
-    return render_template('ad_pengguna.html', users=users)
+    filter_keyword = request.args.get('filter', '')
+
+    pembeli_list = list(db.pembeli.find({'nama': {"$regex": filter_keyword}}))
+    admin_list = list(db.admin.find({'nama': {"$regex": filter_keyword}}))
+
+    return render_template('ad_pengguna.html', pembeli_list=pembeli_list, admin_list=admin_list)
 
 @app.route('/toggle-blokir/<id>', methods=['POST'])
 def blokir(id):
