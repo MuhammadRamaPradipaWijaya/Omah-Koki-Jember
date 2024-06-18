@@ -42,6 +42,8 @@
     <tbody>
       {% set total = 110 %}
       {% for item in penjualan %}
+      {% if item.status == 'selesai' %}
+        
         <tr>
           <td>{{ loop.index }}</td>
           <td>{{ item.nomor_pesanan }}</td>
@@ -134,12 +136,13 @@
             </div>
           </td>
         </tr>
+        {% endif %}
       {% endfor %}
     </tbody>
     <tfoot>
       <tr>
         <th colspan="5" class="text-end">Total Penjualan</th>
-        <td>Rp. {{ "{:,.0f}".format(penjualan | sum(attribute='total_semuanya')).replace(",", ".") }}</td>
+        <td>Rp. {{ "{:,.0f}".format(total_semuanya).replace(",", ".") }}</td>
         <td>
           {% set mulai = request.args.get('start') %}
           {% set akhir = request.args.get('end') %}
