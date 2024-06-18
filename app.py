@@ -478,15 +478,15 @@ def adpengguna():
     filter_keyword = request.args.get('filter', '')
 
     pembeli_list = list(db.pembeli.find({'$or': [
-        {'nama': {"$regex": filter_keyword}},
-        {'email': {"$regex": filter_keyword}},
-        {'telepon': {"$regex": filter_keyword}}
+        {'nama': {"$regex": filter_keyword, '$options': 'i'}},
+        {'email': {"$regex": filter_keyword, '$options': 'i'}},
+        {'telepon': {"$regex": filter_keyword, '$options': 'i'}}
         ]}))
     
     admin_list = list(db.admin.find({'$or': [
-        {'nama': {"$regex": filter_keyword}},
-        {'email': {"$regex": filter_keyword}},
-        {'telepon': {"$regex": filter_keyword}}
+        {'nama': {"$regex": filter_keyword, '$options': 'i'}},
+        {'email': {"$regex": filter_keyword, '$options': 'i'}},
+        {'telepon': {"$regex": filter_keyword, '$options': 'i'}}
         ]}))
 
     return render_template('ad_pengguna.html', pembeli_list=pembeli_list, admin_list=admin_list)
