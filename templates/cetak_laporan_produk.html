@@ -13,7 +13,7 @@
 </head>
 <body>
     <h3>Laporan Produk</h3>
-    <table class="table table-hover">
+    <table class="table">
         <thead>
           <tr>
             <th>No</th>
@@ -25,35 +25,21 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Ikan Cupang</td>
-            <td>Rp. 2000</td>
-            <td>99</td>
-            <td>30</td>
-            <td>Rp. 60000</td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>Ikan Cupang</td>
-          <td>Rp. 2000</td>
-          <td>99</td>
-          <td>30</td>
-          <td>Rp. 60000</td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>Ikan Cupang</td>
-          <td>Rp. 2000</td>
-          <td>99</td>
-          <td>30</td>
-          <td>Rp. 60000</td>
-        </tr>
-        </tbody>
+      {% for item in produk %}
+      <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ item.nama_produk }}</td>
+            <td>Rp. {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</td>
+            <td>{{ item.stock }}</td>
+            <td>{{ item.jumlah_terjual }}</td>
+            <td>Rp. {{ "{:,.0f}".format(item.total_penjualan).replace(",", ".") }}</td>
+          </tr>
+      {% endfor %}
+    </tbody>
         <tfoot>
           <tr>
             <th colspan="5" class="text-end">Total Penjualan Produk</th>
-            <td>Rp. 999000000</td>
+        <td>Rp. {{ "{:,.0f}".format(produk | sum(attribute='total_penjualan')).replace(",", ".") }}</td>
           </tr>
         </tfoot>
       </table>

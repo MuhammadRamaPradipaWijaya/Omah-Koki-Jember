@@ -5,7 +5,6 @@
 <div class="container-fluid pt-4 px-4">
     <h6 class="mb-4">PENGATURAN PENGGUNA</h6>
     <div class="row g-4">
-
         <div class="col-sm-3">
             <form class="d-flex">
                 <div class="input-group">
@@ -21,7 +20,7 @@
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
-                                <th scope="col">Nama Pengguna</th>
+                                <th scope="col">Nama</th>
                                 <th scope="col">Tanggal Gabung</th>
                                 <th scope="col">Nomor HP</th>
                                 <th scope="col">Email</th>
@@ -30,25 +29,95 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for user in users  %}
+                            {% for pembeli in pembeli_list  %}
                                 <tr>
                                     <th scope="row">{{ loop.index }}</th>
-                                    <td>{{ user.nama }}</td>
-                                    <td>{{ user.tgl_registrasi }}</td>
-                                    <td>{{ user.telepon }}</td>
-                                    <td>{{ user.email }}</td>
-                                    <td>Pelanggan</td>
+                                    <td>{{ pembeli.nama }}</td>
+                                    <td>{{ pembeli.tgl_registrasi }}</td>
+                                    <td>{{ pembeli.telepon }}</td>
+                                    <td>{{ pembeli.email }}</td>
+                                    <td>Pembeli</td>
                                     <td class="text-center">
-                                        <form action="/toggle-blokir/{{ user._id }}" method="post" class="d-inline">
-                                            {% if 'diblokir' in user and user['diblokir'] == True : %}
-                                            <button type="submit" class="btn btn-warning rounded-pill m-2">Unblock</button>
+                                        <form action="/toggle-blokir/{{ pembeli._id }}" method="post" class="d-inline">
+                                            {% if 'diblokir' in pembeli and pembeli['diblokir'] == True : %}
+                                                <button type="submit" class="btn btn-warning rounded-pill m-2">Unblock</button>
                                             {% else %}
-                                            <button type="submit" class="btn btn-danger rounded-pill m-2">Block</button>
+                                                <button type="submit" class="btn btn-danger rounded-pill m-2">Block</button>
                                             {% endif %}
                                         </form>
-                                        <button type="button" class="btn btn-info rounded-pill m-2" data-bs-toggle="modal" data-bs-target="#user{{ loop.index }}">Detail</button>
+                                        <button type="button" class="btn btn-info rounded-pill m-2" data-bs-toggle="modal" data-bs-target="#modalPembeli{{ loop.index }}">Detail</button>
                                     </td>
                                 </tr>
+
+                                <!-- Modal Pembeli -->
+                                <div class="modal fade" id="modalPembeli{{ loop.index }}" tabindex="-1" aria-labelledby="modalPembeli{{ loop.index }}Label" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="modalPembeli{{ loop.index }}Label">Detail Pembeli</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                {% if pembeli.image %}
+                                                    <img src="../static/assets/profil_pembeli/{{ pembeli.image }}" class="img-fluid rounded mx-auto d-block" style="width: 150px; height: 150px;" alt="Foto Pembeli">
+                                                {% else %}
+                                                    <br><div class="text-center">Foto tidak tersedia</div>
+                                                {% endif %}
+                                                <br>
+                                                <p><strong>Nama:</strong> {{ pembeli.nama }}</p>
+                                                <p><strong>Tanggal Gabung:</strong> {{ pembeli.tgl_registrasi }}</p>
+                                                <p><strong>Nomor HP:</strong> {{ pembeli.telepon }}</p>
+                                                <p><strong>Email:</strong> {{ pembeli.email }}</p>
+                                                <p><strong>Peran:</strong> Pembeli</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary rounded-pill m-2" data-bs-dismiss="modal">Tutup</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                            {% for admin in admin_list  %}
+                                <tr>
+                                    <th scope="row">{{ loop.index + pembeli_list|length }}</th>
+                                    <td>{{ admin.nama }}</td>
+                                    <td>{{ admin.tgl_registrasi }}</td>
+                                    <td>{{ admin.telepon }}</td>
+                                    <td>{{ admin.email }}</td>
+                                    <td>Admin</td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-info rounded-pill m-2" data-bs-toggle="modal" data-bs-target="#modalAdmin{{ loop.index }}">Detail</button>
+                                    </td>
+                                </tr>
+
+                                <!-- Modal Admin -->
+                                <div class="modal fade" id="modalAdmin{{ loop.index }}" tabindex="-1" aria-labelledby="modalAdmin{{ loop.index }}Label" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="modalAdmin{{ loop.index }}Label">Detail Admin</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                {% if admin.avatar %}
+                                                    <img src="../static/ad_assets/profil_admin/{{ admin.avatar }}" class="img-fluid rounded mx-auto d-block" style="width: 150px; height: 150px;" alt="Foto Admin">
+                                                {% else %}
+                                                    <br><div class="text-center">Foto tidak tersedia</div>
+                                                {% endif %}
+                                                <br>
+                                                <p><strong>Nama:</strong> {{ admin.nama }}</p>
+                                                <p><strong>Tanggal Gabung:</strong> {{ admin.tgl_registrasi }}</p>
+                                                <p><strong>Nomor HP:</strong> {{ admin.telepon }}</p>
+                                                <p><strong>Email:</strong> {{ admin.email }}</p>
+                                                <p><strong>Peran:</strong> Admin</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary rounded-pill m-2" data-bs-dismiss="modal">Tutup</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -57,32 +126,5 @@
         </div>
     </div>
 </div>
-
-{% for user in users  %}
-
-<!-- Modal -->
-<div class="modal fade" id="user{{ loop.index }}" tabindex="-1" aria-labelledby="user{{ loop.index }}Label" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="user{{ loop.index }}Label">EDIT</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <img id="modalFoto" src="../static/assets/profil_pembeli/{{ user.image }}" alt="Foto Pengguna" class="img-fluid rounded mx-auto d-block" style="width: 150px; height: 150px;">
-                <br>
-                <p><strong>Nama Pengguna:</strong> <span id="modalNama">{{ user.nama }}</span></p>
-                <p><strong>Tanggal Gabung:</strong> <span id="modalTanggal">{{ user.tgl_registrasi }}</span></p>
-                <p><strong>Nomor HP:</strong> <span id="modalNomor">{{ user.telepon }}</span></p>
-                <p><strong>Email:</strong> <span id="modalEmail">{{ user.email }}</span></p>
-                <p><strong>Peran:</strong> <span id="modalPeran">Pelanggan</span></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary rounded-pill m-2" data-bs-dismiss="modal">Tutup</button>
-            </div>
-        </div>
-    </div>
-</div>
-{% endfor %}
 
 {% include 'ad_footer.html' %}
