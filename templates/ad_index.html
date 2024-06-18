@@ -28,7 +28,7 @@
         <i class="fa fa-chart-area fa-3x text-danger"></i>
         <div class="ms-3">
           <p class="mb-2">T. Penjualan</p>
-          <h6 class="mb-0">RP. {{total_semuanya}}</h6>
+          <h6 class="mb-0">RP {{ "{:,.0f}".format(total_semuanya).replace(",", ".") }}</h6>
         </div>
       </div>
     </div>
