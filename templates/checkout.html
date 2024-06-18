@@ -44,14 +44,18 @@
                   <label for="kota_kabupaten" class="form-label">Kota/Kabupaten</label>
                   <select class="form-select mb-3" id="kota_kabupaten" name="kota_kabupaten" required>
                     <option selected disabled>Pilih Kota/Kabupaten</option>
+                    {% set kota_kabupaten_list = [] %}
                     {% for pengiriman in pengiriman_list %}
-                    {% for zona, details in pengiriman.zona.items() %}
-                    {% if 'kota-kabupaten' in details %}
-                    {% for kota in details['kota-kabupaten'] %}
-                    <option value="{{ kota }}">{{ kota }}</option>
-                    {% endfor %}
-                    {% endif %}
-                    {% endfor %}
+                      {% for zona, details in pengiriman.zona.items() %}
+                        {% if 'kota-kabupaten' in details %}
+                          {% for kota in details['kota-kabupaten'] %}
+                            {% if kota not in kota_kabupaten_list %}
+                              {% set _ = kota_kabupaten_list.append(kota) %}
+                              <option value="{{ kota }}">{{ kota }}</option>
+                            {% endif %}
+                          {% endfor %}
+                        {% endif %}
+                      {% endfor %}
                     {% endfor %}
                   </select>
                 </div>

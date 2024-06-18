@@ -1,69 +1,113 @@
-{% include 'ad_header.html' %}
-{% include 'ad_navbar.html' %}
-{% include 'ad_sidebar.html' %}
+{% include 'ad_header.html' %} {% include 'ad_navbar.html' %} {% include
+'ad_sidebar.html' %}
 
-<div class="bg-light rounded h-100 p-4">
+<div class="container-fluid pt-4 px-4">
   <h6 class="mb-4">DATA PESANAN</h6>
-  <div class="table-responsive">
-    <table class="table table-bordered">
-      <thead class="bg-danger text-white">
-        <tr>
-          <th scope="col">No</th>
-          <th scope="col">No. Pesanan</th>
-          <th scope="col">Nama Pelanggan</th>
-          <th scope="col">Tanggal</th>
-          <th scope="col">Status</th>
-          <th scope="col" class="text-center">Aksi</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for pesanan in list_pesanan %}
-        <tr id="pesanan-row-{{pesanan._id}}">
-          <th scope="row">{{loop.index}}</th>
-          <td>{{pesanan.nomor_pesanan}}</td>
-          <td>{{pesanan.nama}}</td>
-          <td>{{pesanan.tanggal_pesanan}}</td>
-          <td>
-            <div id="status-{{ pesanan._id }}"
-              class="alert {% if pesanan.status == 'pending' %}alert-warning{% elif pesanan.status == 'proses' %}alert-info{% elif pesanan.status == 'dikirim' %}alert-primary{% elif pesanan.status == 'selesai' %}alert-success{% elif pesanan.status == 'batal' %}alert-danger{% endif %} py-1">
-              {{ pesanan.status }}
-            </div>
-          </td>
-          <td class="text-center">
-            {% if pesanan.status != "dikirim" and pesanan.status != "selesai" and pesanan.status != "batal" %}
-            <button class="btn btn-sm btn-danger rounded-pill batal-button" data-id="{{pesanan._id}}">Batal</button>
-            {% endif %}
-            <button class="btn btn-sm  btn-primary rounded-pill" data-bs-toggle="modal"
-              data-bs-target="#Detail{{pesanan._id}}">Detail</button>
-            {% if pesanan.status != "selesai" and pesanan.status != "batal" %}
-            <button class="btn btn-sm btn-success rounded-pill status-button" data-id="{{pesanan._id}}">
-              {% if pesanan.status == "pending" %}
-              Lunas
-              {% elif pesanan.status == "proses" %}
-              Kirim
-              {% elif pesanan.status == "dikirim" %}
-              Selesai
-              {% endif %}
-            </button>
-            {% endif %}
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <div class="row g-4">
+    <div class="col-sm-3">
+      <form class="d-flex">
+        <div class="input-group">
+          <input
+            class="form-control form-control-sm"
+            type="search"
+            name="filter"
+            value=""
+            placeholder="Search"
+            aria-label="Search"
+          />
+        </div>
+      </form>
+    </div>
+    <div class="col-12">
+      <div class="bg-light rounded h-100 p-4">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead class="bg-danger text-white">
+              <tr>
+                <th scope="col">No</th>
+                <th scope="col">No. Pesanan</th>
+                <th scope="col">Nama Pelanggan</th>
+                <th scope="col">Tanggal</th>
+                <th scope="col">Status</th>
+                <th scope="col" class="text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for pesanan in list_pesanan %}
+              <tr id="pesanan-row-{{pesanan._id}}">
+                <th scope="row">{{loop.index}}</th>
+                <td>{{pesanan.nomor_pesanan}}</td>
+                <td>{{pesanan.nama}}</td>
+                <td>{{pesanan.tanggal_pesanan}}</td>
+                <td>
+                  <div
+                    id="status-{{ pesanan._id }}"
+                    class="alert {% if pesanan.status == 'pending' %}alert-warning{% elif pesanan.status == 'proses' %}alert-info{% elif pesanan.status == 'dikirim' %}alert-primary{% elif pesanan.status == 'selesai' %}alert-success{% elif pesanan.status == 'batal' %}alert-danger{% endif %} py-1"
+                  >
+                    {{ pesanan.status }}
+                  </div>
+                </td>
+                <td class="text-center">
+                  {% if pesanan.status != "dikirim" and pesanan.status !=
+                  "selesai" and pesanan.status != "batal" %}
+                  <button
+                    class="btn btn-sm btn-danger rounded-pill batal-button"
+                    data-id="{{pesanan._id}}"
+                  >
+                    Batal
+                  </button>
+                  {% endif %}
+                  <button
+                    class="btn btn-sm btn-primary rounded-pill"
+                    data-bs-toggle="modal"
+                    data-bs-target="#Detail{{pesanan._id}}"
+                  >
+                    Detail
+                  </button>
+                  {% if pesanan.status != "selesai" and pesanan.status !=
+                  "batal" %}
+                  <button
+                    class="btn btn-sm btn-success rounded-pill status-button"
+                    data-id="{{pesanan._id}}"
+                  >
+                    {% if pesanan.status == "pending" %} Lunas {% elif
+                    pesanan.status == "proses" %} Kirim {% elif pesanan.status
+                    == "dikirim" %} Selesai {% endif %}
+                  </button>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
 <!-- Modal -->
 {% for pesanan in list_pesanan %}
 
-<div class="modal fade" id="Detail{{pesanan._id}}" tabindex="-1" aria-labelledby="exampleModalLabel{{pesanan._id}}"
-  aria-hidden="true">
+<div
+  class="modal fade"
+  id="Detail{{pesanan._id}}"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel{{pesanan._id}}"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel{{pesanan._id}}">Detail Pesanan</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h1 class="modal-title fs-5" id="exampleModalLabel{{pesanan._id}}">
+          Detail Pesanan
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
       </div>
       <div class="modal-body">
         <div class="row">
@@ -102,9 +146,11 @@
               <tr>
                 <td class="col-3">M. Bayar</td>
                 <td>:</td>
-                <td>{{pesanan.metode_pembayaran}} <br>
-                  {{pesanan.no_rek}} <br>
-                  {{pesanan.pemilik_rek}}</td>
+                <td>
+                  {{pesanan.metode_pembayaran}} <br />
+                  {{pesanan.no_rek}} <br />
+                  {{pesanan.pemilik_rek}}
+                </td>
               </tr>
             </table>
           </div>
@@ -129,43 +175,55 @@
               </li>
               {% endfor %}
             </ul>
-            <p>Total Pengiriman : Rp. {{pesanan.total_pengiriman}} <br>
+            <p>
+              Total Pengiriman : Rp. {{pesanan.total_pengiriman}} <br />
               Total Penjualan : Rp. {{pesanan.total_semuanya}}
             </p>
           </div>
           <div class="col-lg-4">
             <h5>Status Pesanan</h5>
-            <div class="alert alert-warning py-2" id="modal-status-{{pesanan._id}}">{{ pesanan.status }}</div>
-            <hr>
+            <div
+              class="alert alert-warning py-2"
+              id="modal-status-{{pesanan._id}}"
+            >
+              {{ pesanan.status }}
+            </div>
+            <hr />
             <h5>Bukti Transfer</h5>
-            <a href="{{ url_for('static', filename='assets/bukti_transfer/' ~ pesanan.bukti_transfer) }}"
-              data-lightbox="gambar" data-title="Gambar Status Pesanan">
-              <img src="{{ url_for('static', filename='assets/bukti_transfer/' ~ pesanan.bukti_transfer) }}"
-                alt="Gambar Status Pesanan" style="max-width: 50%; height: auto; display: block;">
+            <a
+              href="{{ url_for('static', filename='assets/bukti_transfer/' ~ pesanan.bukti_transfer) }}"
+              data-lightbox="gambar"
+              data-title="Gambar Status Pesanan"
+            >
+              <img
+                src="{{ url_for('static', filename='assets/bukti_transfer/' ~ pesanan.bukti_transfer) }}"
+                alt="Gambar Status Pesanan"
+                style="max-width: 50%; height: auto; display: block"
+              />
             </a>
-            <hr>
-            <p>Estimasi Pengiriman : {{pesanan.estimasi_tgl_kirim}} <br>
+            <hr />
+            <p>
+              Estimasi Pengiriman : {{pesanan.estimasi_tgl_kirim}} <br />
               Estimasi Penerimaan : {{pesanan.estimasi_tgl_terima}}
             </p>
           </div>
-
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Tutup
+        </button>
       </div>
     </div>
   </div>
 </div>
-{% endfor %}
-
-{% include 'ad_footer.html' %}
+{% endfor %} {% include 'ad_footer.html' %}
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const statusButtons = document.querySelectorAll(".status-button");
 
-    statusButtons.forEach(button => {
+    statusButtons.forEach((button) => {
       button.addEventListener("click", function () {
         const pesananId = this.getAttribute("data-id");
         const currentStatus = this.textContent.trim();
@@ -186,13 +244,17 @@
           },
           body: JSON.stringify({ status: newStatus }),
         })
-          .then(response => response.json())
-          .then(data => {
+          .then((response) => response.json())
+          .then((data) => {
             if (data.success) {
-              document.getElementById(`status-${pesananId}`).textContent = newStatus;
-              document.getElementById(`modal-status-${pesananId}`).textContent = newStatus;
+              document.getElementById(`status-${pesananId}`).textContent =
+                newStatus;
+              document.getElementById(`modal-status-${pesananId}`).textContent =
+                newStatus;
 
-              const statusElement = document.getElementById(`status-${pesananId}`);
+              const statusElement = document.getElementById(
+                `status-${pesananId}`
+              );
               statusElement.className = `alert py-2`;
               if (newStatus === "pending") {
                 statusElement.classList.add("alert-warning");
@@ -207,33 +269,39 @@
               }
 
               if (newStatus === "proses") {
-
                 this.textContent = "Kirim";
-                const batalButton = document.querySelector(`.batal-button[data-id="${pesananId}"]`);
+                const batalButton = document.querySelector(
+                  `.batal-button[data-id="${pesananId}"]`
+                );
                 if (batalButton) {
-                  batalButton.style.display = 'inline-block';
+                  batalButton.style.display = "inline-block";
                 }
               } else if (newStatus === "dikirim") {
-
                 this.textContent = "Selesai";
-                const batalButton = document.querySelector(`.batal-button[data-id="${pesananId}"]`);
+                const batalButton = document.querySelector(
+                  `.batal-button[data-id="${pesananId}"]`
+                );
                 if (batalButton) {
-                  batalButton.style.display = 'none';
+                  batalButton.style.display = "none";
                 }
               } else if (newStatus === "selesai") {
-
-                this.style.display = 'none';
+                this.style.display = "none";
               } else if (newStatus === "batal") {
-
-                const modalStatus = document.getElementById(`modal-status-${pesananId}`);
+                const modalStatus = document.getElementById(
+                  `modal-status-${pesananId}`
+                );
                 if (modalStatus) {
                   modalStatus.textContent = "Batal";
                 }
-                const batalButton = document.querySelector(`.batal-button[data-id="${pesananId}"]`);
+                const batalButton = document.querySelector(
+                  `.batal-button[data-id="${pesananId}"]`
+                );
                 if (batalButton) {
-                  batalButton.style.display = 'none';
+                  batalButton.style.display = "none";
                 }
-                const statusButton = document.querySelector(`.status-button[data-id="${pesananId}"]`);
+                const statusButton = document.querySelector(
+                  `.status-button[data-id="${pesananId}"]`
+                );
                 if (statusButton) {
                   statusButton.textContent = "Kirim";
                 }
@@ -245,7 +313,7 @@
 
     const batalButtons = document.querySelectorAll(".batal-button");
 
-    batalButtons.forEach(button => {
+    batalButtons.forEach((button) => {
       button.addEventListener("click", function () {
         const pesananId = this.getAttribute("data-id");
 
@@ -256,22 +324,26 @@
           },
           body: JSON.stringify({ status: "batal" }),
         })
-          .then(response => response.json())
-          .then(data => {
+          .then((response) => response.json())
+          .then((data) => {
             if (data.success) {
-              document.getElementById(`status-${pesananId}`).textContent = "batal";
+              document.getElementById(`status-${pesananId}`).textContent =
+                "batal";
 
-              const modalStatus = document.getElementById(`modal-status-${pesananId}`);
+              const modalStatus = document.getElementById(
+                `modal-status-${pesananId}`
+              );
               if (modalStatus) {
                 modalStatus.textContent = "batal";
               }
-              const statusButton = document.querySelector(`.status-button[data-id="${pesananId}"]`);
+              const statusButton = document.querySelector(
+                `.status-button[data-id="${pesananId}"]`
+              );
               if (statusButton) {
-                statusButton.style.display = 'none';
+                statusButton.style.display = "none";
               }
 
-              this.style.display = 'none';
-
+              this.style.display = "none";
             }
           });
       });

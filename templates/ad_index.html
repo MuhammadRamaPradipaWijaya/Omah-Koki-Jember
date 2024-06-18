@@ -6,46 +6,38 @@
   <h5>Dashboard</h5>
   <div class="row g-4">
     <div class="col-sm-6 col-xl-3">
-      <div
-        class="bg-light rounded d-flex align-items-center justify-content-between p-4"
-      >
+      <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
         <i class="fa fa-chart-line fa-3x text-danger"></i>
         <div class="ms-3">
           <p class="mb-2">Produk</p>
-          <h6 class="mb-0">$1234</h6>
+          <h6 class="mb-0">{{ jumlah_produk }}</h6>
         </div>
       </div>
     </div>
     <div class="col-sm-6 col-xl-3">
-      <div
-        class="bg-light rounded d-flex align-items-center justify-content-between p-4"
-      >
+      <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
         <i class="fa fa-chart-bar fa-3x text-danger"></i>
         <div class="ms-3">
           <p class="mb-2">Pengguna</p>
-          <h6 class="mb-0">$1234</h6>
+          <h6 class="mb-0">{{ jumlah_pengguna }}</h6>
         </div>
       </div>
     </div>
     <div class="col-sm-6 col-xl-3">
-      <div
-        class="bg-light rounded d-flex align-items-center justify-content-between p-4"
-      >
+      <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
         <i class="fa fa-chart-area fa-3x text-danger"></i>
         <div class="ms-3">
-          <p class="mb-2">Total Penjualan</p>
+          <p class="mb-2">T. Penjualan</p>
           <h6 class="mb-0">$1234</h6>
         </div>
       </div>
     </div>
     <div class="col-sm-6 col-xl-3">
-      <div
-        class="bg-light rounded d-flex align-items-center justify-content-between p-4"
-      >
+      <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
         <i class="fa fa-chart-pie fa-3x text-danger"></i>
         <div class="ms-3">
-          <p class="mb-2">Pesanan Selesai</p>
-          <h6 class="mb-0">$1234</h6>
+          <p class="mb-2">Psn Selesai</p>
+          <h6 class="mb-0">{{ jumlah_pesanan_selesai }}</h6>
         </div>
       </div>
     </div>
@@ -63,14 +55,8 @@
         </div>
         <div class="card mb-3 bg-dark text-white rounded-card">
           <div class="row g-0">
-            <div
-              class="col-md-4 d-flex align-items-center justify-content-center"
-            >
-              <img
-                src="../static/ad_assets/img/testimonial-2.jpg"
-                class="img-fluid rounded-start"
-                alt="..."
-              />
+            <div class="col-md-4 d-flex align-items-center justify-content-center">
+              <img src="../static/ad_assets/img/testimonial-2.jpg" class="img-fluid rounded-start" alt="..." />
             </div>
             <div class="col-md-8">
               <div class="card-body text-start">
@@ -85,14 +71,8 @@
         </div>
         <div class="card mb-3 bg-dark text-white rounded-card">
           <div class="row g-0">
-            <div
-              class="col-md-4 d-flex align-items-center justify-content-center"
-            >
-              <img
-                src="../static/ad_assets/img/testimonial-2.jpg"
-                class="img-fluid rounded-start"
-                alt="..."
-              />
+            <div class="col-md-4 d-flex align-items-center justify-content-center">
+              <img src="../static/ad_assets/img/testimonial-2.jpg" class="img-fluid rounded-start" alt="..." />
             </div>
             <div class="col-md-8">
               <div class="card-body text-start">
@@ -107,14 +87,8 @@
         </div>
         <div class="card mb-3 bg-dark text-white rounded-card">
           <div class="row g-0">
-            <div
-              class="col-md-4 d-flex align-items-center justify-content-center"
-            >
-              <img
-                src="../static/ad_assets/img/testimonial-2.jpg"
-                class="img-fluid rounded-start"
-                alt="..."
-              />
+            <div class="col-md-4 d-flex align-items-center justify-content-center">
+              <img src="../static/ad_assets/img/testimonial-2.jpg" class="img-fluid rounded-start" alt="..." />
             </div>
             <div class="col-md-8">
               <div class="card-body text-start">
@@ -135,136 +109,36 @@
         <div class="d-flex align-items-center justify-content-between mb-4">
           <h6 class="mb-0">STATUS PESANAN</h6>
         </div>
-
+        {% for pesanan in pesanan %}
+        {% if pesanan.status in ['pending', 'proses', 'dikirim'] %}
         <div class="card mb-3 bg-danger text-white rounded-card">
           <div class="row g-0">
             <div class="col-md-8 d-flex align-items-center">
               <div class="card-body">
-                <p class="card-title text-md-start text-center">Lorem Ipsum</p>
+                <p class="card-title text-md-start text-center">{{ pesanan.nomor_pesanan }} - {{ pesanan.nama }}</p>
                 <p class="card-text text-md-start text-center">
-                  <small><i>27/05/2024 10:46</i></small>
+                  <small><i>{{ pesanan.tanggal_pesanan }}</i></small>
                 </p>
               </div>
             </div>
-            <div
-              class="col-md-4 d-flex align-items-center justify-content-end justify-content-center"
-            >
-              <a class="btn btn-warning btn-sm me-2">Pending</a>
+            <div class="col-md-4 d-flex align-items-center justify-content-end justify-content-center">
+              {% if pesanan.status == 'pending' %}
+              <a class="btn btn-warning btn-sm me-2">{{ pesanan.status }}</a>
+              {% elif pesanan.status == 'proses' %}
+              <a class="btn btn-info btn-sm me-2">{{ pesanan.status }}</a>
+              {% elif pesanan.status == 'dikirim' %}
+              <a class="btn btn-primary btn-sm me-2">{{ pesanan.status }}</a>
+              {% endif %}
               <div style="border-left: 1px solid white; height: 24px"></div>
               <!-- Tombol Lihat -->
-              <a
-                href="/adpesanan"
-                class="btn btn-sm btn-light rounded-pill ms-md-2 ms-0 mt-md-0 mt-2"
-                style="margin-right: 5px"
-                >Lihat</a
-              >
+              <a href="/adpesanan" class="btn btn-sm btn-light rounded-pill ms-md-2 ms-0 mt-md-0 mt-2"
+                style="margin-right: 5px">Lihat</a>
             </div>
           </div>
         </div>
+        {% endif %}
+        {% endfor %}
 
-        <div class="card mb-3 bg-danger text-white rounded-card">
-          <div class="row g-0">
-            <div class="col-md-8 d-flex align-items-center">
-              <div class="card-body">
-                <p class="card-title text-md-start text-center">Lorem Ipsum</p>
-                <p class="card-text text-md-start text-center">
-                  <small><i>27/05/2024 10:46</i></small>
-                </p>
-              </div>
-            </div>
-            <div
-              class="col-md-4 d-flex align-items-center justify-content-end justify-content-center"
-            >
-              <a class="btn btn-secondary btn-sm me-2">Process</a>
-              <div style="border-left: 1px solid white; height: 24px"></div>
-              <!-- Tombol Lihat -->
-              <a
-                href="/adpesanan"
-                class="btn btn-sm btn-light rounded-pill ms-md-2 ms-0 mt-md-0 mt-2"
-                style="margin-right: 5px"
-                >Lihat</a
-              >
-            </div>
-          </div>
-        </div>
-
-        <div class="card mb-3 bg-danger text-white rounded-card">
-          <div class="row g-0">
-            <div class="col-md-8 d-flex align-items-center">
-              <div class="card-body">
-                <p class="card-title text-md-start text-center">Lorem Ipsum</p>
-                <p class="card-text text-md-start text-center">
-                  <small><i>27/05/2024 10:46</i></small>
-                </p>
-              </div>
-            </div>
-            <div
-              class="col-md-4 d-flex align-items-center justify-content-end justify-content-center"
-            >
-              <a class="btn btn-info btn-sm me-2">Shipped</a>
-              <div style="border-left: 1px solid white; height: 24px"></div>
-              <!-- Tombol Lihat -->
-              <a
-                href="/adpesanan"
-                class="btn btn-sm btn-light rounded-pill ms-md-2 ms-0 mt-md-0 mt-2"
-                style="margin-right: 5px"
-                >Lihat</a
-              >
-            </div>
-          </div>
-        </div>
-
-        <div class="card mb-3 bg-danger text-white rounded-card">
-          <div class="row g-0">
-            <div class="col-md-8 d-flex align-items-center">
-              <div class="card-body">
-                <p class="card-title text-md-start text-center">Lorem Ipsum</p>
-                <p class="card-text text-md-start text-center">
-                  <small><i>27/05/2024 10:46</i></small>
-                </p>
-              </div>
-            </div>
-            <div
-              class="col-md-4 d-flex align-items-center justify-content-end justify-content-center"
-            >
-              <a class="btn btn-success btn-sm me-2">Completed</a>
-              <div style="border-left: 1px solid white; height: 24px"></div>
-              <!-- Tombol Lihat -->
-              <a
-                href="/adpesanan"
-                class="btn btn-sm btn-light rounded-pill ms-md-2 ms-0 mt-md-0 mt-2"
-                style="margin-right: 5px"
-                >Lihat</a
-              >
-            </div>
-          </div>
-        </div>
-
-        <div class="card mb-3 bg-danger text-white rounded-card">
-          <div class="row g-0">
-            <div class="col-md-8 d-flex align-items-center">
-              <div class="card-body">
-                <p class="card-title text-md-start text-center">Lorem Ipsum</p>
-                <p class="card-text text-md-start text-center">
-                  <small><i>27/05/2024 10:46</i></small>
-                </p>
-              </div>
-            </div>
-            <div
-              class="col-md-4 d-flex align-items-center justify-content-end justify-content-center"
-            >
-              <a class="btn btn-dark btn-sm me-2">Canceled</a>
-              <div style="border-left: 1px solid white; height: 24px"></div>
-              <!-- Tombol Lihat -->
-              <a
-                href="/adpesanan"
-                class="btn btn-sm btn-light rounded-pill ms-md-2 ms-0 mt-md-0 mt-2"
-                style="margin-right: 5px"
-                >Lihat</a
-              >
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -277,8 +151,8 @@
     <div class="col-sm-12 col-md-6 col-xl-4">
       <div class="h-100 bg-light rounded p-4">
         <div class="d-flex align-items-center justify-content-between mb-4">
-          <h6 class="mb-0">Calender</h6>
-          <a href="">Show All</a>
+          <h6 class="mb-0">Kalender</h6>
+          <a href="">Lihat</a>
         </div>
         <div id="calender"></div>
       </div>

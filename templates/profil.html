@@ -19,7 +19,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <h5>Nama</h5>
-                                <p>{{pembeli.nama}}</p>
+                                <p>{{ pembeli.nama }}</p>
                             </div>
                             
                             <div class="mb-3">
@@ -35,17 +35,20 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <h5>Email</h5>
-                                <p>{{pembeli.email}}</p>
+                                <p>{{ pembeli.email }}</p>
                             </div>
                             
                             <div class="mb-3">
                                 <h5>No. HP</h5>
-                                <p>{{pembeli.telepon}}</p>
+                                <p>{{ pembeli.telepon }}</p>
                             </div>
                             
                             <div class="mb-3">
                                 <h5>Kata Sandi</h5>
-                                <p>***********</p>
+                                <div class="password-field">
+                                    <span id="passwordText">********</span>
+                                    <i class="far fa-eye" style="margin-left: 5px; cursor: pointer;" onclick="togglePasswordVisibility(this)"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -60,56 +63,74 @@
     </div>
 </div>
 
-
 {% include 'footer.html' %}
 
 <header>
     <!-- Modal -->
-    
-<div class="modal fade" id="profil" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <form action="" method="POST" enctype="multipart/form-data">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">EDIT</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="mb-3">
-                    <label for="formFile" class="form-label">Profil</label>
-                    <input class="form-control" type="file" id="formFile" name="image" accept=".jpeg, .png, .jpg">
+    <div class="modal fade" id="profil" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form action="" method="POST" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">EDIT</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Profil</label>
+                            <input class="form-control" type="file" id="formFile" name="image" accept=".jpeg, .png, .jpg">
+                        </div>
+                        <div class="mb-3">
+                            <label for="bankName" class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="bankName" name="nama" value="{{ pembeli.nama }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="birthDate" class="form-label">Tanggal Lahir</label>
+                            <input type="date" class="form-control" id="birthDate" name="tglLahir" value="{{ pembeli.tglLahir }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="gender" class="form-label">Jenis Kelamin</label>
+                            <select class="form-select form-select-sm mb-3" name="gender" aria-label=".form-select-sm example">
+                                <option value="" hidden>Pilih</option>
+                                <option value="Laki-Laki" {{ 'selected' if pembeli.gender == 'Laki-Laki' }}>Laki-laki</option>
+                                <option value="Perempuan" {{ 'selected' if pembeli.gender == 'Perempuan' }}>Perempuan</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phoneNumber" class="form-label">No HP</label>
+                            <input type="text" class="form-control" id="phoneNumber" name="telepon" value="{{ pembeli.telepon }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Kata Sandi</label>
+                            <input type="password" class="form-control" id="password" name="password" value="{{ password }}">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary rounded-pill m-2"
+                            data-bs-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary rounded-pill m-2">Simpan</button>
+                    </div>
                 </div>
-                <div class="mb-3">
-                    <label for="bankName" class="form-label">Nama</label>
-                    <input type="text" class="form-control" id="bankName" name="nama" value="{{ pembeli.nama }}">
-                </div>
-                <div class="mb-3">
-                    <label for="birthDate" class="form-label">Tanggal Lahir</label>
-                    <input type="date" class="form-control" id="birthDate" name="tglLahir" value="{{ pembeli.tglLahir}}">
-                </div>
-                <div class="mb-3">
-                    <label for="gender" class="form-label">Jenis Kelamin</label>
-                    <select class="form-select form-select-sm mb-3" name="gender" aria-label=".form-select-sm example">
-                        <option value="Laki-Laki" {{ 'selected' if session['gender'] == 'Laki-laki' }}>Laki-laki</option>
-                        <option value="perempuan" {{ 'selected' if session['gender'] == 'Perempuan' }}>Perempuan</option>
-                    </select>
-                </div>
-                <div class="mb-3">
-                    <label for="phoneNumber" class="form-label">No HP</label>
-                    <input type="text" class="form-control" id="phoneNumber" name="telepon" value="{{ pembeli.telepon }}">
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Kata Sandi</label>
-                    <input type="password" class="form-control" id="password" name="password">
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary rounded-pill m-2"
-                    data-bs-dismiss="modal">Tutup</button>
-                <button type="submit" class="btn btn-danger rounded-pill m-2">Simpan</button>
-            </div>
             </form>
         </div>
     </div>
-</div>
 </header>
+
+<script>
+    function togglePasswordVisibility(icon) {
+        var passwordField = document.getElementById('password');
+        var passwordText = document.getElementById('passwordText');
+
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            passwordText.textContent = "{{ password }}"; // Ganti dengan variabel yang berisi kata sandi
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = "password";
+            passwordText.textContent = "********";
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
+</script>

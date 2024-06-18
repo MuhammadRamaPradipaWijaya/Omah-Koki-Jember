@@ -5,24 +5,32 @@
 <section>
     <div class="container">
         <div class="row">
-            <div class="col-md-5 offset-md-2"><h6 class="mb-6"><strong>DETAIL PRODUK</strong></h6><br>
+            <div class="col-md-5 offset-md-2">
+                <h6 class="mb-6"><strong>DETAIL PRODUK</strong></h6><br>
                 <div class="pro-img-details" style="width: 100%; height: 300px; overflow: hidden; border-radius: 10px; border: 2px solid black;">
-                    <img src="{{ url_for('static', filename='ad_assets/imgproduk/' ~ produk.gambar) }}" alt=""
-                        style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px; border: 2px solid black;">
+                    <img src="{{ url_for('static', filename='ad_assets/imgproduk/' ~ produk.gambar) }}" alt="" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px; border: 2px solid black;">
                 </div>                
             </div>
 
             <div class="col-md-5">
                 <div class="product-details"><br>
-                    <div><br><br>
-                        <h4 style="margin-bottom: 15px; font-size: 25px; color: #1a6692;">{{ produk.nama_produk }}</h4>
-                        <h5 style="margin-bottom: 15px;">Rp {{ "{:,.0f}".format(produk.harga).replace(",", ".") }}</h5>
+                    <div>
+                        <hr style="width: 70%;">
+                        <h6 style="margin-bottom: 15px; font-size: 20px; color: #1a6692;">{{ produk.nama_produk }}</h6>
+                        <h6 style="margin-bottom: 15px;">Rp {{ "{:,.0f}".format(produk.harga).replace(",", ".") }}</h6>
                         <h6 style="margin-bottom: 15px;">Stok: {{ produk.stock }}</h6>
                     </div><br>
-                    <form action="{{ url_for('tambah_ke_keranjang') }}" method="POST">
-                        <div class="form-group mb-2" style="width: 120px;">
-                            <label for="jumlah1">Jumlah</label>
-                            <input class="form-control form-control-sm" type="number" id="jumlah1" name="jumlah" value="1" min="1" max="{{ produk.stock }}">
+                    <form action="{{ url_for('tambah_ke_keranjang') }}" method="POST" onsubmit="return validateForm()">
+                        <div class="form-group mb-2" style="display: flex; align-items: center;">
+                            <div style="flex-grow: 1; display: flex; align-items: center;">
+                                <a href="#" style="text-decoration: none; color: #333; border: 1px solid #ccc; border-radius: 4px; padding: 5px; margin-right: 5px;" onclick="decrementValue('jumlah1');">
+                                    <i class="fas fa-minus"></i>
+                                </a>
+                                <input class="form-control form-control-sm" type="number" id="jumlah1" name="jumlah" value="1" min="1" max="{{ produk.stock }}" style="width: 60px; text-align: center;">
+                                <a href="#" style="text-decoration: none; color: #333; border: 1px solid #ccc; border-radius: 4px; padding: 5px; margin-left: 5px;" onclick="incrementValue('jumlah1');">
+                                    <i class="fas fa-plus"></i>
+                                </a>
+                            </div>
                         </div>
                         <input type="hidden" name="produk_id" value="{{ produk._id }}">
                         <button type="submit" class="btn btn-danger mt-3">Tambah Ke Keranjang</button>
@@ -38,23 +46,19 @@
                     <h6>Informasi Produk</h6>
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#nav-deskripsi" data-toggle="tab" role="tab"
-                                aria-selected="true">Deskripsi</a>
+                            <a class="nav-link active" href="#nav-deskripsi" data-toggle="tab" role="tab" aria-selected="true">Deskripsi</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#nav-informasi" data-toggle="tab" role="tab"
-                                aria-selected="false">Informasi</a>
+                            <a class="nav-link" href="#nav-informasi" data-toggle="tab" role="tab" aria-selected="false">Informasi</a>
                         </li>
                     </ul>
                     <br>
                     <div class="tab-content" id="nav-tabContent" style="width: 60%;">
-                        <div class="tab-pane fade show active" id="nav-deskripsi" role="tabpanel"
-                            aria-labelledby="nav-deskripsi-tab">
+                        <div class="tab-pane fade show active" id="nav-deskripsi" role="tabpanel" aria-labelledby="nav-deskripsi-tab">
                             <a>{{ produk.deskripsi }}</a>
                         </div>
 
-                        <div class="tab-pane fade" id="nav-informasi" role="tabpanel"
-                            aria-labelledby="nav-informasi-tab">
+                        <div class="tab-pane fade" id="nav-informasi" role="tabpanel" aria-labelledby="nav-informasi-tab">
                             <ul>
                                 <li>Kondisi : {{ produk.kondisi }}</li>
                                 <li>Berat : {{ produk.berat }} kg</li>
@@ -72,3 +76,37 @@
 </section>
 
 {% include 'Footer.html' %}
+
+<script>
+    function incrementValue(id) {
+        var inputElement = document.getElementById(id);
+        var currentValue = parseInt(inputElement.value);
+        var maxValue = parseInt(inputElement.getAttribute('max'));
+
+        if (currentValue < maxValue) {
+            inputElement.value = currentValue + 1;
+        }
+    }
+
+    function decrementValue(id) {
+        var inputElement = document.getElementById(id);
+        var currentValue = parseInt(inputElement.value);
+
+        if (currentValue > 1) {
+            inputElement.value = currentValue - 1;
+        }
+    }
+
+    function validateForm() {
+        var inputElement = document.getElementById('jumlah1');
+        var currentValue = parseInt(inputElement.value);
+        var maxValue = parseInt(inputElement.getAttribute('max'));
+
+        if (currentValue > maxValue) {
+            alert('Jumlah yang dimasukkan melebihi stok yang tersedia!');
+            return false;
+        }
+
+        return true;
+    }
+</script>

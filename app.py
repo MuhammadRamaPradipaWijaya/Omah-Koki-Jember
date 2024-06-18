@@ -27,13 +27,29 @@ app.secret_key = SECRET_KEY
 @app.route('/dashboard')
 def dashboard():
     if 'logged_in' in session and session['logged_in']:
-        return render_template('ad_index.html')
+        pesanan = list(db.pesanan.find({}))
+        jumlah_produk = db.adproduk.count_documents({})
+        jumlah_pengguna = db.pembeli.count_documents({})
+        jumlah_pesanan_selesai = db.pesanan.count_documents({'status': 'selesai'})
+        return render_template('ad_index.html', pesanan=pesanan, jumlah_produk=jumlah_produk, jumlah_pengguna=jumlah_pengguna, jumlah_pesanan_selesai=jumlah_pesanan_selesai)
     else:
         return redirect(url_for('adlogin'))
 
 @app.route('/adpesanan', methods=['GET', 'POST'])
 def adpesanan():
-    list_pesanan = list(db.pesanan.find({}))
+    filter = request.args.get('filter')
+    
+    if filter:
+        list_pesanan = list(db.pesanan.find({'$or': [
+            {'nomor_pesanan': {'$regex': filter, '$options': 'i'}},
+            {'nama': {'$regex': filter, '$options': 'i'}},
+        ]}))
+    else:
+        list_pesanan = list(db.pesanan.find({}))
+    
+    status_order = {'pending': 1, 'proses': 2, 'dikirim': 3, 'selesai': 4, 'batal': 5}
+    list_pesanan.sort(key=lambda x: status_order.get(x.get('status'), 6))
+
     return render_template('ad_pesanan.html', list_pesanan=list_pesanan)
 
 @app.route('/update_status/<_id>', methods=['POST'])
@@ -74,7 +90,7 @@ def adproduk():
 def addProduk():
     if request.method == 'POST':
         produk = request.form.get('namaProduk')
-        stock = request.form.get('stock')
+        stock = int(request.form.get('stock'))
         harga = float(request.form.get('harga'))
         deskripsi = request.form.get('deskripsi')
         kondisi = request.form.get('kondisi')
@@ -114,7 +130,7 @@ def addProduk():
 def editProduk(_id):
     if request.method == 'POST':
         produk = request.form.get('namaProduk')
-        stock = request.form.get('stock')
+        stock = int(request.form.get('stock'))
         harga = float(request.form.get('harga'))
         deskripsi = request.form.get('deskripsi')
         kondisi = request.form.get('kondisi')
@@ -168,7 +184,8 @@ def deleteProduk(_id):
 
 @app.route('/adpelanggan')
 def adpelanggan():
-    return render_template('ad_pelanggan.html')
+    pelanggans = list(db.pembeli.find())
+    return render_template('ad_pelanggan.html', pelanggans=pelanggans)
 
 @app.route('/adlpenjualan')
 def adlpenjualan():
@@ -447,7 +464,6 @@ def blokir(id):
     diblokir = False
     user = db.pembeli.find_one({'_id': ObjectId(id)})
 
-
     if "diblokir" in user :
         if user['diblokir'] == True :
             diblokir = False
@@ -463,7 +479,7 @@ def blokir(id):
 @app.route('/adprofil', methods=['GET', 'POST'])
 def adprofil():
     if 'logged_in' in session and session['logged_in']:
-        if request.method == 'POST' :
+        if request.method == 'POST':
             admin = db.admin.find_one({'_id': ObjectId(session['user_id'])})
 
             nama = request.form['username']
@@ -473,22 +489,22 @@ def adprofil():
 
             today = datetime.now()
             mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
-            
+
             admin_img = request.files.get('profil')
             filename = admin.get('avatar', '')
 
-            if (admin_img) :
+            if admin_img:
                 extension = admin_img.filename.split('.')[-1]
                 filename = f'admin-{mytime}.{extension}'
-                save_to = os.path.join('static/ad_assets/profil_admin', filename)        
+                save_to = os.path.join('static/ad_assets/profil_admin', filename)
                 admin_img.save(save_to)
 
             data = {
-                'nama' : nama,
-                'telepon' : telepon,
-                'gender' : gender,
-                'tgl_lahir' : tgl_lahir,
-                'avatar' : filename
+                'nama': nama,
+                'telepon': telepon,
+                'gender': gender,
+                'tgl_lahir': tgl_lahir,
+                'avatar': filename
             }
 
             if request.form['password']:
@@ -498,7 +514,6 @@ def adprofil():
                 {'_id': ObjectId(session['user_id'])},
                 {'$set': data}
             )
-            
 
             session['username'] = nama
             session['telepon'] = telepon
@@ -507,9 +522,10 @@ def adprofil():
             session['avatar'] = filename
 
             return redirect(url_for('adprofil'))
-        else :
-            admin = db.admin.find_one({'_id' : ObjectId(session['user_id'])})
-            return render_template('ad_profil.html', admin=admin)
+        else:
+            admin = db.admin.find_one({'_id': ObjectId(session['user_id'])})
+            password_decoded = jwt.decode(admin['password'], SECRET_KEY, algorithms=['HS256'])['password']
+            return render_template('ad_profil.html', admin=admin, password=password_decoded)
     else:
         return redirect(url_for('adlogin'))
 # BAGIAN ADMIN #
@@ -536,7 +552,20 @@ def produk():
         produk_list = list(db.adproduk.find({}).skip((page - 1) * per_page).limit(per_page))
 
     total_pages = (produk_count + per_page - 1) // per_page
-    return render_template('produk.html', produk=produk_list, total_pages=total_pages, current_page=page, filter_kategori=filter_kategori)
+
+    subtotal = 0
+    if 'logged_in' in session and session['logged_in']:
+        user_id = session['user_id']
+        items_keranjang = list(db.keranjang.find({'user_id': user_id}))
+        
+        for item in items_keranjang:
+            produk = db.adproduk.find_one({'_id': ObjectId(item['produk_id'])})
+            if produk:
+                item['stok'] = produk['stock']
+        
+        subtotal = sum(int(item['harga']) * int(item['jumlah']) for item in items_keranjang)
+
+    return render_template('produk.html', produk=produk_list, total_pages=total_pages, current_page=page, filter_kategori=filter_kategori, subtotal=subtotal)
 
 @app.route('/detailproduk/<produk_id>', methods=['GET'])
 def detail_produk(produk_id):
@@ -603,8 +632,21 @@ def update_keranjang():
 def tentang():
     return render_template('tentang.html')
 
-@app.route('/kontak')
+@app.route('/kontak', methods=['GET', 'POST'])
 def kontak():
+    if request.method == 'POST':
+        masukan = request.form['masukan']
+        tanggal_masukan = datetime.now().strftime('%Y-%m-%d')
+        
+        if 'logged_in' in session and session['logged_in']:
+            user_id = session['user_id']
+            db.pembeli.update_one(
+                {'_id': ObjectId(user_id)},
+                {'$push': {'masukan': {'teks': masukan, 'tanggal': tanggal_masukan}}}
+            )
+            return redirect(url_for('kontak'))
+        else:
+            return redirect(url_for('login'))
     return render_template('kontak.html')
 
 @app.context_processor
@@ -775,6 +817,14 @@ def checkout():
             }
 
             db.pesanan.insert_one(pesanan)
+
+             # Update stock
+            for item in items_keranjang:
+                db.adproduk.update_one(
+                    {'_id': ObjectId(item['produk_id'])},
+                    {'$inc': {'stock': -int(item['jumlah'])}}
+                )
+
             db.keranjang.delete_many({'user_id': user_id})
 
             return redirect(url_for('pesanan'))
@@ -832,15 +882,16 @@ def profil():
             today = datetime.now()
             mytime = today.strftime('%Y-%m-%d-%H-%M-%S')
 
-            pembeli_img = request.files['image']
+            pembeli_img = request.files.get('image')
             filename = pembeli.get('image', '')
+
             if pembeli_img:
                 extension = pembeli_img.filename.split('.')[-1]
                 filename = f'pembeli-{mytime}.{extension}'
                 save_to = os.path.join('static/assets/profil_pembeli', filename)
                 pembeli_img.save(save_to)
-            
-            doc = {
+
+            data = {
                 'nama': nama,
                 'tglLahir': tglLahir,
                 'gender': gender,
@@ -849,11 +900,11 @@ def profil():
             }
 
             if request.form['password']:
-                doc['password'] = jwt.encode({'password': request.form['password']}, SECRET_KEY, algorithm='HS256')
+                data['password'] = jwt.encode({'password': request.form['password']}, SECRET_KEY, algorithm='HS256')
 
             db.pembeli.update_one(
                 {'_id': ObjectId(session['user_id'])},
-                {'$set': doc}
+                {'$set': data}
             )
 
             session['nama'] = nama
@@ -865,7 +916,8 @@ def profil():
             return redirect(url_for('profil'))
         else:
             pembeli = db.pembeli.find_one({'_id': ObjectId(session['user_id'])})
-            return render_template('profil.html', pembeli=pembeli)
+            password_decoded = jwt.decode(pembeli['password'], SECRET_KEY, algorithms=['HS256'])['password']
+            return render_template('profil.html', pembeli=pembeli, password=password_decoded)
     else:
         return redirect(url_for('login'))
 # BAGIAN USER #

@@ -11,7 +11,20 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
+
         <ul class="navbar-nav ml-auto">
+          <li class="nav-item dropdown">
+            <a href="#" class="btn btn-sm btn-danger m-2 rounded-circle dropdown-toggle" id="dropdownMenuLink"
+              data-bs-toggle="dropdown" aria-expanded="false" style="background-color: rgb(225, 64, 64); border: none;">
+              <i class="fas fa-search" style="font-size: 15px;"></i>
+            </a>
+            <div class="dropdown-menu p-3" aria-labelledby="dropdownMenuLink" style="width: 300px; margin: 0 auto;">
+              <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Cari disini..." aria-label="Search">
+                <button class="btn btn-outline-danger" type="submit">Cari</button>
+              </form>
+            </div><br>
+          </li>
           <li class="nav-item">
             <a class="nav-link" href="/">Beranda</a>
           </li>
@@ -51,8 +64,8 @@
               <img src="../static/assets/profil_pembeli/{{ session['image'] }}" alt="" width="32" height="32"
                 class="rounded-circle">
               {% else %}
-              <img src="../static/assets/profil_pembeli/default_photo.jpg" alt="Default Photo" width="32"
-                height="32" class="rounded-circle">
+              <img src="../static/assets/profil_pembeli/default_photo.jpg" alt="Default Photo" width="32" height="32"
+                class="rounded-circle">
               {% endif %}
               <span class="d-none d-lg-inline-flex username-text" style="color: white;">{{ session['nama'] }}</span>
             </a>
@@ -97,3 +110,9 @@
   integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<style>
+  .dropdown-toggle::after {
+    display: none !important;
+  }
+</style>
