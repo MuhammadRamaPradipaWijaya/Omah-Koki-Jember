@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 from pymongo import MongoClient
-from bson import ObjectId
+from bson import ObjectId, son
 import jwt
 from datetime import datetime, timedelta
 import hashlib
@@ -37,7 +37,15 @@ def dashboard():
 
 @app.route('/adpesanan', methods=['GET', 'POST'])
 def adpesanan():
-    list_pesanan = list(db.pesanan.find({}))
+    filter = request.args.get('filter')
+    
+    if filter:
+        list_pesanan = list(db.pesanan.find({'$or': [
+            {'nomor_pesanan': {'$regex': filter, '$options': 'i'}},
+            {'nama': {'$regex': filter, '$options': 'i'}},
+        ]}))
+    else:
+        list_pesanan = list(db.pesanan.find({}))
     
     status_order = {'pending': 1, 'proses': 2, 'dikirim': 3, 'selesai': 4, 'batal': 5}
     list_pesanan.sort(key=lambda x: status_order.get(x.get('status'), 6))
@@ -176,24 +184,119 @@ def deleteProduk(_id):
 
 @app.route('/adpelanggan')
 def adpelanggan():
-    pelanggans = list(db.pembeli.find())
+    filter = request.args.get('filter')
+
+    if filter:
+        pelanggans = list(db.pembeli.find({'$or': [
+            {'nama': {'$regex': filter, '$options': 'i'}},
+            {'telepon': {'$regex': filter, '$options': 'i'}},
+            {'email': {'$regex': filter, '$options': 'i'}},
+        ]}))
+    else:
+        pelanggans = list(db.pembeli.find())
     return render_template('ad_pelanggan.html', pelanggans=pelanggans)
 
 @app.route('/adlpenjualan')
 def adlpenjualan():
-    return render_template('ad_lpenjualan.html')
+    mulai_str = request.args.get('start')
+    akhir_str = request.args.get('end')
+    
+    query = {}
+
+    if mulai_str and akhir_str:
+        mulai = datetime.strptime(mulai_str, '%Y-%m-%d')
+        akhir = datetime.strptime(akhir_str, '%Y-%m-%d')
+
+        query = {
+            'tanggal_pesanan': {
+                '$gte': mulai,
+                '$lt': akhir,
+            }
+        }
+
+    penjualan = db.pesanan.find(query)
+
+    return render_template('ad_lpenjualan.html', penjualan=list(penjualan))
 
 @app.route('/adlpenjualan/cetak')
-def cetakLaporanPenjualan():
-    return render_template('cetak_laporan_penjualan.html')
+def cetakLaporanPenjualan():    
+    mulai_str = request.args.get('start')
+    akhir_str = request.args.get('end')
+
+    query = {}
+
+    if mulai_str and akhir_str:
+        mulai = datetime.strptime(mulai_str, '%Y-%m-%d')
+        akhir = datetime.strptime(akhir_str, '%Y-%m-%d')
+
+        query = {
+            'tanggal_pesanan': {
+                '$gte': mulai,
+                '$lt': akhir,
+            }
+        }
+
+    penjualan = db.pesanan.find(query)
+
+    return render_template('cetak_laporan_penjualan.html', penjualan=list(penjualan))
 
 @app.route('/adlproduk')
 def adlproduk():
-    return render_template('ad_lproduk.html')
+    produk = db.adproduk
+    pesanan = db.pesanan
+
+    pipeline = [
+        {"$unwind": "$ringkasan_belanja"},
+        {"$group": {
+            "_id": "$ringkasan_belanja.nama_produk",
+            "total_terjual": {"$sum": "$ringkasan_belanja.jumlah"}
+        }}
+    ]
+
+    produk_terjual = list(pesanan.aggregate(pipeline))
+
+    hasil = []
+    for produk in produk.find():
+        nama_produk = produk["nama_produk"]
+        terjual = next((item for item in produk_terjual if item["_id"] == nama_produk), {"_id": nama_produk, "total_terjual": 0})
+        hasil.append({
+            "nama_produk": nama_produk,
+            "stock": produk["stock"],
+            "harga": produk["harga"],
+            "jumlah_terjual": terjual["total_terjual"],
+            "total_penjualan": terjual["total_terjual"] * produk['harga']
+        })
+
+    return render_template('ad_lproduk.html', produk=hasil)
 
 @app.route('/adlproduk/cetak')
 def cetakLaporanProduk():
-    return render_template('cetak_laporan_produk.html')
+    produk = db.adproduk
+    pesanan = db.pesanan
+
+    pipeline = [
+        {"$unwind": "$ringkasan_belanja"},
+        {"$group": {
+            "_id": "$ringkasan_belanja.nama_produk",
+            "total_terjual": {"$sum": "$ringkasan_belanja.jumlah"}
+        }}
+    ]
+
+    produk_terjual = list(pesanan.aggregate(pipeline))
+
+    hasil = []
+    for produk in produk.find():
+        nama_produk = produk["nama_produk"]
+        terjual = next((item for item in produk_terjual if item["_id"] == nama_produk), {"_id": nama_produk, "total_terjual": 0})
+        hasil.append({
+            "nama_produk": nama_produk,
+            "stock": produk["stock"],
+            "harga": produk["harga"],
+            "jumlah_terjual": terjual["total_terjual"],
+            "total_penjualan": terjual["total_terjual"] * produk['harga']
+        })
+
+    return render_template('cetak_laporan_produk.html', produk=hasil)
 
 @app.route('/adpembayaran')
 def adpembayaran():
@@ -698,6 +801,8 @@ def checkout():
             estimasi_tgl_kirim = tanggal_pesanan
             estimasi_tgl_terima = estimasi_tgl_kirim + timedelta(days=estimasi_pengiriman)
 
+
+
             pesanan = {
                 '_id': pesanan_id,
                 'nomor_pesanan': nomor_pesanan,
@@ -716,7 +821,7 @@ def checkout():
                 'pemilik_rek': pemilik_rekening,
                 'status': 'pending',
                 'estimasi_pengiriman': estimasi_pengiriman,
-                'tanggal_pesanan': tanggal_pesanan.strftime('%Y-%m-%d'),
+                'tanggal_pesanan': datetime.strptime(tanggal_pesanan.strftime('%Y-%m-%d'), '%Y-%m-%d'),
                 'estimasi_tgl_kirim': estimasi_tgl_kirim.strftime('%Y-%m-%d'),
                 'estimasi_tgl_terima': estimasi_tgl_terima.strftime('%Y-%m-%d')
             }
