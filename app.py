@@ -214,7 +214,15 @@ def cetakLaporanProduk():
 
 @app.route('/adpembayaran')
 def adpembayaran():
-    pembayaran = list(db.pembayaran.find({}))
+    filter = request.args.get('filter')
+    
+    if filter:
+        pembayaran = list(db.pembayaran.find({'$or': [
+            {'Nama_Bank': {'$regex': filter, '$options': 'i'}},
+            {'Pemilik_Rek': {'$regex': filter, '$options': 'i'}},
+        ]}))
+    else:
+        pembayaran = list(db.pembayaran.find({}))
     return render_template('ad_pembayaran.html', pembayaran = pembayaran)
 
 @app.route('/addpembayaran', methods=['GET','POST'])
