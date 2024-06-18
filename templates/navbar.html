@@ -19,8 +19,8 @@
               <i class="fas fa-search" style="font-size: 15px;"></i>
             </a>
             <div class="dropdown-menu p-3" aria-labelledby="dropdownMenuLink" style="width: 300px; margin: 0 auto;">
-              <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Cari disini..." aria-label="Search">
+              <form class="d-flex" method="GET" action="/produk">
+                <input class="form-control me-2" type="search" name="filter" value="{{ request.args.get('filter', '') }}" placeholder="Cari disini..." aria-label="Search">
                 <button class="btn btn-outline-danger" type="submit">Cari</button>
               </form>
             </div><br>
