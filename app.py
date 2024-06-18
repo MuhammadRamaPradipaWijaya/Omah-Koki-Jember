@@ -37,7 +37,15 @@ def dashboard():
 
 @app.route('/adpesanan', methods=['GET', 'POST'])
 def adpesanan():
-    list_pesanan = list(db.pesanan.find({}))
+    filter = request.args.get('filter')
+    
+    if filter:
+        list_pesanan = list(db.pesanan.find({'$or': [
+            {'nomor_pesanan': {'$regex': filter, '$options': 'i'}},
+            {'nama': {'$regex': filter, '$options': 'i'}},
+        ]}))
+    else:
+        list_pesanan = list(db.pesanan.find({}))
     
     status_order = {'pending': 1, 'proses': 2, 'dikirim': 3, 'selesai': 4, 'batal': 5}
     list_pesanan.sort(key=lambda x: status_order.get(x.get('status'), 6))
