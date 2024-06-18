@@ -1,6 +1,9 @@
 {% include 'ad_header.html' %} {% include 'ad_navbar.html' %} {% include
 'ad_sidebar.html' %}
 
+{% set mulai = request.args.get('start') %}
+{% set akhir = request.args.get('end') %}
+
 <div class="bg-light rounded h-100 p-4">
   <h6 class="mb-4">LAPORAN PRODUK</h6>
 
@@ -25,6 +28,12 @@
       <button class="btn btn-primary rounded-pill">Filter</button>
     </div>
   </form>
+
+  {% if mulai and akhir %}
+    <div class="alert alert-info">
+      Menampilkan semua penjualan produk sejak <b>{{ mulai }}</b> hingga <b>{{ akhir }}</b>
+    </div>
+  {% endif %}
 
   <table class="table table-bordered">
     <thead class="bg-danger text-white">
@@ -170,8 +179,6 @@
         <th colspan="5" class="text-end">Total Penjualan Produk</th>
         <td>Rp. {{ "{:,.0f}".format(produk | sum(attribute='total_penjualan')).replace(",", ".") }}</td>
         <td>
-          {% set mulai = request.args.get('start') %}
-          {% set akhir = request.args.get('end') %}
           {% if mulai and akhir %}
             <button class="btn btn-success rounded-pill" onclick="window.open('/adlproduk/cetak?start={{mulai}}&end={{akhir}}', '_blank')">Cetak</button>
           {% else %}

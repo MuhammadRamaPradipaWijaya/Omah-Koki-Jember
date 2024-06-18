@@ -1,51 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Print Penjualan</title>
-    
+
     <!-- Customized Bootstrap Stylesheet -->
     <link href="../static/ad_assets/css/bootstrap.min.css" rel="stylesheet" />
 
     <!-- Template Stylesheet -->
     <link href="../static/ad_assets/css/style.css" rel="stylesheet" />
-</head>
-<body>
+  </head>
+  <body>
+    {% set mulai = request.args.get('start') %} {% set akhir =
+    request.args.get('end') %}
+
     <h3>Laporan Produk</h3>
+    <p>Tanggal <b>{{ mulai }} hinggal {{ akhir }}</b></p>
     <table class="table">
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Nama Produk</th>
-            <th>Harga</th>
-            <th>Stok</th>
-            <th>Jumlah Terjual</th>
-            <th>Total Penjualan Produk</th>
-          </tr>
-        </thead>
-        <tbody>
-      {% for item in produk %}
-      <tr>
-            <td>{{ loop.index }}</td>
-            <td>{{ item.nama_produk }}</td>
-            <td>Rp. {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</td>
-            <td>{{ item.stock }}</td>
-            <td>{{ item.jumlah_terjual }}</td>
-            <td>Rp. {{ "{:,.0f}".format(item.total_penjualan).replace(",", ".") }}</td>
-          </tr>
-      {% endfor %}
-    </tbody>
-        <tfoot>
-          <tr>
-            <th colspan="5" class="text-end">Total Penjualan Produk</th>
-        <td>Rp. {{ "{:,.0f}".format(produk | sum(attribute='total_penjualan')).replace(",", ".") }}</td>
-          </tr>
-        </tfoot>
-      </table>
-    
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Nama Produk</th>
+          <th>Harga</th>
+          <th>Stok</th>
+          <th>Jumlah Terjual</th>
+          <th>Total Penjualan Produk</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in produk %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ item.nama_produk }}</td>
+          <td>Rp. {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</td>
+          <td>{{ item.stock }}</td>
+          <td>{{ item.jumlah_terjual }}</td>
+          <td>
+            Rp. {{ "{:,.0f}".format(item.total_penjualan).replace(",", ".") }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="5" class="text-end">Total Penjualan Produk</th>
+          <td>
+            Rp. {{ "{:,.0f}".format(produk |
+            sum(attribute='total_penjualan')).replace(",", ".") }}
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+
     <script>
-        window.print()
+      window.print();
     </script>
-</body>
+  </body>
 </html>

@@ -12,7 +12,11 @@
     <link href="../static/ad_assets/css/style.css" rel="stylesheet" />
   </head>
   <body>
+    {% set mulai = request.args.get('start') %}
+    {% set akhir = request.args.get('end') %}
+
     <h3>Laporan Penjualan</h3>
+    <p>Tanggal <b>{{ mulai }} hinggal {{ akhir }}</b></p>
     <table class="table">
       <thead>
         <tr>
@@ -26,7 +30,6 @@
       </thead>
       <tbody>
         {% for item in penjualan %}
-        {% if item.status =='selesai' %}
         <tr>
           <td>{{ loop.index }}</td>
           <td>{{ item.nomor_pesanan }}</td>
@@ -35,7 +38,6 @@
           <td>{{ item.ringkasan_belanja | length }}</td>
           <td>Rp. {{ "{:,.0f}".format(item.total_semuanya).replace(",", ".") }}</td>
         </tr>
-        {% endif %}
         {% endfor %}
       </tbody>
       <tfoot>
