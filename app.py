@@ -263,10 +263,27 @@ def cetakLaporanPenjualan():
 
 @app.route('/adlproduk')
 def adlproduk():
+    mulai_str = request.args.get('start')
+    akhir_str = request.args.get('end')
+
+    match_query = {}
+
+    if mulai_str and akhir_str:
+        mulai = datetime.strptime(mulai_str, '%Y-%m-%d')
+        akhir = datetime.strptime(akhir_str, '%Y-%m-%d')
+
+        match_query = {
+            'tanggal_pesanan': {
+                '$gte': mulai,
+                '$lt': akhir
+            }
+        }
+
     produk = db.adproduk
     pesanan = db.pesanan
 
     pipeline = [
+        {"$match": match_query},
         {"$unwind": "$ringkasan_belanja"},
         {"$group": {
             "_id": "$ringkasan_belanja.nama_produk",
@@ -299,10 +316,27 @@ def adlproduk():
 
 @app.route('/adlproduk/cetak')
 def cetakLaporanProduk():
+    mulai_str = request.args.get('start')
+    akhir_str = request.args.get('end')
+
+    match_query = {}
+
+    if mulai_str and akhir_str:
+        mulai = datetime.strptime(mulai_str, '%Y-%m-%d')
+        akhir = datetime.strptime(akhir_str, '%Y-%m-%d')
+
+        match_query = {
+            'tanggal_pesanan': {
+                '$gte': mulai,
+                '$lt': akhir
+            }
+        }
+
     produk = db.adproduk
     pesanan = db.pesanan
 
     pipeline = [
+        {"$match": match_query},
         {"$unwind": "$ringkasan_belanja"},
         {"$group": {
             "_id": "$ringkasan_belanja.nama_produk",

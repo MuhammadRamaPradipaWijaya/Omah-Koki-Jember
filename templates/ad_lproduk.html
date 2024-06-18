@@ -4,12 +4,12 @@
 <div class="bg-light rounded h-100 p-4">
   <h6 class="mb-4">LAPORAN PRODUK</h6>
 
-  <!-- <div class="row">
+  <form class="row mb-3">
     <div class="col-md-3">
       <div class="row">
         <label for="fromInput" class="col-form-label col-2">Dari</label>
         <div class="col-10">
-          <input type="date" class="form-control" id="fromInput" />
+          <input type="date" class="form-control" name="start" id="fromInput" />
         </div>
       </div>
     </div>
@@ -17,14 +17,14 @@
       <div class="row">
         <label for="toInput" class="col-form-label col-2">Ke</label>
         <div class="col-10">
-          <input type="date" class="form-control" id="toInput" />
+          <input type="date" class="form-control" name="end" id="toInput" />
         </div>
       </div>
     </div>
     <div class="col-md-6">
       <button class="btn btn-primary rounded-pill">Filter</button>
     </div>
-  </div> -->
+  </form>
 
   <table class="table table-bordered">
     <thead class="bg-danger text-white">
@@ -170,12 +170,13 @@
         <th colspan="5" class="text-end">Total Penjualan Produk</th>
         <td>Rp. {{ "{:,.0f}".format(produk | sum(attribute='total_penjualan')).replace(",", ".") }}</td>
         <td>
-          <button
-            class="btn btn-success rounded-pill"
-            onclick="window.open('/adlproduk/cetak', '_blank')"
-          >
-            Cetak
-          </button>
+          {% set mulai = request.args.get('start') %}
+          {% set akhir = request.args.get('end') %}
+          {% if mulai and akhir %}
+            <button class="btn btn-success rounded-pill" onclick="window.open('/adlproduk/cetak?start={{mulai}}&end={{akhir}}', '_blank')">Cetak</button>
+          {% else %}
+            <button class="btn btn-success rounded-pill" onclick="window.open('/adlproduk/cetak', '_blank')">Cetak</button>
+          {% endif %}
         </td>
       </tr>
     </tfoot>
