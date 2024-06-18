@@ -31,7 +31,10 @@ def dashboard():
         jumlah_produk = db.adproduk.count_documents({})
         jumlah_pengguna = db.pembeli.count_documents({})
         jumlah_pesanan_selesai = db.pesanan.count_documents({'status': 'selesai'})
-        return render_template('ad_index.html', pesanan=pesanan, jumlah_produk=jumlah_produk, jumlah_pengguna=jumlah_pengguna, jumlah_pesanan_selesai=jumlah_pesanan_selesai)
+
+        pesanan_selesai = db.pesanan.find({'status': 'selesai'})
+        total_semuanya = sum(pesanan['total_semuanya'] for pesanan in pesanan_selesai)
+        return render_template('ad_index.html', pesanan=pesanan, jumlah_produk=jumlah_produk, jumlah_pengguna=jumlah_pengguna, jumlah_pesanan_selesai=jumlah_pesanan_selesai, total_semuanya=total_semuanya)
     else:
         return redirect(url_for('adlogin'))
 
