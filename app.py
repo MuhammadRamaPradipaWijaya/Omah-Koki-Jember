@@ -352,7 +352,12 @@ def deletePembayaran(_id):
 
 @app.route('/adpengiriman')
 def adpengiriman():
-    pengiriman = list(db.pengiriman.find({}))
+    filter = request.args.get('filter')
+    if filter:
+        pengiriman = list(db.pengiriman.find({'jasa_kirim': {"$regex": filter, '$options': 'i'}}))    
+
+    else:
+        pengiriman = list(db.pengiriman.find({}))
     return render_template('ad_pengiriman.html', pengiriman=pengiriman)
 
 @app.route('/tambah_pengiriman', methods=['POST'])
