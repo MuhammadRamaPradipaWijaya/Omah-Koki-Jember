@@ -94,7 +94,7 @@
                         <tr>
                           <td class="col-3">Harga</td>
                           <td>:</td>
-                          <td>{{ item.harga }}</td>
+                          <td>Rp. {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</td>
                         </tr>
                         <tr>
                           <td class="col-3">Kondisi</td>
