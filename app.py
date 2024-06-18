@@ -204,51 +204,62 @@ def adlpenjualan():
     mulai_str = request.args.get('start')
     akhir_str = request.args.get('end')
     
-    query = {}
+    query = {
+        'status': 'selesai'
+    }
 
     if mulai_str and akhir_str:
         mulai = datetime.strptime(mulai_str, '%Y-%m-%d')
         akhir = datetime.strptime(akhir_str, '%Y-%m-%d')
 
         query = {
-            'tanggal_pesanan': {
-                '$gte': mulai,
-                '$lt': akhir,
-            }
+            '$and': [
+                {
+                    'tanggal_pesanan': {
+                        '$gte': mulai,
+                        '$lt': akhir,
+                    }
+                },
+                {
+                    'status': 'selesai'
+                }
+            ]
         }
 
     penjualan = db.pesanan.find(query)
 
-    pesanan_selesai = db.pesanan.find({'status': 'selesai'})
-    total_semuanya = sum(pesanan['total_semuanya'] for pesanan in pesanan_selesai)
-
-    return render_template('ad_lpenjualan.html', total_semuanya=total_semuanya, penjualan=list(penjualan))
+    return render_template('ad_lpenjualan.html', penjualan=list(penjualan))
 
 @app.route('/adlpenjualan/cetak')
 def cetakLaporanPenjualan():    
     mulai_str = request.args.get('start')
     akhir_str = request.args.get('end')
 
-    query = {}
+    query = {
+        'status': 'selesai'
+    }
 
     if mulai_str and akhir_str:
         mulai = datetime.strptime(mulai_str, '%Y-%m-%d')
         akhir = datetime.strptime(akhir_str, '%Y-%m-%d')
 
         query = {
-            'tanggal_pesanan': {
-                '$gte': mulai,
-                '$lt': akhir,
-            }
+            '$and': [
+                {
+                    'tanggal_pesanan': {
+                        '$gte': mulai,
+                        '$lt': akhir,
+                    }
+                },
+                {
+                    'status': 'selesai'
+                }
+            ]
         }
 
     penjualan = db.pesanan.find(query)
 
-    pesanan_selesai = db.pesanan.find({'status': 'selesai'})
-    total_semuanya = sum(pesanan['total_semuanya'] for pesanan in pesanan_selesai)
-
-
-    return render_template('cetak_laporan_penjualan.html', total_semuanya=total_semuanya, penjualan=list(penjualan))
+    return render_template('cetak_laporan_penjualan.html', penjualan=list(penjualan))
 
 @app.route('/adlproduk')
 def adlproduk():
