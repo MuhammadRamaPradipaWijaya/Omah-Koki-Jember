@@ -142,7 +142,7 @@
     <tfoot>
       <tr>
         <th colspan="5" class="text-end">Total Penjualan</th>
-        <td>Rp. {{ "{:,.0f}".format(total_semuanya).replace(",", ".") }}</td>
+        <td>Rp. {{ "{:,.0f}".format(penjualan | sum(attribute='total_semuanya')).replace(",", ".") }}</td>
         <td>
           {% set mulai = request.args.get('start') %}
           {% set akhir = request.args.get('end') %}

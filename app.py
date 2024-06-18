@@ -273,6 +273,13 @@ def adlproduk():
             "nama_produk": nama_produk,
             "stock": produk["stock"],
             "harga": produk["harga"],
+            "kondisi": produk["kondisi"],
+            "berat": produk["berat"],
+            "kategori": produk["kategori"],
+            "panjang": produk["panjang"],
+            "tinggi": produk["tinggi"],
+            "lebar": produk["lebar"],
+            "deskripsi": produk["deskripsi"],
             "jumlah_terjual": terjual["total_terjual"],
             "total_penjualan": terjual["total_terjual"] * produk['harga']
         })
