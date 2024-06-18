@@ -458,7 +458,20 @@ def produk():
         produk_list = list(db.adproduk.find({}).skip((page - 1) * per_page).limit(per_page))
 
     total_pages = (produk_count + per_page - 1) // per_page
-    return render_template('produk.html', produk=produk_list, total_pages=total_pages, current_page=page, filter_kategori=filter_kategori)
+
+    subtotal = 0
+    if 'logged_in' in session and session['logged_in']:
+        user_id = session['user_id']
+        items_keranjang = list(db.keranjang.find({'user_id': user_id}))
+        
+        for item in items_keranjang:
+            produk = db.adproduk.find_one({'_id': ObjectId(item['produk_id'])})
+            if produk:
+                item['stok'] = produk['stock']
+        
+        subtotal = sum(int(item['harga']) * int(item['jumlah']) for item in items_keranjang)
+
+    return render_template('produk.html', produk=produk_list, total_pages=total_pages, current_page=page, filter_kategori=filter_kategori, subtotal=subtotal)
 
 @app.route('/detailproduk/<produk_id>', methods=['GET'])
 def detail_produk(produk_id):
