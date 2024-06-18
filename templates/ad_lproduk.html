@@ -4,7 +4,7 @@
 <div class="bg-light rounded h-100 p-4">
   <h6 class="mb-4">Laporan Produk</h6>
 
-  <div class="row">
+  <!-- <div class="row">
     <div class="col-md-3">
       <div class="row">
         <label for="fromInput" class="col-form-label col-2">Dari</label>
@@ -24,7 +24,7 @@
     <div class="col-md-6">
       <button class="btn btn-primary rounded-pill">Filter</button>
     </div>
-  </div>
+  </div> -->
 
   <table class="table table-bordered">
     <thead>
@@ -45,8 +45,8 @@
         <td>{{ item.nama_produk }}</td>
         <td>Rp. {{ "{:,.0f}".format(item.harga).replace(",", ".") }}</td>
         <td>{{ item.stock }}</td>
-        <td>30</td>
-        <td>Rp. 60000</td>
+        <td>{{ item.jumlah_terjual }}</td>
+        <td>Rp. {{ "{:,.0f}".format(item.total_penjualan).replace(",", ".") }}</td>
         <td>
           <button
             class="btn btn-primary rounded-pill"
@@ -138,12 +138,12 @@
                         <tr>
                           <td>Jumlah Terjual</td>
                           <td>:</td>
-                          <td>5</td>
+                          <td>{{ item.jumlah_terjual }}</td>
                         </tr>
                         <tr>
                           <td>Total Penjualan</td>
                           <td>:</td>
-                          <td>Rp. 30000</td>
+                          <td>Rp. {{ "{:,.0f}".format(item.total_penjualan).replace(",", ".") }}</td>
                         </tr>
                       </table>
                     </div>
@@ -168,7 +168,7 @@
     <tfoot>
       <tr>
         <th colspan="5" class="text-end">Total Penjualan Produk</th>
-        <td>Rp. 999000000</td>
+        <td>Rp. {{ "{:,.0f}".format(produk | sum(attribute='total_penjualan')).replace(",", ".") }}</td>
         <td>
           <button
             class="btn btn-success rounded-pill"

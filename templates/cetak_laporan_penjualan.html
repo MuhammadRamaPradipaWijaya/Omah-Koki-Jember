@@ -31,7 +31,7 @@
           <td>{{ item.nomor_pesanan }}</td>
           <td>{{ item.tanggal_pesanan }}</td>
           <td>{{ item.nama }}</td>
-          <td>{{ 0 }}</td>
+          <td>{{ item.ringkasan_belanja | length }}</td>
           <td>Rp. {{ "{:,.0f}".format(item.total_semuanya).replace(",", ".") }}</td>
         </tr>
         {% endfor %}
@@ -39,7 +39,7 @@
       <tfoot>
         <tr>
           <th colspan="5" class="text-end">Total Penjualan</th>
-          <td>Rp. 999000000</td>
+          <td>Rp. {{ "{:,.0f}".format(penjualan | sum(attribute='total_semuanya')).replace(",", ".") }}</td>
         </tr>
       </tfoot>
     </table>

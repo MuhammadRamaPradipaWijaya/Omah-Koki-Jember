@@ -40,13 +40,14 @@
       </tr>
     </thead>
     <tbody>
+      {% set total = 110 %}
       {% for item in penjualan %}
         <tr>
           <td>{{ loop.index }}</td>
           <td>{{ item.nomor_pesanan }}</td>
           <td>{{ item.tanggal_pesanan }}</td>
           <td>{{ item.nama }}</td>
-          <td>{{ 0 }}</td>
+          <td>{{ item.ringkasan_belanja | length }}</td>
           <td>Rp. {{ "{:,.0f}".format(item.total_semuanya).replace(",", ".") }}</td>
           <td>
             <button class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#exampleModal{{ loop.index }}">Detail</button>
@@ -138,9 +139,15 @@
     <tfoot>
       <tr>
         <th colspan="5" class="text-end">Total Penjualan</th>
-        <td>Rp. 999000000</td>
+        <td>Rp. {{ "{:,.0f}".format(penjualan | sum(attribute='total_semuanya')).replace(",", ".") }}</td>
         <td>
-          <button class="btn btn-success rounded-pill" onclick="window.open('/adlpenjualan/cetak', '_blank')">Cetak</button>
+          {% set mulai = request.args.get('start') %}
+          {% set akhir = request.args.get('end') %}
+          {% if mulai and akhir %}
+            <button class="btn btn-success rounded-pill" onclick="window.open('/adlpenjualan/cetak?start={{mulai}}&end={{akhir}}', '_blank')">Cetak</button>
+          {% else %}
+            <button class="btn btn-success rounded-pill" onclick="window.open('/adlpenjualan/cetak', '_blank')">Cetak</button>
+          {% endif %}
         </td>
       </tr>
     </tfoot>
