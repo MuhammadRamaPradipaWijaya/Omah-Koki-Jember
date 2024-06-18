@@ -472,8 +472,17 @@ def hapus_kota(nama_kota):
 def adpengguna():
     filter_keyword = request.args.get('filter', '')
 
-    pembeli_list = list(db.pembeli.find({'nama': {"$regex": filter_keyword}}))
-    admin_list = list(db.admin.find({'nama': {"$regex": filter_keyword}}))
+    pembeli_list = list(db.pembeli.find({'$or': [
+        {'nama': {"$regex": filter_keyword}},
+        {'email': {"$regex": filter_keyword}},
+        {'telepon': {"$regex": filter_keyword}}
+        ]}))
+    
+    admin_list = list(db.admin.find({'$or': [
+        {'nama': {"$regex": filter_keyword}},
+        {'email': {"$regex": filter_keyword}},
+        {'telepon': {"$regex": filter_keyword}}
+        ]}))
 
     return render_template('ad_pengguna.html', pembeli_list=pembeli_list, admin_list=admin_list)
 
