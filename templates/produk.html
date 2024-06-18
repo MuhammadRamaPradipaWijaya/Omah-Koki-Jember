@@ -26,38 +26,42 @@
           <div class="card">
             <article class="filter-group">
               <div class="card-header-custom">
-                <a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="" style="color: black;">
+                <a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class=""
+                  style="color: black;">
                   <i class="icon-control fa fa-chevron-down"></i>
                   <h6 class="title">Kategori</h6>
                 </a>
               </div>
-                <div class="filter-content collapse show" id="collapse_1">
-                  <div class="card-body">
-                      <ul class="list-menu">
-                          <li><a href="{{ url_for('produk') }}" style="color: black;">Semua Produk</a></li>
-                          <li><a href="{{ url_for('produk', kategori='Ikan Hias') }}" style="color: black;">Ikan Hias</a></li>
-                          <li><a href="{{ url_for('produk', kategori='Obat Ikan') }}" style="color: black;">Obat Ikan</a></li>
-                          <li><a href="{{ url_for('produk', kategori='Pakan Ikan') }}" style="color: black;">Pakan Ikan</a></li>
-                          <li><a href="{{ url_for('produk', kategori='Aquarium') }}" style="color: black;">Aquarium</a></li>
-                          <li><a href="{{ url_for('produk', kategori='Aksesoris Aquarium') }}" style="color: black;">Aksesoris Aquarium</a></li>
-                          <li><a href="{{ url_for('produk', kategori='Alat-alat') }}" style="color: black;">Alat-alat</a></li>
-                      </ul>
-                  </div>
-              </div>            
+              <div class="filter-content collapse show" id="collapse_1">
+                <div class="card-body">
+                  <ul class="list-menu">
+                    <li><a href="{{ url_for('produk') }}" style="color: black;">Semua Produk</a></li>
+                    <li><a href="{{ url_for('produk', kategori='Ikan Hias') }}" style="color: black;">Ikan Hias</a></li>
+                    <li><a href="{{ url_for('produk', kategori='Obat Ikan') }}" style="color: black;">Obat Ikan</a></li>
+                    <li><a href="{{ url_for('produk', kategori='Pakan Ikan') }}" style="color: black;">Pakan Ikan</a>
+                    </li>
+                    <li><a href="{{ url_for('produk', kategori='Aquarium') }}" style="color: black;">Aquarium</a></li>
+                    <li><a href="{{ url_for('produk', kategori='Aksesoris Aquarium') }}" style="color: black;">Aksesoris
+                        Aquarium</a></li>
+                    <li><a href="{{ url_for('produk', kategori='Alat-alat') }}" style="color: black;">Alat-alat</a></li>
+                  </ul>
+                </div>
+              </div>
             </article>
           </div>
 
           {% if session.get('logged_in') %}
           <div class="card">
             <div class="card-header-custom">
-              <a href="#" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" class="" style="color: black;">
+              <a href="#" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" class=""
+                style="color: black;">
                 <i class="icon-control fa fa-chevron-down"></i>
                 <h6 class="title">Keranjang Belanja</h6>
               </a>
             </div>
             <div class="card-body collapse show" id="collapse_2">
               <div class="card-body">
-                <h6>Rp.15.000</h6><br>
+                <h6>Rp {{ "{:,.0f}".format(subtotal).replace(",", ".") }}</h6><br>
                 <a href="/keranjang">Lihat Detail</a>
               </div>
             </div>
@@ -95,11 +99,13 @@
         <div class="col-md-12">
           <ul class="pages">
             {% for num in range(1, total_pages + 1) %}
-              <li {% if num == current_page %}class="active"{% endif %}><a href="{{ url_for('produk', page=num, kategori=filter_kategori) }}">{{ num }}</a></li>
+            <li {% if num==current_page %}class="active" {% endif %}><a
+                href="{{ url_for('produk', page=num, kategori=filter_kategori) }}">{{ num }}</a></li>
             {% endfor %}
-            <li><a href="{{ url_for('produk', page=current_page + 1, kategori=filter_kategori) }}"><i class="fa fa-angle-double-right"></i></a></li>
+            <li><a href="{{ url_for('produk', page=current_page + 1, kategori=filter_kategori) }}"><i
+                  class="fa fa-angle-double-right"></i></a></li>
           </ul>
-        </div>        
+        </div>
       </div>
     </div>
   </div>
