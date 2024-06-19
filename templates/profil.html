@@ -2,59 +2,63 @@
 {% include 'navbar.html' %}
 
 <div class="container" style="padding-top: 150px;">
-    <div class="card">            
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-4"><br><br><br>
-                    {% if pembeli.image %}
-                        <img src="../static/assets/profil_pembeli/{{ pembeli.image }}" alt="Profil Pembeli" style="height: 200px; width: 200px; border-radius: 50%;" class="bg-secondary mt-3">
-                    {% else %}
-                        <img src="../static/assets/profil_pembeli/default_photo.jpg" alt="Default Photo" style="height: 200px; width: 200px; border-radius: 50%;" class="bg-secondary mt-3">
-                    {% endif %}
-                </div>                
-                <div class="col-md-8"><br>
-                    <h3 class="mb-4">PROFIL ANDA</h3>
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <div class="card">            
+                <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <h5>Nama</h5>
-                                <p>{{ pembeli.nama }}</p>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <h5>Tanggal Lahir</h5>
-                                <p>{{ pembeli.tglLahir if pembeli.tglLahir else '-' }}</p>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <h5>Jenis Kelamin</h5>
-                                <p>{{ pembeli.gender if pembeli.gender else '-' }}</p>
-                            </div>                            
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <h5>Email</h5>
-                                <p>{{ pembeli.email }}</p>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <h5>No. HP</h5>
-                                <p>{{ pembeli.telepon }}</p>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <h5>Kata Sandi</h5>
-                                <div class="password-field">
-                                    <span id="passwordText">********</span>
-                                    <i class="far fa-eye" style="margin-left: 5px; cursor: pointer;" onclick="togglePasswordVisibility(this)"></i>
+                        <div class="col-md-4"><br><br><br>
+                            {% if pembeli.image %}
+                                <img src="../static/assets/profil_pembeli/{{ pembeli.image }}" alt="Profil Pembeli" style="height: 200px; width: 200px; border-radius: 50%;" class="bg-secondary mt-3">
+                            {% else %}
+                                <img src="../static/assets/profil_pembeli/default_photo.jpg" alt="Default Photo" style="height: 200px; width: 200px; border-radius: 50%;" class="bg-secondary mt-3">
+                            {% endif %}
+                        </div>                
+                        <div class="col-md-8"><br>
+                            <h3 class="mb-4">PROFIL ANDA</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <h5>Nama</h5>
+                                        <p>{{ pembeli.nama }}</p>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <h5>Tanggal Lahir</h5>
+                                        <p>{{ pembeli.tglLahir if pembeli.tglLahir else '-' }}</p>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <h5>Jenis Kelamin</h5>
+                                        <p>{{ pembeli.gender if pembeli.gender else '-' }}</p>
+                                    </div>                            
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <h5>Email</h5>
+                                        <p>{{ pembeli.email }}</p>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <h5>No. HP</h5>
+                                        <p>{{ pembeli.telepon }}</p>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <h5>Kata Sandi</h5>
+                                        <div class="password-field">
+                                            <span id="passwordText">********</span>
+                                            <i class="far fa-eye" style="margin-left: 5px; cursor: pointer;" onclick="togglePasswordVisibility(this)"></i>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div class="edit-button">
-                        <button type="button" class="btn btn-danger m-2" data-bs-toggle="modal"
-                        data-bs-target="#profil">Edit Profil</button>
+                            <div class="edit-button">
+                                <button type="button" class="btn btn-danger m-2" data-bs-toggle="modal"
+                                data-bs-target="#profil">Edit Profil</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -122,7 +126,7 @@
 
         if (passwordField.type === "password") {
             passwordField.type = "text";
-            passwordText.textContent = "{{ password }}"; // Ganti dengan variabel yang berisi kata sandi
+            passwordText.textContent = "{{ password }}";
             icon.classList.remove('fa-eye');
             icon.classList.add('fa-eye-slash');
         } else {
