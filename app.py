@@ -40,20 +40,23 @@ def dashboard():
 
 @app.route('/adpesanan', methods=['GET', 'POST'])
 def adpesanan():
-    filter = request.args.get('filter')
-    
-    if filter:
-        list_pesanan = list(db.pesanan.find({'$or': [
-            {'nomor_pesanan': {'$regex': filter, '$options': 'i'}},
-            {'nama': {'$regex': filter, '$options': 'i'}},
-        ]}))
-    else:
-        list_pesanan = list(db.pesanan.find({}))
-    
-    status_order = {'pending': 1, 'proses': 2, 'dikirim': 3, 'selesai': 4, 'batal': 5}
-    list_pesanan.sort(key=lambda x: status_order.get(x.get('status'), 6))
+    if 'logged_in' in session and session['logged_in']:
+        filter = request.args.get('filter')
+        
+        if filter:
+            list_pesanan = list(db.pesanan.find({'$or': [
+                {'nomor_pesanan': {'$regex': filter, '$options': 'i'}},
+                {'nama': {'$regex': filter, '$options': 'i'}},
+            ]}))
+        else:
+            list_pesanan = list(db.pesanan.find({}))
+        
+        status_order = {'pending': 1, 'proses': 2, 'dikirim': 3, 'selesai': 4, 'batal': 5}
+        list_pesanan.sort(key=lambda x: status_order.get(x.get('status'), 6))
 
-    return render_template('ad_pesanan.html', list_pesanan=list_pesanan)
+        return render_template('ad_pesanan.html', list_pesanan=list_pesanan)
+    else:
+        return redirect(url_for('adlogin'))
 
 @app.route('/update_status/<_id>', methods=['POST'])
 def update_status(_id):
@@ -86,8 +89,11 @@ def order_confirmation():
 
 @app.route('/adproduk', methods=['GET', 'POST'])
 def adproduk():
-    produk = list(db.adproduk.find({}))
-    return render_template('ad_produk.html', produk=produk)
+    if 'logged_in' in session and session['logged_in']:
+        produk = list(db.adproduk.find({}))
+        return render_template('ad_produk.html', produk=produk)
+    else:
+        return redirect(url_for('adlogin'))
 
 @app.route('/addProduk', methods=['GET', 'POST'])
 def addProduk():
@@ -187,48 +193,55 @@ def deleteProduk(_id):
 
 @app.route('/adpelanggan')
 def adpelanggan():
-    filter = request.args.get('filter')
+    if 'logged_in' in session and session['logged_in']:
+        filter = request.args.get('filter')
 
-    if filter:
-        pelanggans = list(db.pembeli.find({'$or': [
-            {'nama': {'$regex': filter, '$options': 'i'}},
-            {'telepon': {'$regex': filter, '$options': 'i'}},
-            {'email': {'$regex': filter, '$options': 'i'}},
-        ]}))
+        if filter:
+            pelanggans = list(db.pembeli.find({'$or': [
+                {'nama': {'$regex': filter, '$options': 'i'}},
+                {'telepon': {'$regex': filter, '$options': 'i'}},
+                {'email': {'$regex': filter, '$options': 'i'}},
+            ]}))
+        else:
+            pelanggans = list(db.pembeli.find())
+        
+        return render_template('ad_pelanggan.html', pelanggans=pelanggans)
     else:
-        pelanggans = list(db.pembeli.find())
-    return render_template('ad_pelanggan.html', pelanggans=pelanggans)
+        return redirect(url_for('adlogin'))
 
 @app.route('/adlpenjualan')
 def adlpenjualan():
-    mulai_str = request.args.get('start')
-    akhir_str = request.args.get('end')
-    
-    query = {
-        'status': 'selesai'
-    }
-
-    if mulai_str and akhir_str:
-        mulai = datetime.strptime(mulai_str, '%Y-%m-%d')
-        akhir = datetime.strptime(akhir_str, '%Y-%m-%d')
+    if 'logged_in' in session and session['logged_in']:
+        mulai_str = request.args.get('start')
+        akhir_str = request.args.get('end')
 
         query = {
-            '$and': [
-                {
-                    'tanggal_pesanan': {
-                        '$gte': mulai,
-                        '$lt': akhir,
-                    }
-                },
-                {
-                    'status': 'selesai'
-                }
-            ]
+            'status': 'selesai'
         }
 
-    penjualan = db.pesanan.find(query)
+        if mulai_str and akhir_str:
+            mulai = datetime.strptime(mulai_str, '%Y-%m-%d')
+            akhir = datetime.strptime(akhir_str, '%Y-%m-%d')
 
-    return render_template('ad_lpenjualan.html', penjualan=list(penjualan))
+            query = {
+                '$and': [
+                    {
+                        'tanggal_pesanan': {
+                            '$gte': mulai,
+                            '$lt': akhir,
+                        }
+                    },
+                    {
+                        'status': 'selesai'
+                    }
+                ]
+            }
+
+        penjualan = db.pesanan.find(query)
+
+        return render_template('ad_lpenjualan.html', penjualan=list(penjualan))
+    else:
+        return redirect(url_for('adlogin'))
 
 @app.route('/adlpenjualan/cetak')
 def cetakLaporanPenjualan():    
@@ -263,56 +276,59 @@ def cetakLaporanPenjualan():
 
 @app.route('/adlproduk')
 def adlproduk():
-    mulai_str = request.args.get('start')
-    akhir_str = request.args.get('end')
+    if 'logged_in' in session and session['logged_in']:
+        mulai_str = request.args.get('start')
+        akhir_str = request.args.get('end')
 
-    match_query = {}
+        match_query = {}
 
-    if mulai_str and akhir_str:
-        mulai = datetime.strptime(mulai_str, '%Y-%m-%d')
-        akhir = datetime.strptime(akhir_str, '%Y-%m-%d')
+        if mulai_str and akhir_str:
+            mulai = datetime.strptime(mulai_str, '%Y-%m-%d')
+            akhir = datetime.strptime(akhir_str, '%Y-%m-%d')
 
-        match_query = {
-            'tanggal_pesanan': {
-                '$gte': mulai,
-                '$lt': akhir
+            match_query = {
+                'tanggal_pesanan': {
+                    '$gte': mulai,
+                    '$lt': akhir
+                }
             }
-        }
 
-    produk = db.adproduk
-    pesanan = db.pesanan
+        produk = db.adproduk
+        pesanan = db.pesanan
 
-    pipeline = [
-        {"$match": match_query},
-        {"$unwind": "$ringkasan_belanja"},
-        {"$group": {
-            "_id": "$ringkasan_belanja.nama_produk",
-            "total_terjual": {"$sum": "$ringkasan_belanja.jumlah"}
-        }}
-    ]
+        pipeline = [
+            {"$match": match_query},
+            {"$unwind": "$ringkasan_belanja"},
+            {"$group": {
+                "_id": "$ringkasan_belanja.nama_produk",
+                "total_terjual": {"$sum": "$ringkasan_belanja.jumlah"}
+            }}
+        ]
 
-    produk_terjual = list(pesanan.aggregate(pipeline))
+        produk_terjual = list(pesanan.aggregate(pipeline))
 
-    hasil = []
-    for produk in produk.find():
-        nama_produk = produk["nama_produk"]
-        terjual = next((item for item in produk_terjual if item["_id"] == nama_produk), {"_id": nama_produk, "total_terjual": 0})
-        hasil.append({
-            "nama_produk": nama_produk,
-            "stock": produk["stock"],
-            "harga": produk["harga"],
-            "kondisi": produk["kondisi"],
-            "berat": produk["berat"],
-            "kategori": produk["kategori"],
-            "panjang": produk["panjang"],
-            "tinggi": produk["tinggi"],
-            "lebar": produk["lebar"],
-            "deskripsi": produk["deskripsi"],
-            "jumlah_terjual": terjual["total_terjual"],
-            "total_penjualan": terjual["total_terjual"] * produk['harga']
-        })
+        hasil = []
+        for produk_doc in produk.find():
+            nama_produk = produk_doc["nama_produk"]
+            terjual = next((item for item in produk_terjual if item["_id"] == nama_produk), {"_id": nama_produk, "total_terjual": 0})
+            hasil.append({
+                "nama_produk": nama_produk,
+                "stock": produk_doc["stock"],
+                "harga": produk_doc["harga"],
+                "kondisi": produk_doc["kondisi"],
+                "berat": produk_doc["berat"],
+                "kategori": produk_doc["kategori"],
+                "panjang": produk_doc["panjang"],
+                "tinggi": produk_doc["tinggi"],
+                "lebar": produk_doc["lebar"],
+                "deskripsi": produk_doc["deskripsi"],
+                "jumlah_terjual": terjual["total_terjual"],
+                "total_penjualan": terjual["total_terjual"] * produk_doc['harga']
+            })
 
-    return render_template('ad_lproduk.html', produk=hasil)
+        return render_template('ad_lproduk.html', produk=hasil)
+    else:
+        return redirect(url_for('adlogin'))
 
 @app.route('/adlproduk/cetak')
 def cetakLaporanProduk():
@@ -362,16 +378,19 @@ def cetakLaporanProduk():
 
 @app.route('/adpembayaran')
 def adpembayaran():
-    filter = request.args.get('filter')
-    
-    if filter:
-        pembayaran = list(db.pembayaran.find({'$or': [
-            {'Nama_Bank': {'$regex': filter, '$options': 'i'}},
-            {'Pemilik_Rek': {'$regex': filter, '$options': 'i'}},
-        ]}))
+    if 'logged_in' in session and session['logged_in']:
+        filter = request.args.get('filter')
+        
+        if filter:
+            pembayaran = list(db.pembayaran.find({'$or': [
+                {'Nama_Bank': {'$regex': filter, '$options': 'i'}},
+                {'Pemilik_Rek': {'$regex': filter, '$options': 'i'}},
+            ]}))
+        else:
+            pembayaran = list(db.pembayaran.find({}))
+        return render_template('ad_pembayaran.html', pembayaran=pembayaran)
     else:
-        pembayaran = list(db.pembayaran.find({}))
-    return render_template('ad_pembayaran.html', pembayaran = pembayaran)
+        return redirect(url_for('adlogin'))
 
 @app.route('/addpembayaran', methods=['GET','POST'])
 def addpembayaran():
@@ -414,13 +433,15 @@ def deletePembayaran(_id):
 
 @app.route('/adpengiriman')
 def adpengiriman():
-    filter = request.args.get('filter')
-    if filter:
-        pengiriman = list(db.pengiriman.find({'jasa_kirim': {"$regex": filter, '$options': 'i'}}))    
-
+    if 'logged_in' in session and session['logged_in']:
+        filter = request.args.get('filter')
+        if filter:
+            pengiriman = list(db.pengiriman.find({'jasa_kirim': {"$regex": filter, '$options': 'i'}}))
+        else:
+            pengiriman = list(db.pengiriman.find({}))
+        return render_template('ad_pengiriman.html', pengiriman=pengiriman)
     else:
-        pengiriman = list(db.pengiriman.find({}))
-    return render_template('ad_pengiriman.html', pengiriman=pengiriman)
+        return redirect(url_for('adlogin'))
 
 @app.route('/tambah_pengiriman', methods=['POST'])
 def tambah_pengiriman():
@@ -537,21 +558,24 @@ def hapus_kota(nama_kota):
 
 @app.route('/adpengguna')
 def adpengguna():
-    filter_keyword = request.args.get('filter', '')
+    if 'logged_in' in session and session['logged_in']:
+        filter_keyword = request.args.get('filter', '')
 
-    pembeli_list = list(db.pembeli.find({'$or': [
-        {'nama': {"$regex": filter_keyword, '$options': 'i'}},
-        {'email': {"$regex": filter_keyword, '$options': 'i'}},
-        {'telepon': {"$regex": filter_keyword, '$options': 'i'}}
-        ]}))
-    
-    admin_list = list(db.admin.find({'$or': [
-        {'nama': {"$regex": filter_keyword, '$options': 'i'}},
-        {'email': {"$regex": filter_keyword, '$options': 'i'}},
-        {'telepon': {"$regex": filter_keyword, '$options': 'i'}}
+        pembeli_list = list(db.pembeli.find({'$or': [
+            {'nama': {"$regex": filter_keyword, '$options': 'i'}},
+            {'email': {"$regex": filter_keyword, '$options': 'i'}},
+            {'telepon': {"$regex": filter_keyword, '$options': 'i'}}
         ]}))
 
-    return render_template('ad_pengguna.html', pembeli_list=pembeli_list, admin_list=admin_list)
+        admin_list = list(db.admin.find({'$or': [
+            {'nama': {"$regex": filter_keyword, '$options': 'i'}},
+            {'email': {"$regex": filter_keyword, '$options': 'i'}},
+            {'telepon': {"$regex": filter_keyword, '$options': 'i'}}
+        ]}))
+
+        return render_template('ad_pengguna.html', pembeli_list=pembeli_list, admin_list=admin_list)
+    else:
+        return redirect(url_for('adlogin'))
 
 @app.route('/toggle-blokir/<id>', methods=['POST'])
 def blokir(id):
