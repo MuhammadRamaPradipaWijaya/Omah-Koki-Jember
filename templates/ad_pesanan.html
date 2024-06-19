@@ -38,7 +38,7 @@
                 <th scope="row">{{loop.index}}</th>
                 <td>{{pesanan.nomor_pesanan}}</td>
                 <td>{{pesanan.nama}}</td>
-                <td>{{pesanan.tanggal_pesanan}}</td>
+                <td>{{ pesanan.tanggal_pesanan.strftime('%Y-%m-%d') }}</td>
                 <td>
                   <div
                     id="status-{{ pesanan._id }}"
