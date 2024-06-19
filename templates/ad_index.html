@@ -117,7 +117,7 @@
               <div class="card-body">
                 <p class="card-title text-md-start text-center">{{ pesanan.nomor_pesanan }} - {{ pesanan.nama }}</p>
                 <p class="card-text text-md-start text-center">
-                  <small><i>{{ pesanan.tanggal_pesanan }}</i></small>
+                  <small><i>{{ pesanan.tanggal_pesanan.strftime('%Y-%m-%d') }}</i></small>
                 </p>
               </div>
             </div>
