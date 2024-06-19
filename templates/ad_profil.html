@@ -3,13 +3,12 @@
 {% include 'ad_sidebar.html' %}
 
 <div class="container-fluid pt-4 px-4">
-    <h6 class="mb-4">PROFIL</h6>
     <div class="container">
         <div class="card">
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
-                        <div class="text-center">
+                        <div class="text-center"><br><br><br>
                             {% if session['avatar'] %}
                             <img src="../static/ad_assets/profil_admin/{{ session['avatar'] }}" alt="Avatar Admin"
                                 style="height: 200px; width: 200px; border-radius: 50%;" class="bg-secondary mt-3" />
@@ -19,7 +18,7 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-8"><br>
                         <h3 class="mb-4">Profil Admin</h3>
 
                         <div class="row">
