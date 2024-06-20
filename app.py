@@ -34,7 +34,7 @@ def dashboard():
 
         pesanan_selesai = db.pesanan.find({'status': 'selesai'})
         total_semuanya = sum(pesanan['total_semuanya'] for pesanan in pesanan_selesai)
-        return render_template('ad_index.html', pesanan=pesanan, jumlah_produk=jumlah_produk, jumlah_pengguna=jumlah_pengguna, jumlah_pesanan_selesai=jumlah_pesanan_selesai, total_semuanya=total_semuanya)
+        return render_template('ad_index.html', active_page='dashboard', pesanan=pesanan, jumlah_produk=jumlah_produk, jumlah_pengguna=jumlah_pengguna, jumlah_pesanan_selesai=jumlah_pesanan_selesai, total_semuanya=total_semuanya)
     else:
         return redirect(url_for('adlogin'))
 
@@ -54,7 +54,7 @@ def adpesanan():
         status_order = {'pending': 1, 'proses': 2, 'dikirim': 3, 'selesai': 4, 'batal': 5}
         list_pesanan.sort(key=lambda x: status_order.get(x.get('status'), 6))
 
-        return render_template('ad_pesanan.html', list_pesanan=list_pesanan)
+        return render_template('ad_pesanan.html', active_page='pesanan', list_pesanan=list_pesanan)
     else:
         return redirect(url_for('adlogin'))
 
@@ -91,7 +91,7 @@ def order_confirmation():
 def adproduk():
     if 'logged_in' in session and session['logged_in']:
         produk = list(db.adproduk.find({}))
-        return render_template('ad_produk.html', produk=produk)
+        return render_template('ad_produk.html', active_page='produk', produk=produk)
     else:
         return redirect(url_for('adlogin'))
 
@@ -205,7 +205,7 @@ def adpelanggan():
         else:
             pelanggans = list(db.pembeli.find())
         
-        return render_template('ad_pelanggan.html', pelanggans=pelanggans)
+        return render_template('ad_pelanggan.html', active_page='pelanggan', pelanggans=pelanggans)
     else:
         return redirect(url_for('adlogin'))
 
@@ -239,7 +239,7 @@ def adlpenjualan():
 
         penjualan = db.pesanan.find(query)
 
-        return render_template('ad_lpenjualan.html', penjualan=list(penjualan))
+        return render_template('ad_lpenjualan.html', active_page='lpenjualan', penjualan=list(penjualan))
     else:
         return redirect(url_for('adlogin'))
 
@@ -327,7 +327,7 @@ def adlproduk():
                     "total_penjualan": terjual["total_terjual"] * produk_doc['harga']
                 })
 
-        return render_template('ad_lproduk.html', produk=hasil)
+        return render_template('ad_lproduk.html', active_page='lproduk', produk=hasil)
     else:
         return redirect(url_for('adlogin'))
 
@@ -389,7 +389,7 @@ def adpembayaran():
             ]}))
         else:
             pembayaran = list(db.pembayaran.find({}))
-        return render_template('ad_pembayaran.html', pembayaran=pembayaran)
+        return render_template('ad_pembayaran.html', active_page='pembayaran', pembayaran=pembayaran)
     else:
         return redirect(url_for('adlogin'))
 
@@ -440,7 +440,7 @@ def adpengiriman():
             pengiriman = list(db.pengiriman.find({'jasa_kirim': {"$regex": filter, '$options': 'i'}}))
         else:
             pengiriman = list(db.pengiriman.find({}))
-        return render_template('ad_pengiriman.html', pengiriman=pengiriman)
+        return render_template('ad_pengiriman.html', active_page='pengiriman', pengiriman=pengiriman)
     else:
         return redirect(url_for('adlogin'))
 
@@ -574,7 +574,7 @@ def adpengguna():
             {'telepon': {"$regex": filter_keyword, '$options': 'i'}}
         ]}))
 
-        return render_template('ad_pengguna.html', pembeli_list=pembeli_list, admin_list=admin_list)
+        return render_template('ad_pengguna.html', pembeli_list=pembeli_list, active_page='pengguna', admin_list=admin_list)
     else:
         return redirect(url_for('adlogin'))
 
@@ -644,7 +644,7 @@ def adprofil():
         else:
             admin = db.admin.find_one({'_id': ObjectId(session['user_id'])})
             password_decoded = jwt.decode(admin['password'], SECRET_KEY, algorithms=['HS256'])['password']
-            return render_template('ad_profil.html', admin=admin, password=password_decoded)
+            return render_template('ad_profil.html', active_page='profil', admin=admin, password=password_decoded)
     else:
         return redirect(url_for('adlogin'))
 # BAGIAN ADMIN #

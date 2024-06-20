@@ -24,28 +24,40 @@
       </div>
     </div>
     <div class="navbar-nav w-100">
-      <a href="/dashboard" class="nav-item nav-link"><i class="fa fa-tachometer me-2"></i>Dashboard</a>
-      <a href="/adpesanan" class="nav-item nav-link"><i class="fa fa-list-alt me-2"></i>Pesanan</a>
-      <a href="/adproduk" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Produk</a>
-      <a href="adpelanggan" class="nav-item nav-link"><i class="fa fa-users me-2"></i>Pelanggan</a>
+      <a href="/dashboard" class="nav-item nav-link {% if active_page == 'dashboard' %}active{% endif %}">
+        <i class="fa fa-tachometer me-2"></i>Dashboard
+      </a>
+      <a href="/adpesanan" class="nav-item nav-link {% if active_page == 'pesanan' %}active{% endif %}">
+        <i class="fa fa-list-alt me-2"></i>Pesanan
+      </a>
+      <a href="/adproduk" class="nav-item nav-link {% if active_page == 'produk' %}active{% endif %}">
+        <i class="fa fa-th me-2"></i>Produk
+      </a>
+      <a href="/adpelanggan" class="nav-item nav-link {% if active_page == 'pelanggan' %}active{% endif %}">
+        <i class="fa fa-users me-2"></i>Pelanggan
+      </a>
       <div class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
-            class="fa fa-file-alt me-2"></i>Laporan</a>
+        <a href="#" class="nav-link dropdown-toggle {% if active_page in ['lpenjualan', 'lproduk'] %}active{% endif %}" data-bs-toggle="dropdown">
+          <i class="fa fa-file-alt me-2"></i>Laporan
+        </a>
         <div class="dropdown-menu bg-transparent border-0">
-          <a href="/adlpenjualan" class="dropdown-item">Laporan Penjualan</a>
-          <a href="/adlproduk" class="dropdown-item">Laporan Produk</a>
+          <a href="/adlpenjualan" class="dropdown-item {% if active_page == 'lpenjualan' %}active{% endif %}">Laporan Penjualan</a>
+          <a href="/adlproduk" class="dropdown-item {% if active_page == 'lproduk' %}active{% endif %}">Laporan Produk</a>
         </div>
       </div>
       <div class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
-            class="fa fa-cog me-2"></i>Pengaturan</a>
+        <a href="#" class="nav-link dropdown-toggle {% if active_page in ['pembayaran', 'pengiriman', 'pengguna'] %}active{% endif %}" data-bs-toggle="dropdown">
+          <i class="fa fa-cog me-2"></i>Pengaturan
+        </a>
         <div class="dropdown-menu bg-transparent border-0">
-          <a href="/adpembayaran" class="dropdown-item">Pengaturan Pembayaran</a>
-          <a href="/adpengiriman" class="dropdown-item">Pengaturan Pengiriman</a>
-          <a href="/adpengguna" class="dropdown-item">Pengaturan Pengguna</a>
+          <a href="/adpembayaran" class="dropdown-item {% if active_page == 'pembayaran' %}active{% endif %}">Pengaturan Pembayaran</a>
+          <a href="/adpengiriman" class="dropdown-item {% if active_page == 'pengiriman' %}active{% endif %}">Pengaturan Pengiriman</a>
+          <a href="/adpengguna" class="dropdown-item {% if active_page == 'pengguna' %}active{% endif %}">Pengaturan Pengguna</a>
         </div>
       </div>
-      <a href="/adprofil" class="nav-item nav-link"><i class="fa fa-user me-2"></i>Profil</a>
+      <a href="/adprofil" class="nav-item nav-link {% if active_page == 'profil' %}active{% endif %}">
+        <i class="fa fa-user me-2"></i>Profil
+      </a>
     </div>
   </nav>
 </div>
