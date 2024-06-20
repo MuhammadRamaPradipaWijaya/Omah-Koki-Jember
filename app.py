@@ -311,20 +311,21 @@ def adlproduk():
         for produk_doc in produk.find():
             nama_produk = produk_doc["nama_produk"]
             terjual = next((item for item in produk_terjual if item["_id"] == nama_produk), {"_id": nama_produk, "total_terjual": 0})
-            hasil.append({
-                "nama_produk": nama_produk,
-                "stock": produk_doc["stock"],
-                "harga": produk_doc["harga"],
-                "kondisi": produk_doc["kondisi"],
-                "berat": produk_doc["berat"],
-                "kategori": produk_doc["kategori"],
-                "panjang": produk_doc["panjang"],
-                "tinggi": produk_doc["tinggi"],
-                "lebar": produk_doc["lebar"],
-                "deskripsi": produk_doc["deskripsi"],
-                "jumlah_terjual": terjual["total_terjual"],
-                "total_penjualan": terjual["total_terjual"] * produk_doc['harga']
-            })
+            if terjual["total_terjual"] > 0:
+                hasil.append({
+                    "nama_produk": nama_produk,
+                    "stock": produk_doc["stock"],
+                    "harga": produk_doc["harga"],
+                    "kondisi": produk_doc["kondisi"],
+                    "berat": produk_doc["berat"],
+                    "kategori": produk_doc["kategori"],
+                    "panjang": produk_doc["panjang"],
+                    "tinggi": produk_doc["tinggi"],
+                    "lebar": produk_doc["lebar"],
+                    "deskripsi": produk_doc["deskripsi"],
+                    "jumlah_terjual": terjual["total_terjual"],
+                    "total_penjualan": terjual["total_terjual"] * produk_doc['harga']
+                })
 
         return render_template('ad_lproduk.html', produk=hasil)
     else:
