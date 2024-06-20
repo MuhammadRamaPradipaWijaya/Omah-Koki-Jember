@@ -693,7 +693,7 @@ def produk():
 @app.route('/detailproduk/<produk_id>', methods=['GET'])
 def detail_produk(produk_id):
     produk = db.adproduk.find_one({'_id': ObjectId(produk_id)})
-    return render_template('detail_produk.html', produk=produk)
+    return render_template('detail_produk.html', active_page='produk', produk=produk)
 
 @app.route('/tambah_ke_keranjang', methods=['POST'])
 def tambah_ke_keranjang():
