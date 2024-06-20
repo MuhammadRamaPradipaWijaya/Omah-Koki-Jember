@@ -81,6 +81,8 @@ def adpesanan():
     else:
         return redirect(url_for('adlogin'))
 
+
+
 @app.route('/update_status/<_id>', methods=['POST'])
 def update_status(_id):
     data = request.get_json()

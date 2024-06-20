@@ -7,14 +7,8 @@
     <div class="col-sm-3">
       <form class="d-flex">
         <div class="input-group">
-          <input
-            class="form-control form-control-sm"
-            type="search"
-            name="filter"
-            value=""
-            placeholder="Cari"
-            aria-label="Search"
-          />
+          <input class="form-control form-control-sm" type="search" name="filter" value="" placeholder="Cari"
+            aria-label="Search" />
         </div>
       </form>
     </div>
@@ -40,36 +34,30 @@
                 <td>{{pesanan.nama}}</td>
                 <td>{{ pesanan.tanggal_pesanan.strftime('%Y-%m-%d') }}</td>
                 <td>
-                  <div
-                    id="status-{{ pesanan._id }}"
-                    class="alert {% if pesanan.status == 'pending' %}alert-warning{% elif pesanan.status == 'proses' %}alert-info{% elif pesanan.status == 'dikirim' %}alert-primary{% elif pesanan.status == 'selesai' %}alert-success{% elif pesanan.status == 'batal' %}alert-danger{% endif %} py-1"
-                  >
+                  <div id="status-{{ pesanan._id }}"
+                    class="alert {% if pesanan.status == 'pending' %}alert-warning{% elif pesanan.status == 'proses' %}alert-info{% elif pesanan.status == 'dikirim' %}alert-primary{% elif pesanan.status == 'selesai' %}alert-success{% elif pesanan.status == 'batal' %}alert-danger{% endif %} py-1">
                     {{ pesanan.status }}
                   </div>
                 </td>
                 <td class="text-center">
                   {% if pesanan.status != "dikirim" and pesanan.status !=
                   "selesai" and pesanan.status != "batal" %}
-                  <button
-                    class="btn btn-sm btn-danger rounded-pill batal-button"
-                    data-id="{{pesanan._id}}"
-                  >
+                  <button class="btn btn-sm btn-danger rounded-pill batal-button" data-id="{{pesanan._id}}">
                     Batal
                   </button>
                   {% endif %}
-                  <button
-                    class="btn btn-sm btn-primary rounded-pill"
-                    data-bs-toggle="modal"
-                    data-bs-target="#Detail{{pesanan._id}}"
-                  >
+                  <button class="btn btn-sm btn-primary rounded-pill" data-bs-toggle="modal"
+                    data-bs-target="#Detail{{ pesanan._id }}" {% if pesanan.bukti_transfer and pesanan.status=="pending"
+                    %} title="Pelanggan telah mengirim bukti transfer" {% endif %}>
                     Detail
+                    {% if pesanan.bukti_transfer and pesanan.status == "pending" %}
+                    <span
+                      style="position: relative; top: -8px; left: 5px; display: inline-block; width: 6px; height: 6px; background-color: red; border-radius: 50%;"></span>
+                    {% endif %}
                   </button>
                   {% if pesanan.status != "selesai" and pesanan.status !=
                   "batal" %}
-                  <button
-                    class="btn btn-sm btn-success rounded-pill status-button"
-                    data-id="{{pesanan._id}}"
-                  >
+                  <button class="btn btn-sm btn-success rounded-pill status-button" data-id="{{pesanan._id}}">
                     {% if pesanan.status == "pending" %} Lunas {% elif
                     pesanan.status == "proses" %} Kirim {% elif pesanan.status
                     == "dikirim" %} Selesai {% endif %}
@@ -89,25 +77,15 @@
 <!-- Modal -->
 {% for pesanan in list_pesanan %}
 
-<div
-  class="modal fade"
-  id="Detail{{pesanan._id}}"
-  tabindex="-1"
-  aria-labelledby="exampleModalLabel{{pesanan._id}}"
-  aria-hidden="true"
->
+<div class="modal fade" id="Detail{{pesanan._id}}" tabindex="-1" aria-labelledby="exampleModalLabel{{pesanan._id}}"
+  aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="exampleModalLabel{{pesanan._id}}">
           Detail Pesanan
         </h1>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="row">
@@ -182,24 +160,15 @@
           </div>
           <div class="col-lg-4">
             <h5>Status Pesanan</h5>
-            <div
-              class="alert alert-warning py-2"
-              id="modal-status-{{pesanan._id}}"
-            >
+            <div class="alert alert-warning py-2" id="modal-status-{{pesanan._id}}">
               {{ pesanan.status }}
             </div>
             <hr />
             <h5>Bukti Transfer</h5>
-            <a
-              href="{{ url_for('static', filename='assets/bukti_transfer/' ~ pesanan.bukti_transfer) }}"
-              data-lightbox="gambar"
-              data-title="Gambar Status Pesanan"
-            >
-              <img
-                src="{{ url_for('static', filename='assets/bukti_transfer/' ~ pesanan.bukti_transfer) }}"
-                alt="Gambar Status Pesanan"
-                style="max-width: 50%; height: auto; display: block"
-              />
+            <a href="{{ url_for('static', filename='assets/bukti_transfer/' ~ pesanan.bukti_transfer) }}"
+              data-lightbox="gambar" data-title="Gambar Status Pesanan">
+              <img src="{{ url_for('static', filename='assets/bukti_transfer/' ~ pesanan.bukti_transfer) }}"
+                alt="Gambar Status Pesanan" style="max-width: 50%; height: auto; display: block" />
             </a>
             <hr />
             <p>
@@ -306,6 +275,9 @@
                   statusButton.textContent = "Kirim";
                 }
               }
+
+              // Reload the page after status update
+              location.reload();
             }
           });
       });
@@ -344,6 +316,9 @@
               }
 
               this.style.display = "none";
+
+              // Reload the page after status update
+              location.reload();
             }
           });
       });
