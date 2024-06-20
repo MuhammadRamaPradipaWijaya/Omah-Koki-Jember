@@ -54,54 +54,21 @@
           <h6 class="mb-0">TOP PRODUK</h6>
         </div>
         <div style="max-height: 350px; overflow-y: auto;">
+          {% for item in top_produk %}
         <div class="card mb-3 bg-dark text-white rounded-card">
           <div class="row g-0">
             <div class="col-md-4 d-flex align-items-center justify-content-center">
-              <img src="../static/ad_assets/img/testimonial-2.jpg" class="img-fluid rounded-start" alt="..." />
+              <img src="{{ url_for('static', filename='ad_assets/imgproduk/' ~ item.gambar) }}" style="width: 100%; height: 100px; object-fit: cover; border-radius: 10px;" class="img-fluid rounded-start" alt="..." />
             </div>
             <div class="col-md-8">
               <div class="card-body text-start">
-                <p class="card-title text-md-start text-center">Lorem Ipsum</p>
-                <p class="card-text text-md-start text-center">Terjual : 50</p>
-                <p class="card-text text-md-start text-center">
-                  <small><i>Last updated 3 mins ago</i></small>
-                </p>
+                <p class="card-title text-md-start text-center">{{item.nama_produk}} </p>
+                <p class="card-text text-md-start text-center">Terjual : {{item.jumlah_terjual}}</p>
               </div>
             </div>
           </div>
         </div>
-        <div class="card mb-3 bg-dark text-white rounded-card">
-          <div class="row g-0">
-            <div class="col-md-4 d-flex align-items-center justify-content-center">
-              <img src="../static/ad_assets/img/testimonial-2.jpg" class="img-fluid rounded-start" alt="..." />
-            </div>
-            <div class="col-md-8">
-              <div class="card-body text-start">
-                <p class="card-title text-md-start text-center">Lorem Ipsum</p>
-                <p class="card-text text-md-start text-center">Terjual : 50</p>
-                <p class="card-text text-md-start text-center">
-                  <small><i>Last updated 3 mins ago</i></small>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card mb-3 bg-dark text-white rounded-card">
-          <div class="row g-0">
-            <div class="col-md-4 d-flex align-items-center justify-content-center">
-              <img src="../static/ad_assets/img/testimonial-2.jpg" class="img-fluid rounded-start" alt="..." />
-            </div>
-            <div class="col-md-8">
-              <div class="card-body text-start">
-                <p class="card-title text-md-start text-center">Lorem Ipsum</p>
-                <p class="card-text text-md-start text-center">Terjual : 50</p>
-                <p class="card-text text-md-start text-center">
-                  <small><i>Last updated 3 mins ago</i></small>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+        {% endfor %}
       </div>
       </div>
     </div>
