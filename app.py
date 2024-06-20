@@ -24,6 +24,14 @@ SECRET_KEY = 'OKJ'
 app.secret_key = SECRET_KEY
 
 # BAGIAN ADMIN #
+@app.before_request
+def before_request():
+    if 'logged_in' in session and session['logged_in']:
+        pending_bukti_transfer = db.pesanan.count_documents({'status': 'pending', 'bukti_transfer': {'$exists': True}})
+        session['pending_bukti_transfer'] = pending_bukti_transfer
+    else:
+        session['pending_bukti_transfer'] = 0
+
 @app.route('/dashboard')
 def dashboard():
     if 'logged_in' in session and session['logged_in']:
