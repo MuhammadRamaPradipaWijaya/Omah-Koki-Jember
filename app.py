@@ -57,7 +57,7 @@ def dashboard():
                     "gambar": produk_doc["gambar"]
                 })
 
-        return render_template('ad_index.html', pesanan=pesanan, jumlah_produk=jumlah_produk, jumlah_pengguna=jumlah_pengguna, jumlah_pesanan_selesai=jumlah_pesanan_selesai, total_semuanya=total_semuanya, top_produk=top_produk)
+        return render_template('ad_index.html', active_page='dashboard', pesanan=pesanan, jumlah_produk=jumlah_produk, jumlah_pengguna=jumlah_pengguna, jumlah_pesanan_selesai=jumlah_pesanan_selesai, total_semuanya=total_semuanya, top_produk=top_produk)
     else:
         return redirect(url_for('adlogin'))
 
