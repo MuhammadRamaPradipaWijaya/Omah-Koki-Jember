@@ -29,7 +29,7 @@
         </tr>
       </thead>
       <tbody>
-        {% for item in produk %}
+        {% for item in produk if item.total_penjualan > 0 %}
         <tr>
           <td>{{ loop.index }}</td>
           <td>{{ item.nama_produk }}</td>
