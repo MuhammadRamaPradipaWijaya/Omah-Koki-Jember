@@ -13,13 +13,19 @@
             </div>
 
             <div class="col-md-5">
-                <div class="product-details"><br>
+                <div class="product-details">
+                    <br>
                     <div>
                         <hr style="width: 70%;">
-                        <h6 style="margin-bottom: 15px; font-size: 20px; color: #1a6692;">{{ produk.nama_produk }}</h6>
-                        <h6 style="margin-bottom: 15px;">Rp {{ "{:,.0f}".format(produk.harga).replace(",", ".") }}</h6>
-                        <h6 style="margin-bottom: 15px;">Stok: {{ produk.stock }}</h6>
-                    </div><br>
+                        <div class="card" style="width: 70%; background-color: #f8f9fa;">
+                            <div class="card-body">
+                                <h6 style="margin-bottom: 15px; font-size: 20px; color: #1a6692;">{{ produk.nama_produk }}</h6>
+                                <h6 style="margin-bottom: 15px;">Rp {{ "{:,.0f}".format(produk.harga).replace(",", ".") }}</h6>
+                                <h6 style="margin-bottom: 15px;">Stok: {{ produk.stock }}</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
                     <form action="{{ url_for('tambah_ke_keranjang') }}" method="POST" onsubmit="return validateForm()">
                         <div class="form-group mb-2" style="display: flex; align-items: center;">
                             <div style="flex-grow: 1; display: flex; align-items: center;">
@@ -36,7 +42,7 @@
                         <button type="submit" class="btn btn-danger mt-3">Tambah Ke Keranjang</button>
                     </form>
                 </div>
-            </div>
+            </div>            
         </div>
 
         <div class="row">
