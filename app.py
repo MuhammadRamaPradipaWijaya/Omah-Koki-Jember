@@ -34,7 +34,30 @@ def dashboard():
 
         pesanan_selesai = db.pesanan.find({'status': 'selesai'})
         total_semuanya = sum(pesanan['total_semuanya'] for pesanan in pesanan_selesai)
-        return render_template('ad_index.html', active_page='dashboard', pesanan=pesanan, jumlah_produk=jumlah_produk, jumlah_pengguna=jumlah_pengguna, jumlah_pesanan_selesai=jumlah_pesanan_selesai, total_semuanya=total_semuanya)
+
+        pipeline = [
+            {"$unwind": "$ringkasan_belanja"},
+            {"$group": {
+                "_id": "$ringkasan_belanja.nama_produk",
+                "total_terjual": {"$sum": "$ringkasan_belanja.jumlah"}
+            }},
+            {"$sort": {"total_terjual": -1}},
+            {"$limit": 3}
+        ]
+
+        top_produk_terjual = list(db.pesanan.aggregate(pipeline))
+
+        top_produk = []
+        for terjual in top_produk_terjual:
+            produk_doc = db.adproduk.find_one({"nama_produk": terjual["_id"]})
+            if produk_doc:
+                top_produk.append({
+                    "nama_produk": produk_doc["nama_produk"],
+                    "jumlah_terjual": terjual["total_terjual"],
+                    "gambar": produk_doc["gambar"]
+                })
+
+        return render_template('ad_index.html', pesanan=pesanan, jumlah_produk=jumlah_produk, jumlah_pengguna=jumlah_pengguna, jumlah_pesanan_selesai=jumlah_pesanan_selesai, total_semuanya=total_semuanya, top_produk=top_produk)
     else:
         return redirect(url_for('adlogin'))
 
