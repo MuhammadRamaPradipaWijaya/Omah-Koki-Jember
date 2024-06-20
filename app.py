@@ -655,7 +655,7 @@ def adprofil():
 @app.route('/')
 def home():
     produk_terbaru = list(db.adproduk.find().sort('_id', -1).limit(3))
-    return render_template('index.html', produk_terbaru=produk_terbaru)
+    return render_template('index.html', active_page='home', produk_terbaru=produk_terbaru)
 
 @app.route('/produk', methods=['GET'])
 def produk():
@@ -688,7 +688,7 @@ def produk():
         
         subtotal = sum(int(item['harga']) * int(item['jumlah']) for item in items_keranjang)
 
-    return render_template('produk.html', produk=produk_list, total_pages=total_pages, current_page=page, filter_kategori=filter_kategori, subtotal=subtotal)
+    return render_template('produk.html', active_page='produk', produk=produk_list, total_pages=total_pages, current_page=page, filter_kategori=filter_kategori, subtotal=subtotal)
 
 @app.route('/detailproduk/<produk_id>', methods=['GET'])
 def detail_produk(produk_id):
@@ -753,7 +753,7 @@ def update_keranjang():
 
 @app.route('/tentang')
 def tentang():
-    return render_template('tentang.html')
+    return render_template('tentang.html', active_page='tentang')
 
 @app.route('/kontak', methods=['GET', 'POST'])
 def kontak():
@@ -770,7 +770,7 @@ def kontak():
             return redirect(url_for('kontak'))
         else:
             return redirect(url_for('login'))
-    return render_template('kontak.html')
+    return render_template('kontak.html', active_page='kontak')
 
 @app.context_processor
 def inject_has_items_and_orders():
