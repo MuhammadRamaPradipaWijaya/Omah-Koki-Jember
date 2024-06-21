@@ -44,6 +44,7 @@ def dashboard():
         total_semuanya = sum(pesanan['total_semuanya'] for pesanan in pesanan_selesai)
 
         pipeline = [
+            {"$match": {"status": "selesai"}},
             {"$unwind": "$ringkasan_belanja"},
             {"$group": {
                 "_id": "$ringkasan_belanja.nama_produk",
