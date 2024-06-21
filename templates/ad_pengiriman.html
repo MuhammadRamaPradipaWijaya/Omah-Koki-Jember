@@ -6,19 +6,13 @@
     <h6 class="mb-4">PENGATURAN PENGIRIMAN</h6>
     <div class="col-sm-3">
         <form class="d-flex">
-          <div class="input-group">
-            <input
-              class="form-control form-control-sm"
-              type="search"
-              name="filter"
-              value=""
-              placeholder="Cari"
-              aria-label="Search"
-            />
-          </div>
+            <div class="input-group">
+                <input class="form-control form-control-sm" type="search" name="filter" value="" placeholder="Cari"
+                    aria-label="Search" />
+            </div>
         </form>
-      </div>
-      <br>
+    </div>
+    <br>
     <div class="row g-4">
         <div class="col-sm-12 col-xl-7">
             <div class="bg-light rounded h-100 p-4">
@@ -136,13 +130,13 @@
                             <tr>
                                 <th scope="row">{{ loop.index }}</th>
                                 <td>{{ item.jasa_kirim }}</td>
-                                <td>{{ item.zona['dalam kota'].tarif }}</td>
+                                <td>{{ "{:,.0f}".format(item.zona['dalam kota'].tarif) }}</td>
                                 <td>{{ item.zona['dalam kota'].estimasi }}</td>
-                                <td>{{ item.zona['luar kota'].tarif }}</td>
+                                <td>{{ "{:,.0f}".format(item.zona['luar kota'].tarif) }}</td>
                                 <td>{{ item.zona['luar kota'].estimasi }}</td>
-                                <td>{{ item.zona['luar provinsi'].tarif }}</td>
+                                <td>{{ "{:,.0f}".format(item.zona['luar provinsi'].tarif) }}</td>
                                 <td>{{ item.zona['luar provinsi'].estimasi }}</td>
-                                <td>{{ item.zona['luar pulau'].tarif }}</td>
+                                <td>{{ "{:,.0f}".format(item.zona['luar pulau'].tarif) }}</td>
                                 <td>{{ item.zona['luar pulau'].estimasi }}</td>
                                 <td>
                                     {% for zona, detail_zona in item.zona.items() %}
@@ -242,40 +236,45 @@
                     </div>
                 </form>
                 <!-- Tabel Kota/Kabupaten -->
-                <table class="table table-bordered mt-4">
-                    <thead class="bg-danger text-light">
-                        <tr>
-                            <th scope="col">No</th>
-                            <th scope="col">Zona Tarif</th>
-                            <th scope="col">Nama Kota/Kab</th>
-                            <th scope="col" class="text-center">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in pengiriman %}
-                        {% for zona, detail_zona in item.zona.items() %}
-                        {% for kota_kabupaten in detail_zona['kota-kabupaten'] %}
-                        <tr>
-                            <th scope="row">{{ loop.index }}</th>
-                            <td>{{ zona }}</td>
-                            <td>{{ kota_kabupaten }}</td>
-                            <td class="text-center">
-                                <div class="d-inline-block">
-                                    <form action="/hapus_kota/{{ kota_kabupaten }}" method="POST" style="display:inline;">
-                                        <button type="submit" class="btn btn-square btn-dark m-2"><i class="fa fa-trash-o" title="Delete"></i></button>
-                                    </form>
-                                    <button type="button" class="btn btn-square btn-danger m-2" data-bs-toggle="modal"
-                                        data-bs-target="#editModal{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}">
-                                        <i class="fa fa-edit" title="Edit"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                        {% endfor %}
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <div style="overflow-x: auto; max-height: 350px;">
+                    <table class="table table-bordered mt-4">
+                        <thead class="bg-danger text-light">
+                            <tr>
+                                <th scope="col">No</th>
+                                <th scope="col">Zona Tarif</th>
+                                <th scope="col">Nama Kota/Kab</th>
+                                <th scope="col" class="text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in pengiriman %}
+                            {% for zona, detail_zona in item.zona.items() %}
+                            {% for kota_kabupaten in detail_zona['kota-kabupaten'] %}
+                            <tr>
+                                <th scope="row">{{ loop.index }}</th>
+                                <td>{{ zona }}</td>
+                                <td>{{ kota_kabupaten }}</td>
+                                <td class="text-center">
+                                    <div class="d-inline-block">
+                                        <form action="/hapus_kota/{{ kota_kabupaten }}" method="POST"
+                                            style="display:inline;">
+                                            <button type="submit" class="btn btn-square btn-dark m-2"><i
+                                                    class="fa fa-trash-o" title="Delete"></i></button>
+                                        </form>
+                                        <button type="button" class="btn btn-square btn-danger m-2"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#editModal{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}">
+                                            <i class="fa fa-edit" title="Edit"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary rounded-pill m-2" data-bs-dismiss="modal">Tutup</button>
@@ -292,7 +291,8 @@
 {% for zona, detail_zona in item.zona.items() %}
 {% for kota_kabupaten in detail_zona['kota-kabupaten'] %}
 <!-- Modal Edit Kota/Kab -->
-<div class="modal fade" id="editModal{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}" tabindex="-1"
+<div class="modal fade"
+    id="editModal{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -301,17 +301,23 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="editForm{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}" action="/edit_kota/{{ kota_kabupaten }}" method="POST">
+                <form id="editForm{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}"
+                    action="/edit_kota/{{ kota_kabupaten }}" method="POST">
                     <div class="mb-3">
-                        <label for="nama_kota_{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}" class="form-label">Nama Kota/Kab</label>
-                        <input type="text" class="form-control" id="nama_kota_{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}" name="nama_baru"
-                            value="{{ kota_kabupaten }}">
+                        <label
+                            for="nama_kota_{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}"
+                            class="form-label">Nama Kota/Kab</label>
+                        <input type="text" class="form-control"
+                            id="nama_kota_{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}"
+                            name="nama_baru" value="{{ kota_kabupaten }}">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                <button type="submit" form="editForm{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}" class="btn btn-primary">Simpan</button>
+                <button type="submit"
+                    form="editForm{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}"
+                    class="btn btn-primary">Simpan</button>
             </div>
         </div>
     </div>
