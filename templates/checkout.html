@@ -81,8 +81,8 @@
                           src="{{ url_for('static', filename='ad_assets/imgproduk/' ~ item.gambar) }}" alt="Product"
                           style="object-fit: cover; max-width: 110px; max-height: 110px;"></a>
                       <div class="media-body pt-3">
-                        <h3 class="product-card-title font-weight-semibold border-0 pb-0 ">
-                          <a style="display: inline-block; width: 190px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left;">
+                        <h3 class="text-truncate product-card-title font-weight-semibold border-0 pb-0 ">
+                          <a style="display: inline-block; width: 180px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left;">
                             {{ item['nama_produk'] }}
                           </a>
                         </h3>
