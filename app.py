@@ -942,7 +942,7 @@ def checkout():
             nomor_pesanan = order_number(pesanan_id)
 
             tanggal_pesanan = datetime.now()
-            estimasi_tgl_kirim = tanggal_pesanan
+            estimasi_tgl_kirim = tanggal_pesanan + timedelta(days=1)
             estimasi_tgl_terima = estimasi_tgl_kirim + timedelta(days=estimasi_pengiriman)
 
 
