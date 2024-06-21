@@ -240,37 +240,34 @@
                     <table class="table table-bordered mt-4">
                         <thead class="bg-danger text-light">
                             <tr>
-                                <th scope="col">No</th>
+                                <th style="display: none;" scope="col">No</th>
                                 <th scope="col">Zona Tarif</th>
                                 <th scope="col">Nama Kota/Kab</th>
                                 <th scope="col" class="text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for item in pengiriman %}
-                            {% for zona, detail_zona in item.zona.items() %}
-                            {% for kota_kabupaten in detail_zona['kota-kabupaten'] %}
-                            <tr>
-                                <th scope="row">{{ loop.index }}</th>
-                                <td>{{ zona }}</td>
-                                <td>{{ kota_kabupaten }}</td>
-                                <td class="text-center">
-                                    <div class="d-inline-block">
-                                        <form action="/hapus_kota/{{ kota_kabupaten }}" method="POST"
-                                            style="display:inline;">
-                                            <button type="submit" class="btn btn-square btn-dark m-2"><i
-                                                    class="fa fa-trash-o" title="Delete"></i></button>
-                                        </form>
-                                        <button type="button" class="btn btn-square btn-danger m-2"
-                                            data-bs-toggle="modal"
-                                            data-bs-target="#editModal{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}">
-                                            <i class="fa fa-edit" title="Edit"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                            {% endfor %}
+                            {% set order = ['dalam kota', 'luar kota', 'luar provinsi', 'luar pulau'] %}
+                            {% for zona in order %}
+                                {% if zona in item.zona %}
+                                    {% for kota_kabupaten in item.zona[zona]['kota-kabupaten'] %}
+                                    <tr>
+                                        <th style="display: none;" scope="row">{{ loop.index }}</th>
+                                        <td>{{ zona }}</td>
+                                        <td>{{ kota_kabupaten }}</td>
+                                        <td class="text-center">
+                                            <div class="d-inline-block">
+                                                <form action="/hapus_kota/{{ kota_kabupaten }}" method="POST" style="display:inline;">
+                                                    <button type="submit" class="btn btn-square btn-dark m-2"><i class="fa fa-trash-o" title="Delete"></i></button>
+                                                </form>
+                                                <button type="button" class="btn btn-square btn-danger m-2" data-bs-toggle="modal" data-bs-target="#editModal{{ item._id }}{{ zona | replace(' ', '_') }}{{ kota_kabupaten | replace(' ', '_') }}">
+                                                    <i class="fa fa-edit" title="Edit"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% endif %}
                             {% endfor %}
                         </tbody>
                     </table>
