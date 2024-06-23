@@ -11,7 +11,7 @@
   <form class="row mb-3">
     <div class="col-md-3">
       <div class="row">
-        <label for="fromInput" class="col-form-label col-2">Dari</label>  
+        <label for="fromInput" class="col-form-label col-2">Dari</label>
         <div class="col-10">
           <input type="date" class="form-control" name="start" id="fromInput">
         </div>
@@ -19,7 +19,7 @@
     </div>
     <div class="col-md-3">
       <div class="row">
-        <label for="toInput" class="col-form-label col-2">Ke</label>  
+        <label for="toInput" class="col-form-label col-2">Ke</label>
         <div class="col-10">
           <input type="date" class="form-control" name="end" id="toInput" value="">
         </div>
@@ -31,133 +31,148 @@
   </form>
 
   {% if mulai and akhir %}
-    <div class="alert alert-info">
-      Menampilkan semua pesanan yang telah selesai sejak <b>{{ mulai }}</b> hingga <b>{{ akhir }}</b>
-    </div>
+  <div class="alert alert-info">
+    Menampilkan semua pesanan yang telah selesai sejak <b>{{ mulai }}</b> hingga <b>{{ akhir }}</b>
+  </div>
   {% endif %}
 
-  <table class="table table-bordered">
-    <thead class="bg-danger text-white">
-      <tr>
-        <th>No</th>
-        <th>No. Pesanan</th>
-        <th>Tanggal Pesanan</th>
-        <th>Nama Pelanggan</th>
-        <th>Total Pesanan</th>
-        <th>Total Penjualan</th>
-        <th>Aksi</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in penjualan %}
-        <tr>
-          <td>{{ loop.index }}</td>
-          <td>{{ item.nomor_pesanan }}</td>
-          <td>{{ item.tanggal_pesanan.strftime('%Y-%m-%d') }}</td>
-          <td>{{ item.nama }}</td>
-          <td>{{ item.ringkasan_belanja | length }}</td>
-          <td>Rp. {{ "{:,.0f}".format(item.total_semuanya).replace(",", ".") }}</td>
-          <td>
-            <button class="btn btn-primary rounded-pill" data-bs-toggle="modal" data-bs-target="#exampleModal{{ loop.index }}">Detail</button>
-            <div class="modal fade" id="exampleModal{{ loop.index }}" tabindex="-1" aria-labelledby="exampleModal{{ loop.index }}Label" aria-hidden="true">
-              <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModal{{ loop.index }}Label">Detail Laporan Penjualan</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <div class="row">
-                      <div class="col-lg-6">
-                          <table class="table">
-                              <tr>
-                                  <td class="col-3">Nama</td>
-                                  <td>:</td>
-                                  <td>{{ item.nama }}</td>
-                              </tr>
-                              <tr>
-                                  <td class="col-3">Email</td>
-                                  <td>:</td>
-                                  <td>{{ item.email }}</td>
-                              </tr>
-                              <tr>
-                                  <td class="col-3">No. HP</td>
-                                  <td>:</td>
-                                  <td>{{ item.telepon }}</td>
-                              </tr>
-                              <tr>
-                                  <td class="col-3">Alamat</td>
-                                  <td>:</td>
-                                  <td>{{ item.alamat }}</td>
-                              </tr>
-                              <tr>
-                                  <td class="col-3">No. Psn</td>
-                                  <td>:</td>
-                                  <td>{{ item.nomor_pesanan }}</td>
-                              </tr>
-                              <tr>
-                                  <td class="col-3">M. Kirim</td>
-                                  <td>:</td>
-                                  <td>{{ item.metode_pengiriman }}</td>
-                              </tr>
-                              <tr>
-                                  <td class="col-3">M. Bayar</td>
-                                  <td>:</td>
-                                  <td>{{ item.metode_pembayaran }}</td>
-                              </tr>
-                          </table>
+  <div class="col-12">
+    <div class="bg-light rounded h-100 p-4">
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead class="bg-danger text-white">
+            <tr>
+              <th>No</th>
+              <th>No. Pesanan</th>
+              <th>Tanggal Pesanan</th>
+              <th>Nama Pelanggan</th>
+              <th>Total Pesanan</th>
+              <th>Total Penjualan</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in penjualan %}
+            <tr>
+              <td>{{ loop.index }}</td>
+              <td>{{ item.nomor_pesanan }}</td>
+              <td>{{ item.tanggal_pesanan.strftime('%Y-%m-%d') }}</td>
+              <td>{{ item.nama }}</td>
+              <td>{{ item.ringkasan_belanja | length }}</td>
+              <td>Rp. {{ "{:,.0f}".format(item.total_semuanya).replace(",", ".") }}</td>
+              <td>
+                <button class="btn btn-primary rounded-pill" data-bs-toggle="modal"
+                  data-bs-target="#exampleModal{{ loop.index }}">Detail</button>
+                <div class="modal fade" id="exampleModal{{ loop.index }}" tabindex="-1"
+                  aria-labelledby="exampleModal{{ loop.index }}Label" aria-hidden="true">
+                  <div class="modal-dialog modal-xl">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModal{{ loop.index }}Label">Detail Laporan Penjualan
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
-                      <div class="col-lg-6">
-                          <h5>Daftar produk</h5>
-                          <ul>
+                      <div class="modal-body">
+                        <div class="row">
+                          <div class="col-lg-6">
+                            <table class="table">
+                              <tr>
+                                <td class="col-3">Nama</td>
+                                <td>:</td>
+                                <td>{{ item.nama }}</td>
+                              </tr>
+                              <tr>
+                                <td class="col-3">Email</td>
+                                <td>:</td>
+                                <td>{{ item.email }}</td>
+                              </tr>
+                              <tr>
+                                <td class="col-3">No. HP</td>
+                                <td>:</td>
+                                <td>{{ item.telepon }}</td>
+                              </tr>
+                              <tr>
+                                <td class="col-3">Alamat</td>
+                                <td>:</td>
+                                <td>{{ item.alamat }}</td>
+                              </tr>
+                              <tr>
+                                <td class="col-3">No. Psn</td>
+                                <td>:</td>
+                                <td>{{ item.nomor_pesanan }}</td>
+                              </tr>
+                              <tr>
+                                <td class="col-3">M. Kirim</td>
+                                <td>:</td>
+                                <td>{{ item.metode_pengiriman }}</td>
+                              </tr>
+                              <tr>
+                                <td class="col-3">M. Bayar</td>
+                                <td>:</td>
+                                <td>{{ item.metode_pembayaran }}</td>
+                              </tr>
+                            </table>
+                          </div>
+                          <div class="col-lg-6">
+                            <h5>Daftar produk</h5>
+                            <ul>
                               {% for produk in item.ringkasan_belanja %}
                               <li>
                                 <h6>{{ produk.nama_produk }}</h6>
                                 <table>
-                                    <tr>
-                                        <td>Harga</td>
-                                        <td>:</td>
-                                        <td>Rp. {{ "{:,.0f}".format(produk.harga).replace(",", ".") }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Jumlah</td>
-                                        <td>:</td>
-                                        <td>{{ produk.jumlah }}</td>
-                                    </tr>
+                                  <tr>
+                                    <td>Harga</td>
+                                    <td>:</td>
+                                    <td>Rp. {{ "{:,.0f}".format(produk.harga).replace(",", ".") }}</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Jumlah</td>
+                                    <td>:</td>
+                                    <td>{{ produk.jumlah }}</td>
+                                  </tr>
                                 </table>
-                            </li>
+                              </li>
                               {% endfor %}
-                          </ul>
-                          <p class="mb-0">Total Produk : Rp. {{ "{:,.0f}".format(item.total_produk).replace(",", ".") }}</p>
-                          <p class="mb-0">Total Pengiriman : Rp. {{ "{:,.0f}".format(item.total_pengiriman).replace(",", ".") }}</p>
-                          <p class="mb-0">Total Penjualan : Rp. {{ "{:,.0f}".format(item.total_semuanya).replace(",", ".") }}</p>
+                            </ul>
+                            <p class="mb-0">Total Produk : Rp. {{ "{:,.0f}".format(item.total_produk).replace(",", ".")
+                              }}</p>
+                            <p class="mb-0">Total Pengiriman : Rp. {{
+                              "{:,.0f}".format(item.total_pengiriman).replace(",", ".") }}</p>
+                            <p class="mb-0">Total Penjualan : Rp. {{ "{:,.0f}".format(item.total_semuanya).replace(",",
+                              ".") }}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary rounded-pill"
+                          data-bs-dismiss="modal">Tutup</button>
                       </div>
                     </div>
                   </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Tutup</button>
-                  </div>
                 </div>
-              </div>
-            </div>
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-    <tfoot>
-      <tr>
-        <th colspan="5" class="text-end">Total Penjualan</th>
-        <td>Rp. {{ "{:,.0f}".format(penjualan | sum(attribute='total_semuanya')).replace(",", ".") }}</td>
-        <td>
-          {% if mulai and akhir %}
-            <button class="btn btn-success rounded-pill" onclick="window.open('/adlpenjualan/cetak?start={{mulai}}&end={{akhir}}', '_blank')">Cetak</button>
-          {% else %}
-            <button class="btn btn-success rounded-pill" onclick="window.open('/adlpenjualan/cetak', '_blank')">Cetak</button>
-          {% endif %}
-        </td>
-      </tr>
-    </tfoot>
-  </table>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <th colspan="5" class="text-end">Total Penjualan</th>
+              <td>Rp. {{ "{:,.0f}".format(penjualan | sum(attribute='total_semuanya')).replace(",", ".") }}</td>
+              <td>
+                {% if mulai and akhir %}
+                <button class="btn btn-success rounded-pill"
+                  onclick="window.open('/adlpenjualan/cetak?start={{mulai}}&end={{akhir}}', '_blank')">Cetak</button>
+                {% else %}
+                <button class="btn btn-success rounded-pill"
+                  onclick="window.open('/adlpenjualan/cetak', '_blank')">Cetak</button>
+                {% endif %}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
 
 </div>
 
